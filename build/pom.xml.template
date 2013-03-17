@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.smslib</groupId>
+  <artifactId>smslib</artifactId>
+  <version>@smslib.version@</version>
+  <name>SMSLib</name>
+  <packaging>jar</packaging>
+  <description>SMSLib is a Java library (ported to .NET Framework as well) which allows you to send/receive SMS messages via a compatible GSM modem or GSM phone. SMSLib also supports some bulk sms operators (for outbound messaging  only).</description>
+  <url>http://smslib.org/</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+        <name>Thanasis Delenikas</name>
+        <id>t.delenikas</id>
+        <email>t.delenikas@gmail.com</email>
+    </developer>
+    <developer>
+        <name>Hendy Irawan</name>
+        <id>hendy.soluvas</id>
+        <email>hendy@soluvas.com</email>
+        <organization>Soluvas</organization>
+        <organizationUrl>http://www.soluvas.com/</organizationUrl>
+    </developer>
+    <developer>
+        <id>jjongko</id>
+    </developer>
+    <developer>
+        <id>balsarori</id>
+    </developer>
+  </developers>
+  <scm>
+    <url>http://code.google.com/p/smslib/source/browse/smslib/trunk</url>
+    <connection>scm:svn:http://smslib.googlecode.com/svn/smslib/trunk/</connection>
+    <developerConnection>scm:svn:https://smslib.googlecode.com/svn/smslib/trunk/</developerConnection>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>smslib-releases</id>
+      <name>SMSLib Releases</name>
+      <url>https://oss.sonatype.org/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>smslib-snapshots</id>
+      <name>SMSLib Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>

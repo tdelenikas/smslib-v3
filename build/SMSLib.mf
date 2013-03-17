@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Implementation-Title: SMSLib for Java
+Implementation-Version: @version@
+Main-Class: org.smslib.Service
+Created-By: Thanasis Delenikas
+Export-Package: org.ajwcc.pduUtils.gsm3040,org.ajwcc.pduUtils.gsm3040.ie,org.ajwcc.pduUtils.test,org.ajwcc.pduUtils.test.integration,org.ajwcc.pduUtils.wappush,org.smslib,org.smslib.balancing,org.smslib.crypto,org.smslib.helper,org.smslib.http,org.smslib.modem,org.smslib.modem.athandler,org.smslib.routing,org.smslib.scheduler,org.smslib.smsserver,org.smslib.smsserver.gateways,org.smslib.smsserver.interfaces,org.smslib.test
+Bundle-Vendor: http://smslib.org
+Bundle-Version: @version@
+Bundle-Name: SMSlib Bundle
+Bundle-ManifestVersion: 2
+Bundle-Description: Provides the SMSlib classes as an OSGibundle. Note that this bundle still requires the javax.commpackage to be present in the container. A compatible bundlecan be downloaded from http://www.knopflerfish.org/releases/current/docs/jars/comm-win32/comm-win32_all-2.0.1.html
+Import-Package: org.apache.commons.net;version="[2.0.0]",org.log4j;version="[1.2.15]",javax.comm;version="[2.0.0];resolution:=optional,gnu.io;resolution:=optional"
+Bundle-SymbolicName: org.smslib

@@ -1,0 +1,74 @@
+<h1>SMSServer - SMPP gateway</h1>
+<p>This interface is used for SMPP gateways. Currently SMPP is supported through <a href="http://code.google.com/p/jsmpp/">JSMPP</a> only.</p>
+
+<h2>Configuration File</h2>
+<p>This interface requires the following settings in SMSServer's configuration file:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>impl</td><td>Full class name of SMPP gateway that extends AbstractSMPPGateway.</td></tr>
+<tr><td>host</td><td>SMPP host.</td></tr>
+<tr><td>port</td><td>SMPP port.</td></tr>
+<tr><td>systemid</td><td>SMPP system Id.</td></tr>
+<tr><td>password</td><td>SMPP Password.</td></tr>
+<tr><td>systemtype</td><td>SMPP system type.</td></tr>
+<tr><td>bindtype</td><td>SMPP bind type <b>r</b> Receiver, <b>t</b> Transmitter, <b>tr</b> Transceiver.</td></tr>
+</table>
+<p>The following settings are optional:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>bindton</td><td>Bind Address <a href="#ton">Type Of Number</a>.</td></tr>
+<tr><td>bindnpi</td><td>Bind Address <a href="#npi">Numbering Plan Indicator</a>.</td></tr>
+<tr><td>sourceton</td><td>Source Address <a href="#ton">Type Of Number</a>.</td></tr>
+<tr><td>sourcenpi</td><td>Source Address <a href="#npi">Numbering Plan Indicator</a>.</td></tr>
+<tr><td>destton</td><td>Destination Address <a href="#ton">Type Of Number</a>.</td></tr>
+<tr><td>destnpi</td><td>Destination Address <a href="#npi">Numbering Plan Indicator</a>.</td></tr>
+<tr><td>enquirelink</td><td>Interval time in milliseconds to check SMPP connection.</td></tr>
+</table>
+<br />
+<p>Example:</p>
+<blockquote>
+gateway.0=mysmpp, SMPPGateway<br />
+mysmpp.impl=org.smslib.smpp.jsmpp.JSMPPGateway<br />
+mysmpp.host=localhost<br />
+mysmpp.port=2715<br />
+mysmpp.systemid=smppclient1<br />
+mysmpp.password=password<br />
+mysmpp.systemtype=smpp<br />
+mysmpp.bindtype=tr<br />
+mysmpp.bindton=0<br />
+mysmpp.bindnpi=0<br />
+mysmpp.sourceton=0<br />
+mysmpp.sourcenpi=0<br />
+mysmpp.destton=0<br />
+mysmpp.destnpi=0<br />
+mysmpp.enquirelink=5000
+</blockquote>
+<br />
+
+<p><b>Possible Type Of Number values</b></p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Value</b></td><td><b>Description</b></td></tr>
+<tr><td>0</td><td>Unknown</td></tr>
+<tr><td>1</td><td>International</td></tr>
+<tr><td>2</td><td>National</td></tr>
+<tr><td>3</td><td>Network Specific</td></tr>
+<tr><td>4</td><td>Subscriber Number</td></tr>
+<tr><td>5</td><td>Alphanumeric</td></tr>
+<tr><td>6</td><td>Abbreviated</td></tr>
+</table>
+<br />
+
+<p><b>Possible Numbering Plan Indicator values</b></p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Value</b></td><td><b>Description</b></td></tr>
+<tr><td>0</td><td>Unknown</td></tr>
+<tr><td>1</td><td>ISDN</td></tr>
+<tr><td>2</td><td>Data</td></tr>
+<tr><td>3</td><td>Telex</td></tr>
+<tr><td>6</td><td>Land Mobile</td></tr>
+<tr><td>8</td><td>National</td></tr>
+<tr><td>9</td><td>Private</td></tr>
+<tr><td>10</td><td>ERMES</td></tr>
+<tr><td>13</td><td>Internet</td></tr>
+<tr><td>18</td><td>WAP</td></tr>
+</table>

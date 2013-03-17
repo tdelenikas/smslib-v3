@@ -1,0 +1,35 @@
+<h1>Troubleshooting</h1>
+
+<h2>Enable/Disable debug logging</h2>
+<p>If you report an error, you may be asked to provide a debug log.</p>
+<p>SMSLib works with Apache <a href="http://logging.apache.org/log4j/">log4j</a>. Log4j is usually control by a file named <code>log4j.properties</code>. SMSLib uses the <code>smslib</code> appender.</p>
+<p>There is a convinient <code>log4j.properties</code> file set to DEBUG output in the <code>/misc</code> folder of the distribution directory. Copy this file in your classpath or current execution directory in order to quickly enable the full SMSLib logging.</p>
+
+<h2>Modem timeouts</h2>
+<p>If you are using SMSLib for Java on Linux with the RxTx communication library, you may encounter a situation where you get a no response exception, as if no modem is actually connected to your computer. This error situation will hit you if you are working with virtual serial ports, like USB or IrDA bridges / virtual devices.</p>
+<p>This is attributed to RxTx: SMSLib v3 uses comm port signals (data ready,etc) to wake-up and read port data. Under some circumstances, RxTx does not forward these port signal to the application, so SMSLib thinks that it never gets any data back from the modem.</p>
+<p>SMSLib has implemented a work-around for this situation: If you face the above problem, run your applications with the <code>-Dsmslib.serial.polling</code> parameter. This will instruct SMSLib to work in poll mode: It will not wait for comm port's data signals but it will poll the port every 300 milliseconds to see if there is any data available for reading.</p>
+<p>Please note that if you are using SUN Java Comm v3 (instead of RxTx) you generally not need to use this switch, unless you find that your modem does not work otherwise.</p>
+<p>In any case, the polling switch is a workaround and should be avoided if things work well without it.</p>
+<p>If everything else seems to have been setup properly, keep in mind that most GSM modems have a default baud speed at which they operate. Most of the times, the autobaud sensing feature does not exist or does not work like GSM phones. So, be sure that you are using the baud rate speed that you modem requires.</p>
+
+<h2>Linux and undetectable ports</h2>
+<p>If you using USB/Bluetooth/IrDA connections on Linux, RxTx may not recognize your serial device / port. You may get a NoSuchPortException.</p>
+<p>Assuming that your port is named <code>/dev/xyz-port</code> , you can:</p>
+<ul>
+<li>Either set the <code>gnu.io.rxtx.SerialPorts</code> system property with your device name.</li>
+<li>Create a symbolic link of your <code>/dev/xyz-port</code> to something resembling a standard serial port, like <code>/dev/ttyS20</code>, and use this one instead.</li>
+</ul>
+
+<h2>Linux and unresolved references</h2>
+<p>When running under Linux and RxTx, you may encounter some unresolved errors during execution. These errors mean that your Java runtime cannot locate the necessary RxTx library (.so).</p>
+<p>To resolve this, run your application with the <code>-Djava.library.path=/dir-path/to/.so/file</code> in order to instruct java to search to the specific directory where you have placed the RxTx so files.</p>
+
+<h2>CommTest does not detect modem</h2>
+<p>There are times when you run the CommTest utility but your modem is not detected.</p>
+<p>Several GSM modems require a standard baud rate in order to identify the connection. This baud rate can be changed with some special AT commands.</p>
+<p>The issue here is that the CommTest utility does not check all valid baud rates. If you check the source code, there is an array (<code>bauds[]</code>) which hold all the rates that will be test. What you can do is to add to this array all baud rates that you suspect are missing. Recompile and run the CommTest again and check if your modem is now detected.</p>
+
+<h2>Framing errors</h2>
+<p>If you are getting one or two framing errors during the initial connection (and this happens on a random basis) its probably nothing.</p>
+<p>If you are consistently getting framing errors, probably you are trying to connect with a baud rate that is unsupported by your modem. Some modems require a fixed baud rate to operate. Either consult your manual or try with different baud speeds.</p>

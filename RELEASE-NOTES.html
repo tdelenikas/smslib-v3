@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SMSLib v3.5.3 - Release Notes</title>
+</head>
+
+<body>
+
+<h1>SMSLib v3.5.3 (March 05, 2013) - Release Notes</h1>
+
+<h3>Upgrading from v3.5.2</h3>
+<ul>
+</ul>
+
+<h3>Enhancements / Fixes</h3>
+<ol>
+<li>GSM 03.38 char 0x09 mapping outdated (<a href="http://code.google.com/p/smslib/issues/detail?id=499">#499</a>).</li>
+<li>Trailing padding removal in encodedSeptetsToUnencodedSeptets() incorrect (<a href="http://code.google.com/p/smslib/issues/detail?id=501">#501</a>).</li>
+<li>GSM alphanumeric escaped characters in originating address (<a href="http://code.google.com/p/smslib/issues/detail?id=500">#500</a>).</li>
+<li>Decoding of TP-UD ignores length of TP-UD (TP-UDL) (<a href="http://code.google.com/p/smslib/issues/detail?id=504">#504</a>).</li>
+<li>PostgreSQL script typos and default values (<a href="http://code.google.com/p/smslib/issues/detail?id=506">#506</a>, <a href="http://code.google.com/p/smslib/issues/detail?id=508">#508</a>).</li>
+<li>Bulksms and 16bit messages (<a href="http://code.google.com/p/smslib/issues/detail?id=522">#522</a>).</li>
+<li>DefaultQueueManager issue when gateway name contains "/" (<a href="http://code.google.com/p/smslib/issues/detail?id=497">#497</a>).</li>
+</ol>
+
+<h1>SMSLib v3.5.2 (March 31, 2012) - Release Notes</h1>
+
+<h3>Upgrading from v3.5.1</h3>
+<ul>
+</ul>
+
+<h3>Enhancements / Fixes</h3>
+<ol>
+<li>Extremely nasty bug which can lead to message loss (<a href="http://code.google.com/p/smslib/issues/detail?id=419">#419</a>).</li>
+<li>The default Queue Scheduling Interval has been moved to the Settings class.</li>
+<li>Multipart SMS, sending status is SENT even if 1 part is missing (<a href="http://code.google.com/p/smslib/issues/detail?id=428">#428</a>)</li>
+<li>Added Wavecom FXT009 handler, by Marcos Truchado.</li>
+<li>Added PostreSQL DB scripts, by Edgard Kestering Soares de Barros</li>
+<li>SMSServer "-runonce" not working as expected (<a href="http://code.google.com/p/smslib/issues/detail?id=454">#454</a>)</li>
+<li>Wim Stevens: enhancements regarding handling of the CMGL response (ModemGateway.java).</li>
+<li>Wim Stevens: enhancements regarding PDU handling and identification of international/national destination numbers.</li>
+<li>Stop sending rest of message parts if some part fails.</li>
+<li>Kannel issue with "from" value (<a href="http://code.google.com/p/smslib/issues/detail?id=417">#417</a>).</li>
+<li>Telit modem ATHandler, by Olaf Koppe.</li>
+<li>Queue manager initialization issue (<a href="http://code.google.com/p/smslib/issues/detail?id=467">#467</a>).</li>
+<li>Logger modification (<a href="http://code.google.com/p/smslib/issues/detail?id=468">#468</a>).</li>
+<li>IP handler fix (<a href="http://code.google.com/p/smslib/issues/detail?id=471">#471</a>).</li>
+<li>Extra logging info (<a href="http://code.google.com/p/smslib/issues/detail?id=477">#477</a>).</li>
+<li>Wim Stevens: the modem KEEP-ALIVE check will also check for unread messages by waking up the necessary threads (<a href="http://code.google.com/p/smslib/issues/detail?id=475">#475</a>).</li>
+<li>Waldemar Klaczynski: fix for the NotifyQueueManager not running after a service restart (<a href="http://code.google.com/p/smslib/issues/detail?id=474">#474</a>).</li>
+</ol>
+
+<h3>That's it!</h3>
+<p>For more information, visit the <a href="http://smslib.org">SMSLib Web Site.</a></p>
+
+<br><hr>
+
+<h1>SMSLib v3.5.1 (Apr 22, 2011) - Release Notes</h1>
+
+<h3>Upgrading from v3.5.0</h3>
+<ul>
+</ul>
+
+<h3>Enhancements / Fixes</h3>
+<ol>
+<li>Fixed compilation errors for Http and HttpServer interfaces (<a href="http://code.google.com/p/smslib/issues/detail?id=406">#406</a>).</li>
+<li>Added a "CFUN=1" for HUAWEI modems in order to "wake" them up.</li>
+<li>Added SERIAL_BUFFER_CHUNK and SERIAL_BUFFER_CHUNK_DELAY settings which break the serial buffer in chunks. See Settings.java for more information.</li>
+<li>Strange error with MySQL/InnoDB fixed - requires one extra commit() (<a href="http://code.google.com/p/smslib/issues/detail?id=389">#389</a>).</li>
+<li>The Service.S variable was private...</li>
+<li>One inbound message could lead to two messages/records in the database (<a href="http://code.google.com/p/smslib/issues/detail?id=410">#410</a>).</li>
+<li>PDU data are now visible via the getPduUserData() and getPduUserDataHeader() methods (<a href="http://code.google.com/p/smslib/issues/detail?id=337">#337</a>).</li>
+<li>Add method which check if a number belongs to a group (<a href="http://code.google.com/p/smslib/issues/detail?id=416">#416</a>).</li>
+<li>The support for EzTexting (<a href="http://www.eztexting.com">http://www.eztexting.com</a>) bulk SMS operator has been added. Please refer to the usage examples provided in examples.eztexting. The org.smslib.OutboundMessage.FailureCauses has been updated with EzTexting specific send failure causes: LOCAL_OPTOUT and GLOBAL_OPTOUT. Code donated by Velvetech, LLC (<a href="http://www.velvetech.com">http://www.velvetech.com</a>)</li>
+<li>Removed the forced <code>PropertyConfigurator.configure("log4j.properties");</code> statement in order to allow log4j to initialize/behave in a standard way (<a href="http://code.google.com/p/smslib/issues/detail?id=414">#414</a>).</li>
+</ol>
+
+<h3>Legal Information</h3>
+<p>This release contains contributed code from the OpenNMS working group.<br /></br />
+OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.<br />
+For more information contact OpenNMS Licensing at license@opennms.org (<a href='http://www.opennms.org/'>The OpenNMS Project</a>)<br />
+</p>
+
+<br><hr>
+
+<h1>SMSLib v3.5.0 (Nov 13, 2010) - Release Notes</h1>
+
+<h3>Upgrading from v3.4.6</h3>
+<ul>
+<li>When using international numbers, <b>always</b> prefix your phone with a "+" sign!</li>
+</ul>
+
+<h3>Enhancements / Fixes</h3>
+<ol>
+<li>Simplify building project by ANT by setting a local "lib" directory (<a href="http://code.google.com/p/smslib/issues/detail?id=350">#350</a>).</li>
+<li>Return raw signal level information (RSSI in dBm) (<a href="http://code.google.com/p/smslib/issues/detail?id=348">#348</a>, <a href="http://code.google.com/p/smslib/issues/detail?id=349">#349</a>).</li>
+<li>Add a universally unique identifier (UUID) for Message class (<a href="http://code.google.com/p/smslib/issues/detail?id=351">#351</a>).</li>
+<li>Implement Queue persistency and management (<a href="http://code.google.com/p/smslib/issues/detail?id=308">#308</a>).</li>
+<li>Extra constructors to SMSLibException and its subclasses (<a href="http://code.google.com/p/smslib/issues/detail?id=344">#344</a>).</li>
+<li>Added setting SERIAL_NOEVENTS to skip the registration of serial port events (<a href="http://code.google.com/p/smslib/issues/detail?id=331">#331</a>).</li>
+<li>AT Handler for HUAWEI E226 (<a href="http://code.google.com/p/smslib/issues/detail?id=363">#363</a>).</li>
+<li>GSM Alphabet error in character C/Cedilla (<a href="http://code.google.com/p/smslib/issues/detail?id=365">#365</a>).</li>
+<li>Added settings DISABLE_COPS (configuration flag "smslib.nocops") to disable the +COPS command on demand (<a href="http://code.google.com/p/smslib/issues/detail?id=371">#371</a>).</li>
+<li>CDMA/TEXT fix (<a href="http://code.google.com/p/smslib/issues/detail?id=367">#367</a>).</li>
+<li>New AT Handler for Wavecom Q2438F (CDMA) (<a href="http://code.google.com/p/smslib/issues/detail?id=370">#370</a>).</li>
+<li>Force HUAWEI handlers to enable CNMI Emulation Mode, since these modems push inbound indications on another port, not currently handled by SMSLib.</li>
+<li>The "+" sign is the only way to declare an international phone (<a href="http://code.google.com/p/smslib/issues/detail?id=364">#364</a>).</li>
+<li>The <code>Regions</code> enum in <code>BulkSmsHTTPGateway</code> was hidden.</li>
+<li>Error in documentation of SMSServer / DB interface (<a href="http://code.google.com/p/smslib/issues/detail?id=381">#381</a>)</li>
+<li>BULKSMS Handler fixes.</li>
+<li>You are now allowed to select the BULKSMS region by means of an SMSServer configuration item (<a href="http://code.google.com/p/smslib/issues/detail?id=383">#383</a>).</li>
+<li>Added generic Teltonika handler.</li>
+<li>Fix for single part messages having multipart information (<a href="http://code.google.com/p/smslib/issues/detail?id=386">#386</a>)</li>
+</ol>
+
+<h3>Developers' information</h3>
+<ul>
+<li>Removed <code>Service</code> dependency from Balancers.</li>
+<li>Removed <code>Service</code> dependency from Routers.</li>
+<li><code>Logger</code> turned to a singleton. Removed references from all code to calls similar to <code>getService().getLogger()</code></li>
+<li><code>Service</code> turned to a singleton. Removed references and dead parameters, adjusted code.</li>
+</ul>
+
+<h3>Legal Information</h3>
+<p>This release contains contributed code from the OpenNMS working group.<br /></br />
+OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.<br />
+For more information contact OpenNMS Licensing at license@opennms.org (<a href='http://www.opennms.org/'>The OpenNMS Project</a>)<br />
+</p>
+
+</body>
+</html>

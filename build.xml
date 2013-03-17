@@ -1,0 +1,251 @@
+<project name="smslib" default="usage" basedir="."
+    xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+	
+	<property name="base" value="."/>
+
+	<property name="smslib.version" value="3.5.3"/>
+	<property name="smslib.source.dir" value="src/java/"/>
+	<property name="smslib.jar.filename" value="smslib-${smslib.version}.jar"/>
+	<property name="smslib.manifest" value="build/SMSLib.mf"/>
+
+	<property name="smsserver.version" value="3.5.3"/>
+	<property name="smsserver.source.dir" value="src/java/"/>
+	<property name="smsserver.jar.filename" value="smsserver-${smsserver.version}.jar"/>
+	<property name="smsserver.manifest" value="build/SMSServer.mf"/>
+
+	<property name="examples.source.dir" value="${smslib.source.dir}examples/"/>
+	<property name="misc.source.dir" value="${smslib.source.dir}misc/"/>
+
+	<property name="dist.dir" value="dist"/>
+	<property name="dist.tmp" value="${dist.dir}/tmp"/>
+	<property name="class.dir" value="${dist.dir}/classes"/>
+	<property name="jar.dir" value="${dist.dir}/lib"/>
+
+	<property name="doc.smslib.dir" value="javadoc"/>
+
+	<!-- compile props -->
+	<property name="debug" value="true"/>
+	<property name="source" value="1.6"/>
+	<property name="target" value="1.6"/>
+	<path id="project.classpath">
+		<fileset dir="${basedir}/lib/">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<target name="usage">
+		<echo>
+		SMSLib v3
+		(c) 2002-2013, smslib.org
+		Visit http://smslib.org for latest information.
+		SMSLib is distributed under the Apache v2.0 license.
+	
+		Accepted targets:
+			clean: Clean everything.
+			doc: Generate JavaDoc pages for the core library.
+			compile-smslib: Compiles the core library.
+			build-smslib: Builds the core library.
+			compile-smsserver: Compiles the SMSServer application.
+			build-smsserver: Builds the SMSServer application (bundled with SMSLib core files in one jar).
+			build-smsserver-standalone: Builds the SMSServer application as a standalone jar (without SMSLib core files).
+			deploy-smslib: Deploy smslib JAR to Maven repository in maven2/ (SVN checkout).
+
+		Run: "ant -p" for more help.
+		</echo>
+	</target>
+
+	<target name="compile-smslib" depends="compile.smslib, compile.examples, compile.misc" />
+	<target name="build-smslib" depends="compile.smslib, compile.examples, compile.misc, build.smslib" />
+	<target name="doc" depends="doc.all" />
+
+	<target name="compile-smsserver" depends="compile.smsserver" />
+	<target name="build-smsserver" depends="build.smsserver" />
+	<target name="build-smsserver-standalone" depends="build.smsserver.standalone" />
+
+	<target name="clean">
+		<delete dir="${dist.dir}/" />
+		<delete dir="${doc.smslib.dir}/" />
+	</target>
+
+	<target name="doc.all" depends="compile.smslib, compile.smsserver">
+		<mkdir dir="${doc.smslib.dir}" />
+		<javadoc sourcepath="${smslib.source.dir}"
+			destdir="${doc.smslib.dir}"
+			packagenames="org.smslib, org.smslib.helper, org.smslib.http, org.smslib.modem, org.smslib.modem.athandler, org.smslib.balancing, org.smslib.routing, org.smslib.crypto, org.smslib.threading, org.smslib.queues, org.smslib.smpp, org.smslib.smpp.jsmpp, org.smslib.smsserver, org.smslib.smsserver.gateways, org.smslib.smsserver.interfaces"
+				version="true"
+				public="true"
+				author="true"
+				use="true"
+				overview="build/Introduction.html"
+				doctitle="SMSLib version ${smslib.version}"
+				windowtitle="SMSLib ${smslib.version}"
+				header="&lt;b&gt;SMSLib ${smslib.version}&lt;/b&gt;"
+				bottom="(c) 2002-2013, http://smslib.org">
+		</javadoc>
+	</target>
+
+	<target name="compile.smslib">
+		<mkdir dir="${class.dir}" />
+		<javac srcdir="${smslib.source.dir}"
+			destdir="${class.dir}"
+			debug="${debug}"
+			source="${source}"
+			target="${target}"
+			includeAntRuntime="false">
+			<classpath refid="project.classpath"/>
+			<exclude name="**/smsserver/**"/>
+		</javac>
+	</target>
+	
+	<target name="compile.smsserver">
+		<mkdir dir="${class.dir}" />
+		<javac srcdir="${smsserver.source.dir}"
+			destdir="${class.dir}"
+			debug="${debug}"
+			source="${source}"
+			target="${target}"
+			includeAntRuntime="false">
+			<classpath refid="project.classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile.examples" depends="compile.smslib">
+		<javac srcdir="${examples.source.dir}"
+			destdir="${class.dir}"
+			debug="${debug}"
+			source="${source}"
+			target="${target}"
+			includeAntRuntime="false">
+			<classpath refid="project.classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile.misc" depends="compile.smslib">
+		<javac srcdir="${misc.source.dir}"
+			destdir="${class.dir}"
+			debug="${debug}"
+			source="${source}"
+			target="${target}"
+			includeAntRuntime="false">
+			<classpath refid="project.classpath"/>
+		</javac>
+	</target>
+
+	<target name="pre-build.smslib">
+		<mkdir dir="${jar.dir}"/>
+		<filter token="version" value="${smslib.version}" />
+		<copy file="${smslib.manifest}" tofile="${jar.dir}/SMSLib.mf" filtering="true"/>
+	</target>
+
+	<target name="build.smslib" depends="compile.smslib, pre-build.smslib">
+		<delete>
+			<fileset dir="${jar.dir}">
+				<include name="smslib*.jar"/>
+			</fileset>
+		</delete>
+		<jar jarfile="${jar.dir}/${smslib.jar.filename}" basedir="${class.dir}"
+			includes="org/**/*.class"
+			manifest="${jar.dir}/SMSLib.mf"/>
+		<jar jarfile="${jar.dir}/pduutils.jar" basedir="${class.dir}"
+			includes="org/ajwcc/**/*.class"/>
+	</target>
+
+	<target name="pre-build.smsserver">
+		<mkdir dir="${jar.dir}"/>
+		<filter token="version" value="${smsserver.version}" />
+		<copy file="${smsserver.manifest}" tofile="${jar.dir}/SMSServer.mf" filtering="true"/>
+	</target>
+
+	<target name="build.smsserver" depends="compile.smsserver, pre-build.smsserver">
+		<delete>
+			<fileset dir="${jar.dir}">
+				<include name="smsserver*.jar"/>
+			</fileset>
+		</delete>
+		<jar jarfile="${jar.dir}/${smsserver.jar.filename}" basedir="${class.dir}"
+			includes="org/**/*.class"
+			manifest="${jar.dir}/SMSServer.mf"/>
+	</target>
+
+	<target name="build.smsserver.standalone" depends="compile.smsserver, pre-build.smsserver">
+		<delete>
+			<fileset dir="${jar.dir}">
+				<include name="smsserver*.jar"/>
+			</fileset>
+		</delete>
+		<jar jarfile="${jar.dir}/${smsserver.jar.filename}" basedir="${class.dir}"
+			includes="org/smslib/smsserver/**/*.class"
+			manifest="${jar.dir}/SMSServer.mf"/>
+	</target>
+
+    <!-- Maven repository upload -->
+    <path id="maven-ant-tasks.classpath" path="build/lib/maven-ant-tasks-2.1.1.jar" />
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+        uri="antlib:org.apache.maven.artifact.ant"
+        classpathref="maven-ant-tasks.classpath" />
+    
+    <target name="smslib.preparepom" description="Prepare smslib pom.xml in build/pom.xml.">
+        <copy file="build/pom.xml.template" tofile="build/generated/pom.xml" overwrite="true">
+            <filterchain>
+                <replacetokens>
+                    <token key="smslib.version" value="${smslib.version}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+    <target name="sources-smslib" description="Create a JAR artifact containing SMSLib sources.">
+        <jar destfile="${jar.dir}/smslib-${smslib.version}-sources.jar"
+            basedir="${smslib.source.dir}" />
+    </target>
+    <target name="javadoc-smslib" depends="doc"
+        description="Create a JAR artifact containing SMSLib javadoc.">
+        <jar destfile="${jar.dir}/smslib-${smslib.version}-javadoc.jar"
+            basedir="${doc.smslib.dir}" />
+    </target>
+    <target name="deploy-smslib-local" depends="smslib.preparepom,build-smslib,sources-smslib,javadoc-smslib" description="Deploy smslib JAR to Maven repository in maven2/ (SVN checkout).">
+        <artifact:deploy file="${jar.dir}/${smslib.jar.filename}">
+            <remoteRepository url="file:../../maven2/" />
+            <pom file="build/generated/pom.xml" />
+            <attach classifier="javadoc" file="${jar.dir}/smslib-${smslib.version}-javadoc.jar" />
+            <attach classifier="sources" file="${jar.dir}/smslib-${smslib.version}-sources.jar" />
+        </artifact:deploy>
+    </target>
+    <target name="deploy-smslib-snapshots" depends="smslib.preparepom,build-smslib,sources-smslib,javadoc-smslib" description="Deploy smslib JAR, javadoc, and sources to Maven snapshots repository.">
+        <artifact:deploy file="${jar.dir}/${smslib.jar.filename}">
+            <pom file="build/generated/pom.xml" />
+            <attach classifier="javadoc" file="${jar.dir}/smslib-${smslib.version}-javadoc.jar" />
+            <attach classifier="sources" file="${jar.dir}/smslib-${smslib.version}-sources.jar" />
+        </artifact:deploy>
+    </target>
+    <target name="deploy-smslib-staging" depends="smslib.preparepom,build-smslib,sources-smslib,javadoc-smslib" description="Sign and deploy smslib JAR, javadoc, and sources to Maven staging repository.">
+		<!-- sign and deploy the main artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
+			<arg value="-DrepositoryId=smslib-staging" />
+			<arg value="-DpomFile=build/generated/pom.xml" />
+			<arg value="-Dfile=${jar.dir}/${smslib.jar.filename}" />
+            <arg value="-Pgpg" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the sources artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
+			<arg value="-DrepositoryId=smslib-staging" />
+			<arg value="-DpomFile=build/generated/pom.xml" />
+			<arg value="-Dfile=${jar.dir}/smslib-${smslib.version}-sources.jar" />
+			<arg value="-Dclassifier=sources" />
+            <arg value="-Pgpg" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the javadoc artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.1:sign-and-deploy-file" />
+			<arg value="-DrepositoryId=smslib-staging" />
+			<arg value="-DpomFile=build/generated/pom.xml" />
+			<arg value="-Dfile=${jar.dir}/smslib-${smslib.version}-javadoc.jar" />
+			<arg value="-Dclassifier=javadoc" />
+            <arg value="-Pgpg" />
+		</artifact:mvn>
+    </target>
+
+</project>

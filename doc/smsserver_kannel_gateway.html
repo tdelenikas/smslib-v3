@@ -1,0 +1,36 @@
+<h1>SMSServer - Kannel gateway</h1>
+<p>This gateway is used for the Kannel HTTP interface.</p>
+
+<h2>Configuration File</h2>
+<p>This interface requires the following settings in SMSServer's configuration file:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>url</td><td>URL used to send SMS through Kannel.</td></tr>
+<tr><td>username</td><td>Kannel send-sms Username.</td></tr>
+<tr><td>password</td><td>Kannel send-sms Password.</td></tr>
+<tr><td>outbound</td><td><b>yes</b> if the gateway should be used as an outbound gateway, otherwise <b>no</b>.</td></tr>
+</table>
+<p>The following settings are optional:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>adminurl</td><td>URL used to send SMS through Kannel.</td></tr>
+<tr><td>adminpassword</td><td>Kannel's send-sms Username.</td></tr>
+<tr><td>statuspassword</td><td>Kannel's send-sms Password.</td></tr>
+<tr><td>autostartsmsc</td><td><b>yes</b> if a start-smsc command should be sent to Kannel when the gateway starts, otherwise <b>no</b>.</td></tr>
+<tr><td>autostopsmsc</td><td><b>yes</b> if a stop-smsc command should be sent to Kannel when the gateway stops, otherwise <b>no</b>.</td></tr>
+</table>
+<br />
+<p>Example:</p>
+<blockquote>
+gateway.0=myKannel, KannelHttp<br />
+myKannel.url=http://localhost:13013/cgi-bin/sendsms<br />
+myKannel.username=simple<br />
+myKannel.password=elpmis<br />
+myKannel.outbound=yes<br />
+myKannel.adminurl=http://localhost:13000<br />
+myKannel.adminpassword=bar<br />
+myKannel.statuspassword=pass<br />
+myKannel.autostartsmsc=no<br />
+myKannel.autostopsmsc=no<br />
+</blockquote><br />
+<b>Note: </b>Gateway id should be the same as the smsc-id used in Kannel configuration.

@@ -1,0 +1,50 @@
+<h1>Message encryption</h1>
+
+<h2>Introduction</h2>
+<p>Starting from v3.4.1, SMSLib offers you the functionality to send and receive encrypted messages.</p>
+<p>Enrypted messages can either be text or binary messages. In all cases, SMSLib converts these messages to binary messages in order to be safely transmitted over GSM.</p>
+<p>If both parties are using SMSLib (i.e. both the originator and the recipient), SMSLib provides all the necessary functionality to automatically encrypt/decrypt the messages without much of user intervention. Even if one party is using SMSLib, you can easily decrypt messages yourselves at the other end, once you get the idea of how this is done.</p>
+
+<h2>Encryption</h2>
+<p>SMSLib currently uses the <a href="http://en.wikipedia.org/wiki/AES_(cipher)">AES</a> strong key (128bit) encryption algorithm, which is available in JDK 5. It's strong enough and spares the core library from external dependencies. Other algorithms or stronger cipher implementation (like <a href="http://www.bouncycastle.org/">BouncyCastle</a>) are easy to be implemented as well. The current SMSLib implementation is for symmetric encryption algorithms - the next step will be to implement an asymmetric algorithm as well in order to have it as reference.</p>
+
+<h2>The new <code>org.smslib.crypto</code> package</h2>
+<p>The <code>org.smslib.crypto</code> contains the following classes:</p>
+<table width='800' border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>AKey</b></td><td>The base, abstract class for the definition of an encryption key. Its pretty much empty right now.</td></tr>
+<tr><td><b>ASymmetricKey</b></td><td>The base class for the implementation of keys for symmetric algorithms. Contains helper functions for the maintenance and generation of keys and for the encoding / decoding of data blocks.</td></tr>
+<tr><td><b>AESKey</b></td><td>The implementation class for the AES algorithm.</td></tr>
+<tr><td><b>KeyManager</b></td><td>In an attempt to automate the encryption/decryption as much as possible, SMSLib contains a Key Manager implementation. The role of the Key Manager class is to hold pairs of numbers (i.e. originators or recipients) and encryption keys. Once this is setup, SMSLib will automatically encrypt (or decrypt) messages send to (or received from) numbers which are defined in the Key Manager.</td></tr>
+</table>
+
+<h2>New message classes</h2>
+<p>SMSLib has <b>two new</b> classes implemented: The <code>InboundEncryptedMessage</code> and the <code>OutboundEncryptedMessage</code>. These classes encapsulate the details of the encrypted messages.</p>
+
+<h2>How everything wraps up</h2>
+<p>Here are the details for the implementation of message encryption.</p>
+
+<h3>Setup the KeyManager</h3>
+<p>Before attempting to send or receive messages, you need to setup the details in the Key Manager. The Key Manager holds encryption keys per source or destination. So, assuming that you need to send an encrypted message to a certain number, you should declare this as follows:</p>
+<blockquote>
+srv.getKeyManager().registerKey("306948494037", new AESKey(new SecretKeySpec("0011223344556677".getBytes(), "AES")));
+</blockquote>
+<p>This command makes SMSLib remember that when sending an encrypted message to "306948494037", it should use the AES algorithm with the key "0011223344556677". You should similarly declare all originator / recipient numbers and their keys.</p>
+
+<h3>Sending an encrypted message</h3>
+<p>Once the key is set, you are ready to send the message. <b>Remember to use the new <code>OutboundEncryptedMessage</code> class!</b></p>
+<blockquote>
+OutboundEncryptedMessage msg = new OutboundEncryptedMessage("306948494037", "Hello (encrypted) from SMSLib!".getBytes());
+</blockquote>
+<p>That's all! For an actual implementation, look at the <code>examples.modem.SendEncryptedMessage</code> sample application.</p>
+
+<h3>Receiving encrypted messages</h3>
+<p>Once again, before reception of messages you should set up the Key Manager in order for SMSLib to know and decrypt received messages correctly.</p>
+<p>The reception of messages works like before. In the case where a message is received from a recipient which is declared in the Key Manager, SMSLib will push a message of <code>InboundEncryptedMessage</code> class. Use the <code>getDecryptedText()</code> method to get the "clear" message text.</p>
+
+<h2>Frequently asked questions</h2>
+<p><b>I want to implement another symmetric algorithm.</b></p>
+<p>Extend the <code>ASymmetricKey</code> class with the necessary code. Have a look at the <code>AESKey</code> for reference.</p>
+<p><b>What if you forget the Key Manager definitions?</b></p>
+<p>Outbound messages will throw exceptions upon creation of the <code>OutboundEncryptedMessage</code> object. Inbound messages will be received as binaries with "ciphered", unreadable text.</p>
+<p><b>What if the key in Key Manager is wrong?</b></p>
+<p>Outbound messages will be sent, however the wrong key will prevent the recipient from decoding your data. Inbound messages will throw exceptions upon receipt, as the crypto algorithm will fail to decrypt the content.</p>

@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: SMSServer
+Implementation-Version: @version@
+Main-Class: org.smslib.smsserver.SMSServer
+Created-By: Thanasis Delenikas

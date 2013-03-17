@@ -1,0 +1,29 @@
+<h1>Group Sending</h1>
+
+<h2>Introduction</h2>
+<p>SMSLib allows you to define <i>groups of recipients</i>, all grouped under a common name and use that name as the recipient of a message. SMSLib will expand the message and will send it to all recipients of the group.</p>
+
+<h2>How to use groups</h2>
+<p>In order to use groups, you have to:</p>
+<ol>
+<li>Define one or more groups and,</li>
+<li>Fill the groups with the respective destinations</li>
+</ol>
+<p>In order to define a group, you use the <code>Service.createGroup()</code> method, i.e.</p>
+<blockquote>
+Service.getInstance().createGroup("MyParents");
+</blockquote>
+<p>This command will create and register the group "MyParents". However, this is an empty group and you must assign destinations. You will use the <code>Service.addToGroup()</code> method:</p>
+<blockquote>
+Service.getInstance().addToGroup("MyParents", "301122334455")<br />
+Service.getInstance().addToGroup("MyParents", "301223344556")
+</blockquote>
+<p>Now you have a group with contains two numbers. If you try to send a message via SMSLib with a recipient of "MyParents", SMSLib will actually send two messages to both of the above mentioned group numbers.</p>
+<p>Note that:</p>
+<ul>
+<li>You can define unlimited groups.</li>
+<li>Each group may hold an unlimited number of recipients.</li>
+</ul>
+
+<h2>Group management</h2>
+<p>SMSLib currently provides a couple of basic group management methods, all located under the main <b>Service</b> class. Have a look at the <code>createGroup()</code>, <code>removeGroup()</code>, <code>addToGroup()</code> and <code>removeFromGroup()</code> methods for further information.

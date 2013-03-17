@@ -1,0 +1,23 @@
+<h1>SMSServer - Clickatell gateway</h1>
+<p>This gateway is used for the Clickatell HTTP interface.</p>
+
+<h2>Configuration File</h2>
+<p>This interface requires the following settings in SMSServer's configuration file:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>api_id</td><td>Clickatell API ID.</td></tr>
+<tr><td>username</td><td>Clickatell Username.</td></tr>
+<tr><td>password</td><td>Clickatell Password.</td></tr>
+<tr><td>secure</td><td>If set to <b>yes</b>, the gateway will use a secure (https) connection.</td></tr>
+<tr><td>outbound</td><td><b>yes</b> if the gateway should be treaded as an outbound gateway, otherwise <b>no</b>.</td></tr>
+</table>
+<br />
+<p>Example:</p>
+<blockquote>
+gateway.0=myClickatell, ClickatellHttp<br />
+myClickatell.api_id=1234<br />
+myClickatell.username=username<br />
+myClickatell.password=password<br />
+myClickatell.secure=no<br />
+myClickatell.outbound=yes<br />
+</blockquote>

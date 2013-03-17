@@ -1,0 +1,48 @@
+<h1>Configuration parameters</h1>
+
+<h2>Introduction</h2>
+<p>SMSLib has several configurable parameters. Some of them are switches which must be used in certain circumstances (like the one to overcome the Linux/RxTx eratic behavior) and others are parameters which have to do with timings and other internal settings.</p>
+<p>Up to my knowledge, the default timing values should be sufficient for all modems. You can experiment with lowering those values - if you see that your modem(s) become unstable, switch to the defaults and retry.</p>
+
+<h2>Parameters</h2>
+<p>All parameters are stored in the public class Settings which is instantiated as the global variable S during SMSLib execution. All parameters are initialized with standard or safe values. If you wish to change some parameter, you can do it:</p>
+<ul>
+<li><b>By code</b>: Set your code to modify the <code>Service.S</code> member variables.</li>
+<li><b>By command line switches</b>: All parameters have their associated <code>-Dxxx</code> runtime configuration switches, so you can change all of them directly from the command line, without messing with the code.</li>
+</ul>
+<p>Here is the list of all parameters available and their possible values:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>S variable name</b></td><td><b>Default Value</b></td><td><b>Meaning</b></td><td><b>Command Line switch</b></td></tr>
+<tr><td>SERIAL_NOFLUSH</td><td>false</td><td>If true, SMSLib will not call the flush() system call upon writing to the serial port. This should normally be left as false, meaning that we need the flush() call. Set it to true for Linux/RxTx and virtual ports where the flush() call leads to errors</td><td>-Dsmslib.serial.noflush</td></tr>
+<tr><td>SERIAL_NOEVENTS</td><td>false</td><td>If true, SMSLib will <b>not</b> register the serial port callback events (i.e. framing errors, etc). This is reported to help with some Sony Ericsson models.</td><td>-Dsmslib.serial.noevents</td></tr>
+<tr><td>SERIAL_POLLING</td><td>false</td><td>If false, SMSLib will rely on the serial port interrupts to wake up and get incoming data. If true, if will create a separate thread in order to periodically poll the serial port for incoming data. Set it to true only on Linux/RxTx installations if you see that SMSLib behaves as if no modem is connected.</td><td>-Dsmslib.serial.polling</td></tr>
+<tr><td>SERIAL_POLLING_INTERVAL</td><td>200 ms</td><td>This is the polling interval. It has a meaning only when the SERIAL_POLLING is true, i.e. SMSLib works in polling mode. The value is in milliseconds. The default value is a good starting point - you may experiment with different values</td><td>-Dsmslib.serial.pollinginterval=nnn</td></tr>
+<tr><td>SERIAL_TIMEOUT</td><td>30000 ms</td><td>This is the master timeout set on the serial ports. The value is in milliseconds.</td><td>-Dsmslib.serial.timeout=nnn</td></tr>
+<tr><td>SERIAL_KEEPALIVE_INTERVAL</td><td>60 s</td><td>This is the keep-alive interval. The keep-alive functionality in SMSLib periodically "pings" the modem in order to keep the connection active. The value is in seconds.</td><td>-Dsmslib.serial.keepalive=nnn</td></tr>
+<tr><td>SERIAL_BUFFER_SIZE</td><td>16384 chars</td><td>This is the buffer size SMSLib uses for the internal queues. The value represents characters (bytes).</td><td>-Dsmslib.serial.buffer=nnn</td></tr>
+<tr><td>SERIAL_CLEAR_WAIT</td><td>1000 ms</td><td>This is a delay value, used when clearing the queues. The value is in milliseconds. </td><td>-Dsmslib.serial.clearwait=nnn</td></tr>
+<tr><td>SERIAL_RTSCTS_OUT</td><td>false</td><td>If set, RTS/CTS will be enabled for outbound serial traffic as well. Useful for some types of phones</td><td>N/A</td></tr>
+<tr><td>SERIAL_BUFFER_CHUNK</td><td>0 bytes (disabled)</td><td>Break output com buffer in chunks and add a delay between chunks.</td><td>N/A</td></tr>
+<tr><td>SERIAL_BUFFER_CHUNK_DELAY</td><td>0 ms</td><td>Break output com buffer in chunks and add a delay between chunks.<br><br>Values for specific models:<br><b>Sony Ericsson K800i</b>: SERIAL_BUFFER_CHUNK=250, SERIAL_BUFFER_CHUNK_DELAY=50</td><td>N/A</td></tr>
+<tr><td>QUEUE_RETRIES</td><td>3 times</td><td>The retry count of the background queue manager for a message failing to be sent out. After this retry count, the queue manager will stop trying sending this message.</td><td>-Dsmslib.queue.retries=nnn</td></tr>
+<tr><td>AT_WAIT</td><td>200 ms</td><td>This is a delay value, used after some AT commands. The value is in milliseconds.</td><td>-Dsmslib.at.wait=nnn</td></tr>
+<tr><td>AT_WAIT_AFTER_RESET</td><td>10000 ms</td><td>This is the delay value. SMSLib will sleep for this period after issuing a modem reset command, in order to give time to the modem to initialize. The value is in milliseconds.</td><td>-Dsmslib.at.resetwait=nnn</td></tr>
+<tr><td>AT_WAIT_CMD</td><td>1100 ms</td><td>This is a delay value, representing the time needed after issuing a "+++" command. The value is in milliseconds.</td><td>-Dsmslib.at.cmdwait=nnn</td></tr>
+<tr><td>AT_WAIT_CGMS</td><td>200 ms</td><td>This is a delay value, representing the time needed after issuing a "CMGS" command. The value is in milliseconds.</td><td>-Dsmslib.at.cmgswait=nnn</td></tr>
+<tr><td>AT_WAIT_NETWORK</td><td>5000 ms</td><td>This is a delay value, representing the time that SMSLib will give modem in order to attach to the GSM network. The value is in milliseconds.</td><td>-Dsmslib.at.networkwait=nnn</td></tr>
+<tr><td>AT_WAIT_SIMPIN</td><td>5000 ms</td><td>This is a delay value, representing the time that SMSLib will give modem after the SIM PIN initialization. The value is in milliseconds.</td><td>-Dsmslib.at.simpinwait=nnn</td></tr>
+<tr><td>AT_WAIT_CNMI</td><td>3000 ms</td><td>This is a delay value, representing the time that SMSLib will give modem before retrying a failed CNMI command. The value is in milliseconds.</td><td>-Dsmsib.at.cnmiwait=nnn</td></tr>
+<tr><td>CNMI_EMULATOR_INTERVAL</td><td>30 s</td><td>If CNMI fails, SMSLib will launch a separate thread for periodically polling the modem for inbound messages and still act as an asynchronous reader.</td><td>N/A</td></tr>
+<tr><td>OUTBOUND_RETRIES</td><td>3 times</td><td>This is the retry count, defining how many times SMSLib will try to send a failing message. After those retries, message will be marked as failed.</td><td>-Dsmslib.outbound.retries=nnn</td></tr>
+<tr><td>OUTBOUND_RETRY_WAIT</td><td>3000 ms</td><td>The wait time between two attemps for sending a failed message. Value is in milliseconds.</td><td>-Dsmslib.outbound.retrywait=nnn</td></tr>
+<tr><td>WATCHDOG_INTERVAL</td><td>15 s</td><td>This is the process interval of the Service Watchdog background thread. The value is in seconds.</td><td>-Dsmsib.watchdog=nnn</td></tr>
+<tr><td>MASK_IMSI</td><td>true</td><td>When true, the IMSI of the phone's/modem's SIM is not reported nor included in the logs (safety reasons).</td><td>N/A</td></tr>
+<tr><td>CONCURRENT_GATEWAY_START</td><td>true</td><td>When true, SMSLib will try to start all defined gateways concurrently (to speed up start up time). When false, gateways start one after the other.</td><td>-Dsmslib.disable.concurrent.gateway.startup to set to false.</td></tr>
+<tr><td>DISABLE_CMTI</td><td>false</td><td>When true, SMSLib will try to disable all unsolicited inbound notifications. Use this as an emergency switch!</td><td>-Dsmslib.nocmti to set to true.</td></tr>
+<tr><td>HOURS_TO_ORPHAN</td><td>72</td><td>This setting defines the age (in hours) after which SMSLib will treat a message part as "orphaned". Orphaned parts are parts of a big, multipart message which are received alone and their "sister" parts were never received in order for the full message to be reconstructed. Once a message part gets older than what the setting says, the relevant notification method is called.</td><td>N/A</td></tr>
+<tr><td>DISABLE_CMMS</td><td>false</td><td>The CMMS command (Keep GSM Link Open) is used to increase the sending rate, but may cause instability on some modems. It is set by default.</td><td>-Dsmslib.nocmms=1 to disable the CMMS command.</td></tr>
+<tr><td>DISABLE_COPS</td><td>false</td><td>The COPS command is used for network selection. The default should suffice, but you can disable the use of the command.</td><td>-Dsmslib.nocops=1 to disable the COPS command.</td></tr>
+<tr><td>CACHE_DIRECTORY</td><td>java.home</td><td>The generic cache directory location used by SMSLib.</td><td>-Dsmslib.cachedir=myCacheDir</td></tr>
+<tr><td>QUEUE_DIRECTORY</td><td>Undefined</td><td>The cache directory used by the Queue Manager. If left undefined, the Queue Manager acts in a non-persistent way. If you set it to a path, Queue Manager will save pending outbound messages (i.e. queued messages) and reload them between SMSLib invocations.</td><td>-Dsmslib.queuedir=myCacheDir</td></tr>
+<tr><td>QUEUE_SCHEDULING_INTERVAL</td><td>5000 ms</td><td>The queue scheduling interval (in ms). This serves as a global default setting - it can be overidden on the gateway level (see <code>AGateway.java</code>, method <code>getQueueSchedulingInterval()</code>)</td><td>N/A</td></tr>
+</table>

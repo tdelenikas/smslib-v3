@@ -1,0 +1,80 @@
+<h1>Installation Instructions</h1>
+
+<h2>Prerequisites</h2>
+<p>To use SMSLib, you should install the following components:</p>
+<ul>
+<li>SUN JDK 1.6 or newer.</li>
+<li>Java Communications Library.</li>
+<li>Apache ANT for building the sources.</li>
+<li>Apache log4j.</li>
+<li>Apache Jakarta Commons - NET.</li>
+<li>JSMPP Library</li>
+</ul>
+
+<h2>Important Note</h2>
+<p>Starting from SMSLib v3.4, the installation procedure has changed a bit. Some SMSServer components that required extra dependencies have been <b>pulled out</b> of the main source tree. This was done in order to reduce the required third party libraries &amp; dependency files for those wanting to use the core library.</p>
+<p>The core SMSLib/SMSServer source files can now be compiled with only two dependencies: the Simple logging facade for Java and the Apache Commons/NET for the IP modem driver.</p>
+<p>All other add-on SMSServer components are moved in the <code>/misc/SMSServer/Interfaces/</code> directory, organized by development status. Installation instructions for these specific components are given in the relevant <a href="smsserver.html">SMSServer documentation pages</a>.</p>
+
+<h2>Java Communications Library</h2>
+<p>You have two options:</p>
+<ul>
+<li>For Win32 systems you should use the SUN Java Comm v2.</li>
+<li>For other systems (Linux, Unix, BSD, etc), you are advised to install either Java Comm v3 or RxTx, whichever is available. There are some problems reported with Java Comm v3 on some linux distros, so if Java Comm is not working you can safely use RxTx instead.</li>
+</ul>
+
+<h3>Java Comm Installation</h3>
+<p>The installation procedure for both the old Java Comm v2 and the new Java Comm v3 is identical.</p>
+<p>Java Comm v2 is for Win32 systems and it is available on the <a href="http://smslib.org/download/">Download</a> page.</p>
+<p>Java Comm v3 is for Linux systems and it is available for download directly from <a href="https://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_SMI-Site/en_US/-/USD/ViewProductDetail-Start?ProductRef=JAVACOMM-3.0.1-LX-SP-G-F@CDS-CDS_SMI">SUN downloads</a> (registration is required)</p>
+<p>To install it, unzip the downloaded archive file in a temporary place and do the following copies:</p>
+<ul>
+<li>File <code>comm.jar</code> should go under <code>JDKDIR/jre/lib/ext/</code></li>
+<li>File <code>javax.comm.properties</code> should go under <code>JDKDIR/jre/lib/</code></li>
+<li>Library files (i.e. <code>win32com.dll</code> for Win32 or the <code>.so</code> Linux library files) should go under <code>JDKDIR/jre/bin/</code></li>
+</ul>
+<p>If you have a separate JRE directory, do the same copies for the JREDIR directory!</p>
+
+<h3>RxTx Installation</h3>
+<p>The official RxTx binary pack is available <a href="http://rxtx.qbang.org/pub/rxtx/rxtx-2.1-7-bins-r2.zip">here</a>. The provided link will download the distro with some standard binaries (for linux 32bit, 64 bit, etc). If binaries for your specific operating system are not included, you may consider recompiling RxTx yourselves.</p>
+<p>For a custom Win64 RxTx distro, have a look at the <a href="http://www.cloudhopper.com/opensource/rxtx/">CloudHopper's</a> web site.</p>
+<p>To install it, unzip the distribution file in a temporary place and do the following copies:</p>
+<ul>
+<li>File <code>RXTXcomm.jar</code> should go under <code>JDKDIR/jre/lib/ext/</code></li>
+<li>The necessary library (e.g.. for Linux 32bit, the librxtxSerial.so) should go under <code>JDKDIR/jre/bin/</code></li>
+</ul>
+<p>If you have a separate JRE directory, do the same copies for the JREDIR directory!</p>
+
+<h2>Apache ANT</h2>
+<p>SMSLib uses Apache Ant for building and deployment.</p>
+<p>Download and install Apache Ant from <a href="http://ant.apache.org">here</a>.</p>
+
+<h2>Apache log4j</h2>
+<p>SMSLib uses Apache log4j as its logging framework.</p>
+<p>Download log4j from <a href="http://logging.apache.org/log4j/1.2/download.html">here</a>. You need to have the <code>log4j-1.2.15.jar</code> file (v1.2.15 was the current version at the time of this writing) somewhere in your classpath or in Java's lib/ext directories or in lib directory of project.</p>
+
+<h2>Apache Jakarta Commons - NET</h2>
+<p>Download Apache Jakarta Commons/NET from <a href="http://commons.apache.org/downloads/download_net.cgi">here</a>. You need to have the <code>commons-net-2.0.jar</code> file (v2.0 was the current version at the time of this writing) somewhere in your classpath or in Java's lib/ext directories or in lib directory of project.</p>
+
+<h2>JSMPP Library</h2>
+<p>Download the library from <a href="http://code.google.com/p/jsmpp">JSMPP project</a> and install the <code>jsmpp-2.1.0.jar</code> (v2.1.0 was the current version at the time of this writing) somewhere in your classpath or in Java's lib/ext directories or in lib directory of project.
+
+<h2>Building SMSLib</h2>
+<p>The ANT build file provides the following targets:</p>
+<table border="1" cellpadding="7" cellspacing="2">
+<tr><td><b>compile-smslib</b></td><td>Compiles the core library.</td></tr>
+<tr><td><b>build-smslib</b></td><td>Builds the core library. Starting with v3.4.6, this target also packages the "org.ajwcc" (pduUtils) as a separate jar file.</td></tr>
+<tr><td><b>doc</b></td><td>Creates the javadoc pages for the core library.</td></tr>
+<tr><td><b>build-smsserver</b></td><td>Builds the SMSServer application together with SMSLib core library in one jar, making SMSServer as the startup application in the jar.</td></tr>
+<tr><td><b>build-smsserver-standalone</b></td><td>Builds the SMSServer application <b>without</b> the SMSLib core library in one jar, making SMSServer as the startup application in the jar.</td></tr>
+<tr><td><b>clean</b></td><td>Cleans the temporary compile / javadoc / class directories.</td></tr>
+</table>
+<br />
+<p>Running</p>
+<blockquote>
+ant
+</blockquote>
+<p>(i.e. without a target) will give you a help screen.</p>
+
+<h2>Now what?</h2>
+<p>If you are new to SMSLib, spend some time with the two examples <code>ReadMessages</code> and <code>SendMessage</code> (located in the <code>src/java/examples/modem</code> folder) to find out the basics of how to read / send messages via your phone.</p>

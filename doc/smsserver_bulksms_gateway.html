@@ -1,0 +1,21 @@
+<h1>SMSServer - BULKSMS gateway</h1>
+<p>This gateway is used for the BULKSMS HTTP interface.</p>
+
+<h2>Configuration File</h2>
+<p>This interface requires the following settings in SMSServer's configuration file:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>username</td><td>BULKSMS Username.</td></tr>
+<tr><td>password</td><td>BULKSMS Password.</td></tr>
+<tr><td>outbound</td><td><b>yes</b> if the gateway should be treaded as an outbound gateway, otherwise <b>no</b>.</td></tr>
+<tr><td>region</td><td>The BULKSMS region servers you wish to use. Should be one of the following: <b>UNITEDKINGDOM</b>, <b>SOUTHAFRICA</b>, <b>SPAIN</b>, <b>USA</b>, <b>GERMANY</b>. Leave the setting empty to use the <b>INTERNATIONAL</b> setting.</td></tr>
+</table>
+<br />
+<p>Example:</p>
+<blockquote>
+gateway.0=myBulkSms, BulkSmsHttp<br />
+myBulkSms.username=username<br />
+myBulkSms.password=password<br />
+myBulkSms.outbound=yes<br />
+myBulkSms.region=USA<br />
+</blockquote>

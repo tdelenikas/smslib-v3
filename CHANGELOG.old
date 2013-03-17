@@ -1,0 +1,352 @@
+SMSLib for Java v3
+Change Log & Credits
+
+
+
+*** CREDITS ***
+SMSLib v3 is based on the old v2.x code. Many people
+contributed to that old codebase during its history,
+and I would like to thank all of them:
+
+Youcai Cheng, Teo Hong Siang, Zheng Yue, Joel Chavoya,
+Lucas Izbaner, Polyak Tamas, ru_alex@SF, David Tam,
+Simon Bretin, Kuba Duda, dbettoni@SF, vityusha@SF,
+Sastra Winarta, aberesfo@SF, popi mushalihin@SF,
+heretique@SF, charlesO@SF, javazoid@SF,
+Fredrik Askerblom, Fredrik Askerblom, RGomez, Darkstorm,
+Federico, Joao Lopes, Xiafan, Willow, Tony Yip, Baakmin,
+Childe Zhao, Oswaldo, Martin Sulak.
+
+
+
+[v3.4.0 Development]
+1. SMSLib: Patch: http://code.google.com/p/smslib/issues/detail?id=142
+2. SMSLib: http://code.google.com/p/smslib/issues/detail?id=146
+3. SMSLib: Outbound messages now default to "*" (i.e. wildcard) gateway.
+4. SMSLib: Background sending queue moved from Gateways to the Service class. Necessary methods rearranged.
+5. SMSLib: KeepAlive methods moved to central scheduler.
+6. SMSLib: WatchDog methods moved to central scheduler.
+7. SMSLib: Background queue managing thread moved to central scheduler. The number of queue manager threads can be adjusted.
+8. SMSLib: New configuration settings: SCHEDULER_TICK, SCHEDULER_POOL, QUEUE_THREADS.
+9. SMSLib: http://code.google.com/p/smslib/issues/detail?id=144, AT Handler for Wavecom SunTraveller CDMA modem, contributed by Ernas Moethar.
+10. SMSLib: http://code.google.com/p/smslib/issues/detail?id=147
+11. SMSLib: http://code.google.com/p/smslib/issues/detail?id=149 : if a Gateway/Interface/Balancer/Router in the configuration file has a dot (.) in its name, its consider an out-of-package class.
+12. SMSLib: LeastLoadLoadBalancer is no longer available.
+13. SMSLib: Added embedded HTTP server as a new SMSServer interface.
+14. SMSLib: Clickatell KeepAlive thread moved to central scheduler.
+15. SMSLib: SerialModemDriver PortReader thread moved to central scheduler.
+16. SMSLib: Basic phonebook management.
+17. SMSLib: http://code.google.com/p/smslib/issues/detail?id=163, Test gateway did not set a gateway id.
+18. SMSLib: http://code.google.com/p/smslib/issues/detail?id=167 : fixed condition which could lead to NullPointer & NumberFormat exceptions for some non-compliant phones.
+19. SMSLib: http://code.google.com/p/smslib/issues/detail?id=169 : new functionality: group sending.
+20. SMSLib: http://code.google.com/p/smslib/issues/detail?id=180 : allow binary telnet sessions for IP modems.
+21. SMSLib: http://code.google.com/p/smslib/issues/detail?id=179 : new Siemens MC35i modem handler.
+22. SMSLib: http://code.google.com/p/smslib/issues/detail?id=183 : error in db interface when auto-delivery operation is enabled.
+23. SMSLib: http://code.google.com/p/smslib/issues/detail?id=184 : DB errors go unnoticed when a message arrives via the callback method.
+24. SMSLib: http://code.google.com/p/smslib/issues/detail?id=188 : Flash messaging did not work as expected.
+25. SMSLib: http://code.google.com/p/smslib/issues/detail?id=187 : TPDU Data Coding Group Issue.
+26. SMSServer: http://code.google.com/p/smslib/issues/detail?id=193 : Added "smsc_number" in configuration file / gateway definition for serial and IP modems.
+27. SMSServer: http://code.google.com/p/smslib/issues/detail?id=191, http://code.google.com/p/smslib/issues/detail?id=192 : SMSServer email interface issues.
+28. SMSServer: http://code.google.com/p/smslib/issues/detail?id=185, add wap si capability via the SMSServer database interface.
+29. SMSServer: If no directives are given, the configuration file is looked upon in the current directory.
+30. SMSLib: http://code.google.com/p/smslib/issues/detail?id=195 : JVM hanged when attempting to stop SMSServer with Ctrl-C.
+31. SMSLib: http://code.google.com/p/smslib/issues/detail?id=194 : Do not try to register to GSM network for ever - throw GatewayException after trying for a couple of times.
+
+
+[v3.3.3 Dec 23, 2008]
+1. SMSLib: http://code.google.com/p/smslib/issues/detail?id=154
+2. SMSLib: http://code.google.com/p/smslib/issues/detail?id=155
+3. SMSLib: http://code.google.com/p/smslib/issues/detail?id=151
+4. SMSLib: New ANT build file (see http://smslib.org/doc/installation/#Building_SMSLib).
+5. SMSLib: http://code.google.com/p/smslib/issues/detail?id=159
+6. SMSLib: http://code.google.com/p/smslib/issues/detail?id=157
+7. SMSLib: http://code.google.com/p/smslib/issues/detail?id=156
+
+
+[v3.3.2 Nov 27, 2008]
+1. SMSLib: Patch: http://code.google.com/p/smslib/issues/detail?id=142
+2. SMSLib: Patch: http://code.google.com/p/smslib/issues/detail?id=141
+3. SMSLib: http://code.google.com/p/smslib/issues/detail?id=146
+4. SMSLib: http://code.google.com/p/smslib/issues/detail?id=144, AT Handler for Wavecom SunTraveller CDMA modem, contributed by Ernas Moethar.
+5. SMSLib: Temporary solution for multiparts which break on a double-byte char (Jeff).
+6. SMSLib: http://code.google.com/p/smslib/issues/detail?id=147
+7. SMSLib: http://code.google.com/p/smslib/issues/detail?id=149: if a Gateway/Interface/Balancer/Router in the configuration file has a dot (.) in its name, its consider an out-of-package class.
+8. SMSLib: http://code.google.com/p/smslib/issues/detail?id=152: exception thrown when using 11-digit numbers for SMSC addresses.
+
+
+[v3.3.1 Oct 18, 2008]
+1. SMSLib: Added custom init strings for modem gateways (http://code.google.com/p/smslib/issues/detail?id=120).
+2. SMSLib: SMSServer / DB Interface: Binary outbound messages should be stored in ASCII/hex format in the database (http://code.google.com/p/smslib/issues/detail?id=123).
+3. SMSLib: Issue: http://code.google.com/p/smslib/issues/detail?id=124 - emulate CNMI so that inbound messages are always pushed via callbacks.
+4. SMSServer: Embedded HTTP server, using Jetty.
+5. SMSLib: Issue: http://code.google.com/p/smslib/issues/detail?id=127 - values read from database are now trimmed.
+6. SMSLib: Messages were handled in reverse priority.
+7. SMSServer: The Database interface was handling messages in reverse priority ordering.
+8. SMSLib: Made several methods of AGateway & ModemDriver protected (to allow subclassing).
+9. SMSLib: SMSServer / HTTP Interface: Added POST-nethod and configurable encoding for the query (Issue 133 http://code.google.com/p/smslib/issues/detail?id=133).
+10. SMSLib: The debug level could not be set programmatically (i.e. by setting the S flags) due to incorrect initialization of the Logger class (thanks Casjen!).
+11. SMSLib: Wrong logic in default router: the message preference to a gateway was not interpreted correctly, in regards to the gateway outbound capability.
+12. SMSLib: Issue: http://code.google.com/p/smslib/issues/detail?id=131, Storage defaults to 'MT' when errors encountered.
+
+
+[v3.3.0 (final) - Sep 03, 2008]
+SMSLib / SMSServer Enhancements: http://code.google.com/p/smslib/issues/list?q=label:milestone%20label:v3.3.0&can=1
+
+
+[v3.3.0 BETA4 - Development]
+1. SMSLib: http://code.google.com/p/smslib/issues/detail?id=108
+2. SMSLib: Fixed bug with multipart messages having extended chars (like []{}, etc) which failed to be sent out.
+3. SMSServer: removed debug leftovers.
+4. SMSLib: http://code.google.com/p/smslib/issues/detail?id=110. Thanks to DengFeng Mao for his Wavecom WISMOQCDMA CDMA modem patches.
+5. SMSLib: Introduced new array unsolicitedResponses[] in ATHandler in order to consolidate "magic" string around the code.
+6. SMSLib: Removed the CMMS command (Keep GSM Link Open, http://code.google.com/p/smslib/issues/detail?id=116).
+7. SMSLib: Routing: only RUNNING gateways take part in the routing calculations (http://code.google.com/p/smslib/issues/detail?id=107).
+8. SMSLib: Moved callback functions (for inbound, outbound, calls and gateway status changes) at the service level. Gateway level callbacks still work but are marked as deprecated.
+9. SMSServer: XML Interface bug: inbound messages were overwritten (same filename creation).
+10. SMSLib: Added new Service.unqueueMessage() method which will try to remove the specified message from the background sending queues.
+11. SMSLib: Synchronization issues / relaxing, http://code.google.com/p/smslib/issues/detail?id=114, affecting ModemGateway's read/send/delete message methods.
+12. SMSLib: Synchronization issues / relaxing, http://code.google.com/p/smslib/issues/detail?id=114, AModemDriver.disconnect() has been left unsynchronized.
+13. SMSLib: Issue: http://code.google.com/p/smslib/issues/detail?id=115, removed WATH/CFUN 0 from Wavecom handler's shutdown sequence until further investigation/feedback is given.
+14. SMSLib: Enhancements based on issue http://code.google.com/p/smslib/issues/detail?id=106 and supplied patch.
+
+
+[v3.3.0 BETA3 - Jul 22, 2008]
+1. SMSLib: Improved CNMI detection.
+2. SMSLib: Moved all logger code to org.smslib.helper.Logger.java package. Updated references.
+3. SMSLib: Code refactoring.
+4. SMSLib: Graceful char queue exit upon gateway termination.
+5. SMSLib: Issue http://code.google.com/p/smslib/issues/detail?id=96. Introduced the S variable "CONCURRENT_GATEWAY_START". When false, SMSLib will open all defined gateways in sequence and not in parallel. Default behavior is to open gateways concurrently.
+6. SMSLib: Flexible message priorities (issue http://code.google.com/p/smslib/issues/detail?id=84) - *WARNING* Compatibility break.
+7. SMSLib: Least-Load Load Balancer, issue http://code.google.com/p/smslib/issues/detail?id=101.
+8. SMSServer: New (optional) configuration directives for defining custom balancers / routers. Issue: http://code.google.com/p/smslib/issues/detail?id=100.
+9. SMSLib: Problem with PDU encodings for countries with 11-digit numbering schemes.
+10. SMSLib: Added callbacks for gateway status changes. See IGatewayStatusNotification interface and AGateway.(set/get)StatusNotification methods.
+
+
+[v3.3.0 Dev - BETA2] - ** CONVERSION FOR JDK5 **
+1. Enumeration-like classes are converted to enums and placed within appropriate mother-classes.
+2. Added generics in all appropriate places.
+3. Re-Added Jmx-, XML- and Email-SMSServer-Interfaces with usage of new Java5 features (for-each-loop, generics, annotations)
+4. Re-Added XML-Testcase and moved to JUnit4 (thanks to Java5)
+5. Regenerated all serialVersionUIDs
+6. SMSLib: Telit modem enhancement (http://code.google.com/p/smslib/issues/detail?id=56).
+7. SMSLib: Logging settings (http://code.google.com/p/smslib/issues/detail?id=60).
+8. SMSLib: Decoupling of notification methods (http://code.google.com/p/smslib/issues/detail?id=63) - *WARNING* Compatibility break.
+9. SMSLib: Handler for SonyEricsson GC89 (http://code.google.com/p/smslib/issues/detail?id=65).
+10. SMSLib: Removed "org.smslib.helper.Queue" and replaced with JDK5 blocking queues.
+11. SMSLib: Changed the inbound notification callbacks: instead of a memory storage/location combination, the actual message is passed on.
+12. SMSLib: XML Interface typos (Issue: http://code.google.com/p/smslib/issues/detail?id=70 fixed).
+13. SMSLib Optimization: Cut down the time needed to start available gateways. Now the startup time is fixed and not proportional to the number of available gateways (gateways start in parallel).
+14. SMSServer: Added two new config options: "settings.inbound_interval" and "settings.outbound_interval". The old "settings.poll_interval" is not used any more - *WARNING* Compatibility break.
+15. SMSServer: Added support for asynchronous inbound processing, currently implemented only for serial/ip gsm modems.
+16. SMSLib: Detect comm library by reflection, based on the initial idea and implementation of Gilbert Wellisch. No need for explicit "javax.comm" or "gnu.io" imports.
+17. SMSLib: Issue http://code.google.com/p/smslib/issues/detail?id=77.
+18. SMSLib: AsyncMessageProcessor loop issues (http://code.google.com/p/smslib/issues/detail?id=74).
+19. SMSLib: Changed the reset sequence according to http://code.google.com/p/smslib/issues/detail?id=81
+20. SMSLib: Issue http://code.google.com/p/smslib/issues/detail?id=72, introduction of a new message class, named "OutboundBinaryMessage()" (descendant of the OutboundMessage) which can safely hold 8bit data.
+21. SMSLib: Issue http://code.google.com/p/smslib/issues/detail?id=73.
+22. SMSServer Bug: Outbound messages were always retrieved from the interfaces, no matter if there are outbound gateways defined.
+23. SMSLib: Implemented an alternative startService(boolean) method which, if called with "false", may attempt to start all gateways but does not fail if some gateways fail to start. If called with "true" the behavior is the same as before.
+24. SMSLib: CommTest more error-friendly (http://code.google.com/p/smslib/issues/detail?id=83).
+25. SMSLib: Motorola G20/24 compatibility (http://code.google.com/p/smslib/issues/detail?id=86).
+26. SMSLib: Eased the locking in the Watchdog background thread.
+27. SMSServer: Enhancements (http://code.google.com/p/smslib/issues/detail?id=88).
+28. SMSLib: Inbound / Outbound messages *no longer* have (or need) the initial "+" at the originator / recipient numbers.
+29. SMSServer: Database table "smsserver_in" changed structure - added "original_ref_no" & "original_receive_date".
+30. SMSLib: Issue http://code.google.com/p/smslib/issues/detail?id=80. New database configuration item "update_outbound_on_statusreport".
+31. SMSLib: Flow control issue (http://code.google.com/p/smslib/issues/detail?id=93).
+32. SMSLib: Shutdown modem - enhancements (http://code.google.com/p/smslib/issues/detail?id=92).
+33. SMSLib: A entirely new PDU encoding/decoding package has been added, courtesy and copyright of Ateneo Java Wireless Competency Center/Blueblade Technologies, Philippines, represented by the newest member Jeffrey Jongko.
+34. SMSLib: MC35i timeout issues (http://code.google.com/p/smslib/issues/detail?id=94).
+
+
+[v3.2.2 Apr 11, 2008]
+1. SMSLib: Implemented secure http (https) for Clickatell.
+2. SMSServer: Added a gateway definition for Clickatell.
+3. SMSServer: Added a new XML interface .
+4. New ANT target "patch" will replace JavaComm imports with RxTx imports in all relevant source files.
+5. SMSServer: Added support for only-inbound and only-outbound interface configuration.
+6. SMSServer: Added a new JMX interface.
+7. SMSServer: Added a new Mail interface.
+8. SMSLib: The foreign network registration (roaming) was logged as an error - now is logged as info.
+9. SMSLib: Message class (and descendants) are now serializable.
+10. SMSLib: Added support for sending messages via TEXT protocol.
+11. SMSLib: Support for sending port-aware messages via Clickatell HTTP interface.
+12. SMSLib: Fixed bug where zero-length messages could not be sent.
+13. SMSLib: Bug in detection of inbound status report messages (thanks Nicolas Richoz).
+14. SMSLib: Modification of the BulkSMS gateway to support all regional providers (thanks Josep Miquel Garcia).
+
+
+[v3.2.1 Feb 21, 2008]
+1. SMSLib: Change in regular expressions for the detection of inbound voice calls.
+2. SMSLib: MS SQL script for inbound calls' table was missing.
+3. SMSLib: Masking of the IMSI info is not hardcoded in code, its now controlled via the Settings.MASK_IMSI setting (contributed by Sebastian Just).
+4. SMSLib: Removed the Service parameter from Gateway constructors.
+5. SMSLib: Added recommended command line option "-runonce" in SMSSvr. When run with this option, SMSSvr will just run its process cycle once and exit.
+6. SMSLib: Code refactoring for Service's sendMessage(xxx) and queueMessage(xxx) methods.
+7. SMSLib: All methods sendMessage() and queueMessage() now follow the OutboundMessage's "gatewayId" member field.
+8. SMSLib: Change in default Router logic in order to follow the selected gatewayId of the message.
+9. SMSLib: Router error, the NO_ROUTE error did not set the message status to FAILED.
+10. SMSLib: Added Settings.SERIAL_RTSCTS_OUT which, when set, will enable hardware control for outbound serial port traffic. This may be required for some modems/phones.
+11. SMSLib: Fixed an issue which caused unreadable multi-part messages for Unicode encoding.
+12. SMSLib: Fixed the issue where multiple messages arrive during processing and lead to a library deadlock. Other minor lock improvements.
+13. SMSLib: Changed the default serial driver behavior from writing characters to writing bytes. This helped some friends communicate with their phones.
+
+
+[v3.2 Jan 14, 2008]
+1. SMSLib: Classes moved to packages. New packages are: org.smslib.http, org.smslib.modem, org.smslib.modem.athandler.
+2. SMSLib: Service methods get/set Queue Retries/Delay are removed. Use the system properties "smslib.queue.delay" and "smslib.queue.retries" for this.
+3. SMSLib: Added check-and-retry in case the CNMI detection fails (CMS ERROR 515). This failure may appear during initialization, when the modem does not have enough time to start up.
+4. SMSLib: Added a WatchDog thread which is monitoring all gateways and restarts them if necessary.
+5. SMSLib: The KeepAlive functionality is now "smart". If the Keep-Alive fails, it will mark the gateway appropriately and WatchDog will restart it.
+6. SMSLib: InboundMessage.getPduUserData() was not working properly (http://code.google.com/p/smslib/issues/detail?id=41).
+7. SMSLib: The Service class takes care of any timeouts/io errors during the Send/Read/Delete message operations and marks the appropriate gateways for restart.
+8. SMSLib: Added settings class in SMSLib with all configurable parameters. See wiki: http://code.google.com/p/smslib/wiki/SMSLib_Parameters.
+9. SMSSvr: New table "smssvr_calls" is required. SMSSvr now logs voice calls as well.
+10. SMSLib: Changes for more detailed and informative logging.
+11. SMSLib: The Logger parameter has been removed from the Gateway definitions - instead, the Service object is passed as the last parameter.
+12. SMSSvr: Tables names can now be parametrized via the configuration file.
+
+
+[v3.1 Final - Dec 29, 2007]
+1. SMSLib: Fixed RegEx to cater for private number callers (http://code.google.com/p/smslib/issues/detail?id=33).
+2. SMSLib: Fixed some sync issues with the detection and handling of voice calls.
+3. SMSLib: Forced receive threshold to 1 in SerialModemDriver.
+4. SMSLib: Modifications for the handling of unsolicited events (synchronization issues).
+5. SMSSvr: Better handling of initialization/startup exceptions.
+6. SMSLib: Set the keep-alive interval to 60 seconds.
+
+
+[v3.1 RC3 - Dec 20, 2007]
+1. SMSLib: Added functionality to auto-detect the best CNMI command for the specific modem. Many thanks to Sebastian Just who contributed this class (CNMIDetector). Since this class is now in effect, several AT Handlers are now removed from the package.
+2. SMSSvr: The priorities found in "smssvr_out" table were not correctly set in outbound message objects. Thanks to Sebastian Just for identifying this.
+3. SMSLib: Incorrect sequence of events upon outbound queue failures can lead to messages staying in the queues forever.
+4. SMSLib: Some characters were truncated when two-byte symbols are used (like the euro sign).
+5. SMSLib: Changes in error handling (RegEx: ModemDriver.rxPlainError).
+6. SMSLib: Changes in 7bit message encoding.
+7. SMSLib: A new message type is introduced, the UNKNOWN. There is also a new class, derived from the InboundMessage, which is the UnknownMessage. Messages that are not recognized by SMSLib will be mapped to this objects. You can't really do much with these messages, but since they are mapped in objects, you can delete them in order to get out of the way.
+8. SMSLib: Added an ESCAPE character in base ATHandler reset() method. This is to overcome the problem when the modem gets stuck during the sending of a message.
+9. SMSLib: Added code to attempt restart for a Gateway that failed due to exceptions thrown in the background sender queue.
+10. SMSSvr: SMSSvr will try to restart services when it encounters an exception.
+11. SMSLib: Added ATHandler for Siemens MC35i. Thanks to Aleksandar Cosic for his assistance. **Warning** Some problems may still appear with this modem.
+12. SMSLib: Added the configuration option "smslib.noportflush". When defined, the serial driver will not flush the port. Usefull in some cases where RxTx is used in Win32 platforms with virtual comm ports (http://code.google.com/p/smslib/issues/detail?id=31).
+13. SMSSvr: Added the configuration option "smssvr.configfile". You can use this option to directly define the configuration file.
+14. SMSLib: Added the configuration option "smslib.portpoll". This will enable the port polling mode. Please use this option instead of modifying the THREAD_READ constant in the source files.
+
+
+[v3.1 RC2 - Dec 05, 2007]
+1. SMSSvr: Support for MySQL. Added db creation scripts, added "database.type" in configuration file. Contributed by Maxwin (max@winsoft.hu).
+2. SMSLib: Added code to ATHandler.reset() during initial connection.
+3. SMSLib: Inbound message class is now set as public.
+4. SMSLib: AGateway methods getQueueLoad() & getQueueLoad(MessagePriorities) are hidden. You can access these methods by the getGatewayQueueLoad() method (and its alternatives) �� the main Service class.
+5. SMSLib: AGateway methods get/setQueueDelay() are hidden. You can access these methods by the get/setGatewayQueueDelay() method ofthe main Service class.
+6. SMSLib: AGateway methods get/setQueueRetries() are hidden. You can access these methods by the get/setGatewayQueueRetries() method of the main Service class.
+7. SMSLib: Added functionality for handling modems requesting SIM PIN2 as well. You will find a new setSimPin2() method in modem gateway. Contributed by Ally Rwegasira. **WARNING** The terminators array found in ATHandler.java has increased in length by one! Position 8 is now the SIM PIN 2 detection regexp. If you are using your own custom ATHandler with custom terminators' entries, you should adjust entries properly!
+8. SMSLib: Changes in inbound voice call handler, should be more stable now.
+9. SMSLib: File "smslib-log4j.properties" (constant Service.LOG4J_CONF) renamed to "smslib-log4j.properties".
+10. SMSLib: A sample log4j properties file is included in "/other".
+11. SMSLib: Added functionality to search for "smslib-log4j.properties" file in the classpath. Contributed by Anonymous (...@idim.com).
+12. SMSLib: A new readMessage() method is introduced, which reads a specific Gateway for a message matching a specific Memory Location and Memory Index. This is *NOT* an implementation of the AT+CGMR command, but the net effect is the same.
+13. SMSLib: The library will attempt to read messages even when the Storage related command (CPMS) fails. This does not guarantee correct operation but in certain cases may allow SMSLib to read your messages without throwing exceptions.
+14. SMSLib: Removed the "SR" memory storage from the MultiTech handler, as its not applicable (http://code.google.com/p/smslib/issues/detail?id=26).
+15. SMSSvr: All output is going through the SMSLib logger - direct print statements are removed.
+16. SMSLib: Critical bug when splitting large messages resolved (http://code.google.com/p/smslib/issues/detail?id=27).
+17. SMSLib: Some sync issues are resolved which seemed to affect operation in Linux/RxTx environments. Many thanks to Jeffrey Jongko for this extensive testing and reports.
+
+
+[v3.1 RC1 - JDK1.4.2 compatible - November 21, 2007]
+1. Fix of the work-around for the incorrect 7bit encoding which appended a "@" char. Code contributed by Lukasz Sasal.
+2. SMSSvr: solved bug which didn't correctly read the retry count from the config file.
+3. Gateway for ComVision SMS bulk operator ().
+4. SMSSvr: the "settings.poll_interval" configuration is now express in seconds instead of minutes.
+5. Default LoadBalancer for SMSLib is RoundRobinLoadBalancer().
+6. SMSSvr:  now works in sync and async mode, as far as the sending is concerned. See new "settings.send_mode" configuration directive.
+7. Added 57600 in the list of baud rate speeds tested by CommTest utility.
+8. Both Queue Retries and Queue Delay parameters are now customizable via setters (AGateway class).
+9. Package "org.smslib.routing" merged with "org.smslib".
+10. Router class requires a Service object in its constructor.
+11. Package "org.smslib.balancing" merged with "org.smslib".
+12. LoadBalancer class requires a Service object in its constructor.
+13. Package "org.smslib.athandlers" merged with "org.smslib".
+14. Package "org.smslib.gateways" merged with "org.smslib".
+15. Various library code changes.
+16. Complete Documentation.
+17. All methods throw named exceptions.
+18. Custom SMSLib exceptions: SMSLibException, GatewayException, TimeoutException.
+19. The Queue Manager was calling the Outboung callback method even during retries.
+20. SMSSvr: various bug fixes.
+21. Hidden various methods from public access.
+22. Regular expression changes for detecting modem errors.
+23. Marked startService() and stopService() as synchronized.
+24. Added ATHandler for Motorola RAZR (contributed by Cayenne).
+25. SMSLib related exceptions are now: SMSLibException, GatewayException, TimeoutException. All other previously defined exceptions are removed.
+26. "Priorities" renamed to "MessagePriorities".
+27. All enumerations are converted to stand-alone, type-safe external classes.
+28. Generics are gone - you are advised to use ArrayList when interactive with Service's methods.
+29. SMSLib now checks for the system configuration option "smslib.queuedebug" (as well as "smslib.debug") in order to enable the modem queues' debug (extra debugging info).
+
+
+[v3.0.4 - October 13, 2007]
+1. Added forgotten "AT+COPS=0" during initialization. This missing command caused some GSM modems to report disabled network registration.
+2. Added AT Handler for Ubinetics GDC201 (contributed by Sebastian Just).
+3. OutboundWapSIMessage.Signals enumeration converted to upper case.
+4. SMSSvr: Added new config items which set the allowed timeframes per message priorities. This way you can limit which messages are sent at which hours.
+5. SMSSvr: Compatibility issue: The sql-select in sendMessages() is tuned for MSSQL. You will probably need to change it for other databases.
+6. Work-around to bypass RxTx bug with Linux/Bluetooth connections. See http://code.google.com/p/smslib/issues/detail?id=10. To bypass issue, set org.smslib.gateway.SerialModemDriver.THREAD_READ variable to true.
+7. Added method ModemGateway.setStorageLocations() which can be used to set custom storage locations without messing with the SMSLib code.
+8. Added Message.Id as SI-ID attribute for WAPSI via Clickatell.
+9. Fixed Clickatell error handling.
+10. Default values for CREATE and EXPIRE dates in WAP SI messages set to today.
+11. Fixes for Clickatell 7bit and Unicode messaging.
+12. Change of RegExp for better inbound message/call detection.
+13. Improved detection of unsolicited modem signals (for inbound call, message, status report reception). The current method seems much more stable than before.
+14. Changed AT Handler for Multitech.
+
+
+[v3.0.3 - September 20, 2007]
+1. Wap Push SI messages switch to UCS2 encoding to allow for Chinese chars. Code contributed by Youcai Cheng.
+2. Message queueing now requires only one thread and is based on PriorityBlockingQueue.
+3. Fixed issue: http://code.google.com/p/smslib/issues/detail?id=1 The ModemGateway takes one more parameter,
+	defining the type of modem in use. Alternatively, you can use the easily remembered "SerialModemGateway" &
+	"IPModemGateway" classes which take care of the details.
+4. Fixed issue: http://code.google.com/p/smslib/issues/detail?id=6
+5. Fixed issue: http://code.google.com/p/smslib/issues/detail?id=3
+6. SMSSvr: Database field smssvr_out.from renamed to smssvr_out.originator.
+7. SMSSvr: Application moved under the org.smslib.smssvr package. Documentation added (in progress).
+8. Retries from each error-generating message have been reduced to two (2). File org.smslib.gateway.ModemGateway.
+9. Increased the delay between two calls for sucesfull Network Registration aquisition from 2 to 15 seconds.
+10. Definition error in class RoundRobinLoadBalancer().
+11. SMSSvr is set to use RoundRobinLoadBalancer() by default.
+12. Internal code refactoring - should not affect users:
+	AbstractGateway -> AGateway
+	AbstractATHandler -> AATHandler
+	AGateway.Protocol -> AGateway.MessageProtocol
+13. Bug: have omitted the creation of the default router/balancer from second constructor of Service.
+14. When trying to set the inbound/outbound attributes of a gateway that does not support the operation, no
+		exception if thrown. The gateway just ignores the directive.
+15. All enumerations renamed to plural, i.e. MessageType -> MessageTypes
+16. Info methods like getManufacturer() etc are moved to Abstract Gateway class.
+
+
+[v3.0.2 - July 16, 2007]
+1. Added queryBalance() for BulkSms gateway.
+2. StatusReportMessage.DeliveryStatus & OutboundMessage.MessageStatus enums converted to uppercase.
+3. Added RoundRobinLoadBalancer.
+4. Added preliminary Motorola AT handler.
+5. Enum InboundMessage.MessageClass converted to uppercase.
+5. Message priority enumeration was moved from AbstractGateway to OutboundMessage.
+
+
+[v3.0.1 - July 01, 2007]
+1. All enumeration constants converted to upper case.
+2. Bug in Service, was sending messages via all available gateways.
+3. SMSSvr utility.
+4. Added support for Clickatell flash messaging.
+5. Added support for BulkSMS (www.bulksms.com).
+6. Clickatell queryBalance(), queryCoverage() operations.
+7. Gateway classes have moved to "gateway" subpackage.
+
+
+June 24, 2007
+- First public release as BETA. The version is v3.0.0, the milestone version for getting out of BETA is v3.1.0
+- Special thanks to Joe Moreno, who although located on the other side of the globe, allowed me to perform several tests with his IP Multitech modem.
