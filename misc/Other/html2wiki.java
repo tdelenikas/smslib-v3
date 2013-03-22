@@ -3,7 +3,7 @@ import java.util.*;
 
 public class html2wiki
 {
-	public static final String IN_DIR = "../smslib-v3/doc/";
+	public static final String IN_DIR = "../../doc/";
 	//public static final String OUT_DIR = "./out/";
 	public static final String OUT_DIR = "./wiki/";
 	public static final String DOC_DIR = "./doc/";
