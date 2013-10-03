@@ -64,7 +64,7 @@ public class SMPPGateway extends AGateway
 		TypeOfNumber typeOfNumber=(ton==null)?TypeOfNumber.UNKNOWN:TypeOfNumber.valueOf(Byte.parseByte(ton));
 		
 		String npi=getProperty("sourcenpi");
-		NumberingPlanIndicator numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(ton));
+		NumberingPlanIndicator numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
 		
 		gateway.setSourceAddress(new Address(typeOfNumber, numberingPlanIndicator));
 		
@@ -72,7 +72,7 @@ public class SMPPGateway extends AGateway
 		typeOfNumber=(ton==null)?TypeOfNumber.UNKNOWN:TypeOfNumber.valueOf(Byte.parseByte(ton));
 		
 		npi=getProperty("destnpi");
-		numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(ton));
+		numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
 		
 		
 		gateway.setDestinationAddress(new Address(typeOfNumber, numberingPlanIndicator));
@@ -91,7 +91,7 @@ public class SMPPGateway extends AGateway
 		TypeOfNumber typeOfNumber=(ton==null)?TypeOfNumber.UNKNOWN:TypeOfNumber.valueOf(Byte.parseByte(ton));
 		
 		String npi=getProperty("bindnpi");
-		NumberingPlanIndicator numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(ton));
+		NumberingPlanIndicator numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
 		
 		return new BindAttributes(systemId, password, systemType, bindType, new Address(typeOfNumber, numberingPlanIndicator));
 	}
