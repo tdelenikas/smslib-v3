@@ -31,7 +31,7 @@ public class Library
 
 	private static final int LIB_RELEASE = 5;
 
-	private static final int LIB_SUBRELEASE = 3;
+	private static final int LIB_SUBRELEASE = 4;
 
 	private static final String LIB_STATUS = "";
 
