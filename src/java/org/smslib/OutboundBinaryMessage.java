@@ -93,7 +93,7 @@ public class OutboundBinaryMessage extends OutboundMessage
 		}
 		else
 		{
-			setDataBytes(this.dataBytes);
+			setDataBytes(myDataBytes);
 		}
 	}
 
