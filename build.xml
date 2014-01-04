@@ -36,7 +36,7 @@
 	<target name="usage">
 		<echo>
 		SMSLib v3
-		(c) 2002-2013, smslib.org
+		(c) 2002-2014, smslib.org
 		Visit http://smslib.org for latest information.
 		SMSLib is distributed under the Apache v2.0 license.
 	
