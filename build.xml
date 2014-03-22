@@ -25,8 +25,8 @@
 
 	<!-- compile props -->
 	<property name="debug" value="true"/>
-	<property name="source" value="1.7"/>
-	<property name="target" value="1.7"/>
+	<property name="source" value="1.6"/>
+	<property name="target" value="1.6"/>
 	<path id="project.classpath">
 		<fileset dir="${basedir}/lib/">
 			<include name="**/*.jar"/>
