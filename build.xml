@@ -3,12 +3,12 @@
 	
 	<property name="base" value="."/>
 
-	<property name="smslib.version" value="3.5.4"/>
+	<property name="smslib.version" value="3.5.5"/>
 	<property name="smslib.source.dir" value="src/java/"/>
 	<property name="smslib.jar.filename" value="smslib-${smslib.version}.jar"/>
 	<property name="smslib.manifest" value="build/SMSLib.mf"/>
 
-	<property name="smsserver.version" value="3.5.4"/>
+	<property name="smsserver.version" value="3.5.5"/>
 	<property name="smsserver.source.dir" value="src/java/"/>
 	<property name="smsserver.jar.filename" value="smsserver-${smsserver.version}.jar"/>
 	<property name="smsserver.manifest" value="build/SMSServer.mf"/>
