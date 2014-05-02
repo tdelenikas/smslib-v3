@@ -524,9 +524,6 @@ public class ModemGateway extends AGateway
 			if (getATHandler().switchStorageLocation(getATHandler().getStorageLocations().substring((ml * 2), (ml * 2) + 2)))
 			{
 				response = getATHandler().listMessages(messageClass);
-				// TEST
-				// response = "+CMGL: 0,1,,24\r07914477000000000414D0E10D6FE3DBA036A94D190000217050321314042030D82C2703B540F4F29C1E83815AA0A73C7D4EBBC3F4B71C442DCFE9\rOK\r";
-				// TEST
 				response = response.replaceAll("\\s+OK\\s+", "\nOK");
 				reader = new BufferedReader(new StringReader(response));
 				for (;;)
