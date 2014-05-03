@@ -1,0 +1,120 @@
+<h1>SMSServer - Database Interface</h1>
+
+<h2>Introduction</h2>
+<p>With this interface, SMSServer uses three database tables to do its job:</p>
+<ul>
+<li>One for storing inbound messages received.</li>
+<li>One for sending the outbound messages.</li>
+<li>A third one for logging the voice calls received.</li>
+</ul>
+<p>SMSServer database interface was developed and tested with:</p>
+<ul>
+<li>Microsoft SQL Server &amp; SQL Server Express.</li>
+<li>Oracle 10g Express.</li>
+<li>MySQL v5.10.</li>
+<li>Derby database.</li>
+</ul>
+<p>It was also reported to work with PostgreSQL.</p>
+
+<h2>Database structure</h2>
+
+<h3>Inbound SMS Table</h3>
+<p>This table should be named <b>smsserver_in</b>, unless specified otherwise in the configuration file. SMSServer will read inbound messages from your gateway(s) and will insert them in this table. The table structure should be as follows:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Field Name</b></td><td><b>Type</b></td><td><b>Technical Info</b></td><td><b>Description</b></td></tr>
+<tr><td>id</td><td>INT</td><td>Autonumber/identity field</td><td>The table's primary key.</td></tr>
+<tr><td>process</td><td>INT</td><td>NOT NULL</td><td>When new rows (i.e. messages) are created, SMSServer sets this field to <b>0</b>. You can use this field for your own purposes.</td></tr>
+<tr><td>originator</td><td>CHAR(16)</td><td>NOT NULL</td><td>The originator of the received message.</td></tr>
+<tr><td>type</td><td>CHAR(1)</td><td>NOT NULL</td><td>"<b>I</b>" for inbound message, "<b>S</b>" for status report message.</td></tr>
+<tr><td>encoding</td><td>CHAR(1)</td><td>NOT NULL</td><td>"<b>7</b>" for 7bit, "<b>8</b>" for 8bit and "<b>U</b>" for Unicode/UCS2.</td></tr>
+<tr><td>message_date</td><td>DATETIME</td><td>NOT NULL</td><td>The message date (retrieved by the message headers).</td></tr>
+<tr><td>receive_date</td><td>DATETIME</td><td>NOT NULL</td><td>The datetime when message was received.</td></tr>
+<tr><td>text</td><td>CHAR(xxx)</td><td>NOT NULL</td><td>The body of the message.</td></tr>
+<tr><td>original_ref_no</td><td>CHAR(64)</td><td>NULL</td><td>Available only for status report messages: refers to the RefNo of the original outbound message.</td></tr>
+<tr><td>original_receive_date</td><td>DATETIME</td><td>NULL</td><td>Available only for status report messages: refers to the receive date of the original outbound message.</td></tr>
+<tr><td>gateway_id</td><td>CHAR(64)</td><td>NOT NULL</td><td>The ID of the gateway from which the message was received.</td></tr>
+</table>
+<ul>
+<li>For each message received, SMSServer will create a row in this table. SMSServer will <b>never</b> delete rows from this table, so if you want to clean-up or anything this is your responsibility.</li>
+</ul>
+
+<h3>Outbound SMS Table</h3>
+<p>This table should be named <b>smsserver_out</b> , unless specified otherwise in the configuration file. SMSServer will read rows from this table and will dispatch them from your gateway(s). The table structure should be as follows:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Field Name</b></td><td><b>Type</b></td><td><b>Technical Info</b></td><td><b>Description</b></td></tr>
+<tr><td>id</td><td>INT</td><td>Autonumber/identity field</td><td>The table's primary key.</td></tr>
+<tr><td>type</td><td>CHAR(1)</td><td>NOT NULL</td><td>The message type. This should be "<b>O</b>" for normal outbound messages, or "<b>W</b>" for wap si messages.</td></tr>
+<tr><td>recipient</td><td>CHAR(16)</td><td>NOT NULL</td><td>The recipient's number to whom the message should be sent.</td></tr>
+<tr><td>text</td><td>CHAR(xxx)</td><td>NOT NULL</td><td>The message text.</td></tr>
+<tr><td>wap_url</td><td>CHAR(xxx)</td><td>NOT NULL for WAP SI messages!</td><td>The WAP SI URL address.</td></tr>
+<tr><td>wap_expiry_date</td><td>DATETIME</td><td>NULL</td><td>The WAP SI expiry date. If no value is given, SMSServer will calculate a 7 day ahead expiry date.</td></tr>
+<tr><td>wap_signal</td><td>CHAR(1)</td><td>NULL</td><td>The WAP SI signal. Use "<b>N</b>" for NONE, "<b>L</b>" for LOW, "<b>M</b>" for MEDIUM, "<b>H</b>" for HIGH, "<b>D</b>" for DELETE. If no value/invalid value is given, the NONE signal will be used.</td></tr>
+<tr><td>create_date</td><td>DATETIME</td><td>NOT NULL, Default value: current date/time</td><td>The datetime when this record was created.</td></tr>
+<tr><td>originator</td><td>CHAR(16)</td><td>NOT NULL, Default value: ''</td><td>The originator. Normally you should leave this blank.</td></tr>
+<tr><td>encoding</td><td>CHAR(1)</td><td>NOT NULL, Default value: '7'</td><td>"<b>7</b>" for 7bit, "<b>8</b>" for 8bit and "<b>U</b>" for Unicode/UCS2.</td></tr>
+<tr><td>status_report</td><td>INT</td><td>NOT NULL, Default value: 0</td><td>Set to <b>1</b> if you require a status report message to be generated.</td></tr>
+<tr><td>flash_sms</td><td>INT</td><td>NOT NULL, Default value: 0</td><td>Set to <b>1</b> if you require your message to be sent as a flash message.</td></tr>
+<tr><td>src_port</td><td>INT</td><td>NOT NULL, Default value: -1</td><td>Set to source port (for midlets)</td></tr>
+<tr><td>dst_port</td><td>INT</td><td>NOT NULL, Default value: -1</td><td>Set to destination port (for midlets)</td></tr>
+<tr><td>sent_date</td><td>DATETIME</td><td>NULL</td><td>The sent date. This field is updated by SMSServer when it sends your message.</td></tr>
+<tr><td>ref_no</td><td>CHAR(64)</td><td>NULL</td><td>The Reference ID of your message. This field is updated by SMSServer when it sends your message.</td></tr>
+<tr><td>priority</td><td>INT</td><td>NOT NULL, Default value: 0</td><td>Lower (or negative) values mean lower priority than higher (or positive) values. By convention, a priority of a value 0 (zero) is considered the normal priority. High priority messages get sent first than others.</td></tr>
+<tr><td>status</td><td>CHAR(1)</td><td>NOT NULL, Default value "U"</td><td>"<b>U</b>" : unsent, "<b>Q</b>" : queued, "<b>S</b>" : sent, "<b>F</b>" : failed. This field is updated by SMSServer when it sends your message. If set in the configuration file, this field takes extra values depending on the received status report message: "<b>D</b>" : delivered, "<b>P</b>" : pending, "<b>A</b>" : aborted.</td></tr>
+<tr><td>errors</td><td>INT</td><td>NOT NULL, Default value: 0</td><td>The number of retries SMSServer did to send your message. This field is updated by SMSServer.</td></tr>
+<tr><td>gateway_id</td><td>CHAR(64)</td><td>NOT NULL, Default value is the star character</td><td>Set it to the star character if you want to leave to SMSServer the decision as to which gateway to use to send your message. Set it to a specific Gateway ID to force SMSServer to send your message via this gateway.</td></tr>
+</table>
+<ul>
+<li>If you want to instruct SMSServer to send out some messages, create the necessary records in this table. SMSServer will check this table and send out all messages queued in it.</li>
+<li>SMSServer will <b>never</b> delete rows from this table - it will just update the <b>ref_no / sent_date / status / errors / gateway_id</b> fields. If you want to clean-up or anything this is your responsibility.</li>
+<li>Binary messages should be saved in ASCII/hex format, for example a binary message "1234" should be saved as "30313233".</li>
+</ul>
+
+<h3>Voice Calls Table</h3>
+<p>This table should be named <b>smsserver_calls</b> , unless specified otherwise in the configuration file. SMSServer will use this table for logging all voice calls it receives (and eventually drops). SMSServer always creates and never deletes records in this table. The table structure should be as follows:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Field Name</b></td><td><b>Type</b></td><td><b>Technical Info</b></td><td><b>Description</b></td></tr>
+<tr><td>id</td><td>INT</td><td>Autonumber/identity field</td><td>The table's primary key.</td></tr>
+<tr><td>call_date</td><td>DATETIME</td><td>NOT NULL</td><td>The date/time of the received call.</td></tr>
+<tr><td>gateway_id</td><td>CHAR(64)</td><td>NOT NULL</td><td>The id of the gateway which received the call.</td></tr>
+<tr><td>caller_id</td><td>CHAR(16)</td><td>NOT NULL</td><td>The caller id.</td></tr>
+</table>
+<ul>
+<li>SMSServer will <b>never</b> delete rows from this table - it will just keep inserting new records. If you want to clean-up or anything this is your responsibility.</li>
+</ul>
+
+<h2>Configuration File</h2>
+<p>This interface requires the following configuration settings:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>url</td><td>The URL of the database which hosts SMSServer tables.</td></tr>
+<tr><td>driver</td><td>The database driver class.</td></tr>
+<tr><td>username</td><td>The database username.</td></tr>
+<tr><td>password</td><td>The database password.</td></tr>
+<tr><td>type</td><td>Allowed values: "<b>mssql</b>" for MS SQL Server, "<b>mysql</b>" for MySQL, "<b>oracle</b>" for Oracle.</td></tr>
+<tr><td>tables.sms_in</td><td>This is the name of the "smsserver_in" table, should you choose to name it differently.</td></tr>
+<tr><td>tables.sms_out</td><td>This is the name of the "smsserver_out" table, should you choose to name it differently.</td></tr>
+<tr><td>tables.calls</td><td>This is the name of the "smsserver_calls" table, should you choose to name it differently.</td></tr>
+<tr><td>batch_size</td><td>Maximum number of messages to send from the database at each processing cycle</td></tr>
+<tr><td>retries</td><td>This setting defines the number of retries SMSServer should give a failing-to-be-sent message before it decides to really mark it as a "failed" one and leave it aside.</td></tr>
+<tr><td>update_outbound_on_statusreport</td><td>Default is "<b>no</b>". If set to "<b>yes</b>", SMSServer will automatically update the status field of the outbound table (smsserver_out) according to the status of the relevant status report messages it receives. So in order to activate this feature set the above setting to "yes" and make sure you request status reports for all of your outbound messages.</td></tr>
+</table>
+<br />
+<p>Example:</p>
+<blockquote>
+interface.0=db1, Database<br />
+db1.url=jdbc:sqlserver://localhost:1433;SelectMethod=cursor;DatabaseName=smslib<br />
+db1.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver<br />
+db1.username=smslib<br />
+db1.password=smslib<br />
+db1.type=mssql<br />
+db1.tables.sms_in=smssvr_in<br />
+db1.tables.sms_out=smssvr_out<br />
+db1.tables.calls=smssvr_calls<br />
+db1.batch_size=50<br />
+db1.retries=2<br />
+db1.update_outbound_on_statusreport=yes<br />
+</blockquote>
+
+<h2>Sample database creation files</h2>
+You can find sample database creation scripts in the "<code>misc\SMSServer Database Scripts</code>" directory.
+

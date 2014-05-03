@@ -1,0 +1,33 @@
+<h1>SMSServer - IP modem gateway</h1>
+<p>This gateway is used for gsm modems connected via an IP port.</p>
+
+<h2>Configuration File</h2>
+<p>This interface requires the following settings in SMSServer's configuration file:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>ip</td><td>the IP address of the modem, for example <b>192.168.100.110</b>.</td></tr>
+<tr><td>port</td><td>the IP port to which the modem is listening, for example <b>9900</b>.</td></tr>
+<tr><td>manufacturer</td><td>the manufacturer string, for example <b>Nokia</b>.</td></tr>
+<tr><td>model</td><td>the modem string, for example <b>6310i</b>.</td></tr>
+<tr><td>protocol</td><td>the protocol in use, either <b>pdu</b> or <b>text</b>. The <b>pdu</b> is the default and the <b>preferred</b> one!</td></tr>
+<tr><td>ipprotocol</td><td>the telnet protocol to use, either <b>text</b> or <b>binary</b>.</td></tr>
+<tr><td>pin</td><td>the SIM PIN.</td></tr>
+<tr><td>inbound</td><td><b>yes</b> if the gateway should be treaded asan inbound gateway, otherwise <b>no</b>.</td></tr>
+<tr><td>outbound</td><td><b>yes</b> if the gateway should be treaded as an outbound gateway, otherwise <b>no</b>.</td></tr>
+<tr><td>smsc_number</td><td>Use this option to set/override the SMSC definition. Leave blank to use the default.</td></tr>
+</table>
+<br />
+<p>Example:</p>
+<blockquote>
+gateway.0=myModem, IPModem<br />
+myModem.ip=192.168.100.110<br />
+myModem.port=9900<br />
+myModem.manufacturer=Nokia<br />
+myModem.model=6310i<br />
+myModem.protocol=PDU<br />
+myModem.ipprotocol=binary<br />
+myModem.pin=0000<br />
+myModem.inbound=yes<br />
+myModem.outbound=yes<br />
+myModem.smsc_number=<br />
+</blockquote>

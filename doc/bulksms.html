@@ -1,0 +1,79 @@
+<h1>Bulk SMS Operators</h1>
+
+<h2>Introduction</h2>
+<p>Apart from GSM modems or phones, SMSLib also supports some bulk SMS operators. These operators are companies which provide APIs and allow you to send SMS via their infrastructure. There are some notable pros and cons in using a bulk SMS operator instead of a simple GSM modem:</p>
+<p>Pros</p>
+<ul>
+<li>Faster throughput: Using a bulk SMS company, you can send your messages much faster than when using a GSM modem.</li>
+<li>Reliability: Bulk SMS companies may have redundant network connections available.</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>Reliability: Bulk SMS companies are sometimes (or for some periods) blocked by national GSM providers due to spam.</li>
+<li>Cost: The cost per message is a bit higher (but drops if you send out many messages).</li>
+</ul>
+<p>One way communication: Currently, SMSLib and bulk SMS companies can be used only for sending messages - you cannot receive messages via those companies. This is an SMSLib limitation.</p>
+<p>In order to overcome all of the above limitations and combine the best of all worlds, you can also consider using both a GSM modem and a bulk SMS operator. The GSM modem can be used for receiving messages. On the other hand, you can forward all outbound messages via the bulk operator. SMSLib supports such a scenario.</p>
+
+<h2>Disclaimer</h2>
+<p>Please pay particular attention to the following issues:</p>
+<ul>
+<li>SMSLib is not supported nor endorsed by any of the following companies.</li>
+<li>Its possible that the supported bulk sms companies offer more features than what SMSLib supports.</li>
+</ul>
+
+<h2>Supported Bulk SMS Operators using the HTTP/HTTPS protocol</h2>
+
+<h3>BULKSMS</h3>
+<p><a href="http://www.bulksms.com">BULKSMS</a> is a very well known bulk SMS operator, supporting several transport streams. SMSLib implements the HTTP-to-SMS interface. The following features are supported:</p>
+<ul>
+<li>Plain (http) or secure (https) communication.</li>
+<li>Query of credit balance.</li>
+<li>Query of status/delivery report for a sent message.</li>
+<li>Simple text messages.</li>
+<li>Flash messages and large (multipart) messages are supported.</li>
+<li>Custom originator (from) number or alphanumeric.</li>
+</ul>
+<p>Application notes:</p>
+<ul>
+<li>In order to use SMSLib with BulkSMS, you should register at BULKSMS.</li>
+<li>Message IDs returned from BulkSMS are big, alphanumeric strings which look like Class Ids.</li>
+<li>To get a Custom Originator number or alphanumeric, you must request it from BULKSMS. Its up to BULKSMS to grand you the right to use this Originator ID.</li>
+</ul>
+
+<h3>Clickatell</h3>
+<p><a href="http://www.clickatell.com">Clickatell</a> is also one of the most known bulk SMS operators, supporting many transport streams. SMSLib implements the HTTP / HTTPS Clickatell interface. The following features are supported:</p>
+<ul>
+<li>Plain (http) or secure (https) communication.</li>
+<li>Query of credit balance.</li>
+<li>Query of coverage for a specific message.</li>
+<li>Query of status/delivery report for a sent message.</li>
+<li>Simple text and/or WAP SI messages.</li>
+<li>Three (3) native priority queues.</li>
+<li>7 bit or Unicode messages, flash messages and large (multipart) messages are supported.</li>
+<li>Custom originator (from) number or alphanumeric.</li>
+</ul>
+<p>Application notes:</p>
+<ul>
+<li>In order to use SMSLib with Clickatell, you should register at Clickatell and also register at their SMS Gateway service. Three distinct values are used for authenticating to Clickatell: an API ID, a Username and a Password. All of those will be available right after your registration.</li>
+<li>Message IDs returned from Clickatell are big, alphanumeric strings which look like Class Ids.</li>
+<li>To get a Custom Originator number or alphanumeric, you must request it from Clickatell. Its up to Clickatell to grand you the right to use this Originator ID.</li>
+</ul>
+
+<h3>EzTexting</h3>
+<p><a href="http://www.eztexting.com">Ez Texting</a> provides affordable two-way messaging through their SMS gateway. They can deliver your messages from their US and Canadian short codes (313131 &amp; 393939). Most features of Ez Texting’s web application are exposed via their APIs. Features include:
+<ul>
+<li>Connection must be secure (https)</li>
+<li>Sending & receiving text messages</li>
+<li>Querying Keyword availability</li>
+<li>Renting & configuring Keywords</li>
+<li>Purchasing credits</li>
+<li>Sending mass voice broadcast messages</li>
+</ul>
+<p>Application notes:</p>
+<ul>
+<li>In order to use SMSLib with Ez Texting you’ll need to register for an account with <a href="http://www.eztexting.com">Ez Texting</a>.</li>
+</ul>
+
+<h2>Generic SMPP Bulk Operators</h2>
+<p>Starting from version 3.4.6, SMSLib also supports the SMPP protocol (using the <a href="http://code.google.com/p/jsmpp">JSMPP</a> library). So you could use SMSLib with the provider of your choice, as long as the SMPP connectivity is supported.</p>

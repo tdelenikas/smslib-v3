@@ -1,0 +1,73 @@
+<h1>Delivery Reports</h1>
+
+<h2>Introduction</h2>
+<p>SMSLib gives you the ability to work with delivery reports (otherwise known as "status report" messages) which will allow you to determine when a sent message has reached its recipient or it failed.</p>
+<p>Delivery reports arrive as special inbound messages. They get generated from either the cell provider's Message Center (SMSC) or from the recipient's cell phone. SMSLib does not (by default) request delivery reports but you can easily enable this on a per-message level.</p>
+<p><font color="red"><b>Warning:</b></font> Delivery reports are network dependent. You might find out that although you do whatever it takes, you don't get delivery reports back. In this case, you are in bad luck as there is nothing you can do in order to activate the delivery reports - except maybe to complain to your cell provider...</p>
+
+<h3>Message Reference Numbers</h3>
+<p>Each message, once submitted for dispatch, gets a number from your cell provider's SMSC. Assume that we have the following two lines which send out a message via SMSLib:</p>
+<blockquote>
+msg = new OutboundMessage("306948494037", "Hello from SMSLib!");<br />
+srv.sendMessage(msg);<br />
+</blockquote>
+<p>These lines are taken from the <code>SendMessage</code> example. If you print out the <code>msg</code> object, you will get the following output:</p>
+<blockquote>
+===============================================================================<br />
+<< OutboundMessage >><br />
+-------------------------------------------------------------------------------<br />
+ Gateway Id: modem.com1<br />
+ Encoding: 7-bit<br />
+ Date: Sun Dec 21 13:56:23 EET 2008<br />
+ SMSC Ref No: 226<br />
+ Recipient: 306948494037<br />
+ Dispatch Date: Sun Dec 21 13:56:38 EET 2008<br />
+ Message Status: SENT<br />
+ Validity Period (Hours): -1<br />
+ Status Report: true<br />
+ Source / Destination Ports: -1 / -1<br />
+ Flash SMS: false<br />
+ Text: Hello from SMSLib!<br />
+ PDU data: C8329BFD0699E5EF3668DA9C32D3E210<br />
+-------------------------------------------------------------------------------<br />
+</blockquote>
+<p>Notice the <b>SMSC Ref No</b> value: An outbound message object will get this number after successfully sent. This Reference Number is the key to your message. <b>Unfortunatelly</b> this is <b>not</b> a unique value. This value gets cycled between 1 and 255, so its not a "good" key by itself. In order to create a good key, you should combine this with your recipient's number. Theoretically this is not a "good" key as well, but the chances are that this combination is unique enough.</p>
+
+<h3>Requesting a delivery report</h3>
+<p>If you need to request a delivery report, modify the previous two lines as follows:</p>
+<blockquote>
+msg = new OutboundMessage("306948494037", "Hello from SMSLib!");<br />
+<b>msg.setStatusReport(true);</b><br />
+srv.sendMessage(msg);<br />
+</blockquote>
+<p>Notice the <code>setStatusReport()</code> method call. This will enable the delivery report for the <b>specific</b> message!</p>
+
+<h3>Processing delivery status messages</h3>
+<p>As mentioned before, delivery/status report message are special inbound messages. So, you should expect it to be forwarded via your normal inbound processing methods. The delivery report message is a <code>StatusReportMessage</code> class object and has a <code>MessageType</code> of <code>Message.MessageTypes.STATUSREPORT</code>. Check each inbound message either for a class match or for a <code>MessageType</code> match in order to find out if it is a normal inbound message or a status report message.</p>
+<p>Running the <code>ReadMessages</code> as an example, you will notice the following message within your list of received messages:</p>
+<blockquote>
+===============================================================================<br />
+<< StatusReportMessage >><br />
+-------------------------------------------------------------------------------<br />
+ Gateway Id: modem.com1<br />
+ Encoding: 7-bit<br />
+ Date: null<br />
+ Text: 00 - Succesful Delivery.<br />
+ PDU data: null<br />
+ Originator:<br />
+ Original Recipient: 306948494037<br />
+ Delivery Status: DELIVERED<br />
+ SMSC Ref No: 226<br />
+ Memory Index: 3<br />
+ Multi-part Memory Index:<br />
+ Memory Location: SM<br />
+ Source / Destination Ports: -1 / -1<br />
+===============================================================================
+</blockquote>
+<p>There is some important information in this message:</p>
+<ul>
+<li><b>Original Recipient</b>: The recipient of the original outbound message that this status report message is for.</li>
+<li><b>SMSC Ref No</b>: The SMSC RefNo of the original outbound message that this status report message is for.</li>
+<li><b>Delivery Status</b>: The delivery status.</li>
+</ul>
+<p>With the first two values, you create the key in order to find out to which message this delivery report refers to. The status gives you the actual status of the message (has it been delivered, failed, or delayed). Look at the <code>StatusReportMessage.DeliveryStatuses</code> enumeration for valid status values.</p>

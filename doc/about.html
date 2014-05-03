@@ -1,0 +1,64 @@
+<h1>About SMSLib</h1>
+
+<h2>Introduction</h2>
+<p>SMSLib is a Java library which allows you to send/receive SMS messages via a compatible GSM modem or GSM phone. SMSLib also supports some bulk sms operators (for outbound messaging only).</p>
+<p>SMSLib has been converted to a .NET assembly using the <b>IKVM Tools</b>. Read more <a href="smslib_dotnet.html">here</a>.</p>
+<p>SMSLib is distributed under the terms of the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache v2 license</a>.</p>
+
+<h2>Features</h2>
+<p>SMSLib is currently on its 3rd version.</p>
+<p>SMSLib v3 retains the old functionality:</p>
+<ul>
+<li>Supports GSM phones and GSM modems connected via serial port interfaces or IP interfaces.</li>
+<li>Works with PDU/TEXT protocols.</li>
+<li>Supports Inbound & Outbound simple text messages.</li>
+<li>Works with 7bit, 8bit and UCS2 (Unicode) message encodings.</li>
+<li>Supports Inbound & Outbound big (multipart) messages.</li>
+<li>Flash messaging.</li>
+<li>Outbound messages with port information / addressing.</li>
+<li>Outbound WAP PUSH SI messages.</li>
+<li>Status (Delivery) Report messages.</li>
+<li>Basic GSM information available: Modem, Manufacturer, S/W revision, Signal level, etc.</li>
+<li>Supports a few bulk operators, using http/https protocols.</li>
+<li>Support the SMPP protocol.</li>
+</ul>
+
+<p>Furthermore, SMSLib v3 offers the following new functionality:</p>
+
+<h3>Multiple Gateways</h3>
+<p>SMSLib v3 has introduced the concept of the Gateway, which is an interface to a device or service that can send and/or receive SMS messages. A gateway could be a GSM modem or a supported bulk sms provider. SMSLib can handle multiple gateways at the same time.</p>
+
+<h3>Sending Priorities</h3>
+<p>SMSLib offers unlimited per-message priorities which can be used for sending messages. When possible, SMSLib priorities are mapped directly to the gateway(s) functionality, otherwise they get simulated.</p>
+
+<h3>Synchronous / Asynchronous Receiving</h3>
+<p>SMSLib gives you two options for receiving messages:<p>
+<ul>
+<li><b>Synchronously</b>: you take responsibility and periodically call the read() methods.</li>
+<li><b>Asynchronously</b>: wait for SMSLib to call you upon message receipt.</li>
+</ul>
+
+<h3>Synchronous / Asynchronous Sending</h3>
+<p>SMSLib gives you two options for sending messages:</p>
+<ul>
+<li><b>Synchronously</b>: when you call SMSLib to send a message, your thread blocks until the message gets sent or fails.</li>
+<li><b>Asynchronously</b>: when you call SMSLib to send a message, your thread does not block and SMSLib returns immediately. SMSLib queues your message(s) and sends them in the background. You may choose to get notified about the fate of your messages.</li>
+</ul>
+
+<h3>Callbacks</h3>
+<p>SMSLib gives you the option of defining callback methods which it will call when certain events occur:</p>
+<ul>
+<li><b>Inbound voice calls</b>: SMSLib can be set to call you upon reception of a voice call. Please note that the voice call will be automatically and unconditionally dropped and you will get notified about the number of the calling party.</li>
+<li><b>Inbound messages</b>: Each time a message is received, SMSLib can be set to call your specified method.</li>
+<li><b>Outbound messages</b>: When you asynchronously send messages, SMSLib can be set to call your specified method with the message sent (updated with status, etc).</li>
+<li><b>Gateway status changes</b>: SMSLib can notify you each time a gateway changes its status.</li>
+<li><b>Queue sending operation</b>: SMSLib can notify you everytime it's ready to send a message via the background queues.</li>
+</ul>
+<p>See <a href="smslib_callbacks.html">this page</a> for more information.</p>
+
+<h3>Custom Sender ID</h3>
+<p>SMSLib supports custom Sender ID. This feature is not supported on GSM modems - you have to use one of the supported bulk sms operators.</p>
+
+<h3>Encrypted Messages</h3>
+<p>SMSLib can send/receive encrypted messages. The current encryption engine uses the JDK <b>AES strong key (128bit)</b> implementation. Encrypted messages are send as binary messages. SMSLib provides an automatic way of assigning encryption keys to specific numbers, so the whole send/receive procedure is more or less automatic.</p>
+<p>See <a href="smslib_encryption.html">this page</a> for more information.</p>

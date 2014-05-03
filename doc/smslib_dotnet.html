@@ -1,0 +1,88 @@
+<h1>SMSLib for .NET</h1>
+
+<h2>Introduction</h2>
+<p>SMSLib for .NET is a port of the Java SMSLib library for the Microsoft .NET Framework platform. Its an attempt to create a binary distribution for the same java sources that the normal SMSLib is build from. The binary conversion is possible with the help of <a href="http://www.ikvm.net/">IKVM tools</a>.</p>
+<p>Please note that <b><font color="red">SMSLib for .NET is experimental!</font></b> Please read carefully the following document in order to understand the port and know what to expect.</p>
+
+<h2>A bit of a history...</h2>
+<p>Looking a couple of years back, there was a seperate SMSLib for .NET codebase. So, I had to maintain and enhance two seperate versions, a C# version and a Java version. Supporting and synchronizing two platforms was found to be a tremendous load for me. Sadly, I've decided to drop one of the two. I like Java very much - I also like C# a lot, but I decided to go with Java since it was the most established version. Needless to say that I've received numerous complaints since then...</p>
+<p>Some time ago I got to know a bit more about some conversion tools, mainly <a href="http://www.ikvm.net/">IKVM</a>. My problem was that SMSLib is not an 100% pure Java library - there are binary dependencies, namely the JavaComm / RxTx serial communications' libraries. My first attempts to port SMSLib to the .NET platform failed misserably, as I couldn't make the comm library work. At the end, I decided to take a different approach. The result of this work is that now I can create .NET projects, use SMSLib as a DLL and having the full SMSLib functionality available on the .NET Framework platform, by keeping the same sources for Java as well as for .NET.</p>
+
+<h2>Conversion</h2>
+<p>I decided to go with <a href="http://www.ikvm.net/">IKVM</a>. IKVM is licensed with a business friendly license, like SMSLib is. It also appeared to me as a more mature product. I won't bother you with the exact conversion details - if you are reading this you are probably a .NET developer, so I assume that you don't give a damn about how this is done. What you should really remember is that SMSLib is packaged as a .NET Framework DLL, ready to be downloaded and used in your project.</p>
+
+<h2>Installation</h2>
+<p>Enough with the theory! Below you will find the installation instructions for SMSLib for .NET. Its a pretty simple process.</p>
+
+<table border="2" cellpadding="8">
+<tr><td>The following installation instructions are valid for <strong>IKVM version 0.44.0.5</strong>. Different IKVM versions may implement different packaging of .NET/Java classes, so the installation may differ a bit.</td></tr>
+</table>
+
+<h3>Get the packages</h3>
+<p>In order to use SMSLib, you should download:</p>
+<ul>
+<li>The SMSLib for .NET package, available <a href="http://smslib.org/download/">here</a>.</li>
+<li>The IKVM Binary package, available <a href="http://sourceforge.net/projects/ikvm/files/">here</a>.</li>
+</ul>
+
+<h3>Setup</h3>
+<p>Unpack the SMSLib for .NET package in a directory of its own. The package contains the ready-to-use .NET SMSLib library (<code>smslib-x.y.z.dll</code>) plus two sample projects to get you started.</p>
+<p>Unpack the IKVM package at a temporary location. Grap <strong>all</strong> the files named <code>bin/IKVM.*.dll</code> and copy them in the <code>Libraries</code> subdirectory of the SMSLib for .NET directory.</p>
+<p>That's it!</p>
+
+<h2>Sample Code</h2>
+<p>There are two sample projects for your initial tests. The <code>ReadMessages</code> project which reads messages from a serial modem or phone and the <code>SendMessage</code> project which sends a message via a serial modem or phone.</p>
+
+<h3>ReadMessages sample</h3>
+<ul>
+<li>Open the <code>ReadMessages</code> project with Visual Studio.</li>
+<li>Make sure that the following files (located in the <code>Libraries</code> subdirectory) are added in the "<b>References</b>" section of the project.</li>
+<ul>
+<li>Comm2IP.dll</li>
+<li><strong>All</strong> <code>IKVM.*.dll</code> files</li>
+<li>smslib-x.y.z.dll</li>
+</ul>
+<li><b>Note:</b> The sample assumes that your phone/modem is plugged on <b>COM1</b>. If this is not your case, you must search for and replace the COM port references with your port in use.</li>
+<li>Run the sample. You should get a list of your phone's / modem's messages.</li>
+</ul>
+
+<h3>What is Comm2IP?</h3>
+<p>Since the java comm libraries (JavaComm and/or RxTx) could not be converted and used by the .NET application, I decided to solve the problem differently.</p>
+<p>The <code>Comm2IP</code> is a .NET native application which acts as an interface between a COM port and a socket. Traffic received from the one is pushed to the other and vice versa. Why I did this? Because, by doing this, I would be able to connect to a serial modem in the same way as I connect to an IP modem: I don't use a COM port, I use a network connection. Bye bye javacomm libraries!</p>
+<p>The <code>Comm2IP</code> is build as a .DLL in order to be easy for you to include it in your SMSLib projects.</p>
+<p>The <code>Comm2IP</code> is a vital component and I am sure it will be the subject of most support questions. If you don't set it up correctly, you will not be able to communicate with your modem. Examine the relevant code in the <code>ReadMessages.cs</code> source file:</p>
+<blockquote>
+Comm2IP.Comm2IP com1 = new Comm2IP.Comm2IP(new byte[] { 127, 0, 0, 1 }, 12000, "com1", 19200);
+new Thread(new ThreadStart(com1.Run)).Start();
+</blockquote>
+<p>This code:</p>
+<ul>
+<li>Initializes the <code>Comm2IP</code> component to bind to the local host (127.0.0.1) under port <b>12000</b> and to the <b>com1</b> serial port, with a baud rate of <b>19200</b>bps.</li>
+<li>Starts the background listening thread.</li>
+</ul>
+<p>From now on, all traffic from <b>com1</b> will be forwarded to the listener which binds on <b>127.0.0.1:12000</b> and vice versa.</p>
+<p>Later on in the code, you create your IP modem gateway:</p>
+<blockquote>
+IPModemGateway gateway = new IPModemGateway("modem.com1", "127.0.0.1", 12000, "Nokia", "");
+</blockquote>
+<p>which binds to the same <b>host:port</b> that the <code>Comm2IP</code> component is initialized.</p>
+<p><b>Remember:</b> One <code>Comm2IP</code> thread is for one modem. For multiple modems you should create a matching number of <code>Comm2IP</code> threads!</p>
+
+<h2>Debug logging</h2>
+<p>In the "/Misc" subdirectory of the SMSLib distribution file you will find the file names <code>log4j.properties</code>. If you wish to enable the debug output, just copy the file together with your applications (i.e. your .EXE files).</p>
+
+<h2>How to build the .DLL file</h2>
+<p>If you would like to build the .dll file from the latest SMSLib distribution, follow these simple steps:</p>
+<ul>
+<li>Download the <a href="http://sourceforge.net/projects/ikvm/files/">IKVM package</a> and unzip it in a directory.</li>
+<li>Locate the IKVM <code>bin</code> directory. Copy the following files in the <code>bin</code> directory: <code>smslib-x.y.z.jar</code>, the <code>log4j-x.y.z.jar</code> and the <code>commons-net-2.0.jar</code>.</li>
+<li>Exit to the DOS prompt and give the following command:</li>
+<blockquote>
+ikvmc -target:library smslib-x.y.z.jar log4j-1.2.15.jar commons-net-2.0.jar
+</blockquote>
+</ul>
+<p>You will get some warnings about non-existent referenced classes, but for most cases the .dll build after this command is OK for use.</p>
+
+<h2>Now what?</h2>
+<p>Once more, <b>SMSLib for .NET should be considered experimental until further feedback is given</b>. As a result, the .NET specific documentation is a bit short, but I am working on it.</p>
+<p>Remember that the SMSLib is actually the same for Java and for .NET. The entire SMSLib functionality is available to you. The <a href="support.html">Support</a> page will guide you in case you need support.</p>

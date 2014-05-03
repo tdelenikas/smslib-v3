@@ -1,0 +1,45 @@
+<h1>Frequently Asked Questions</h1>
+
+<h2>I don't know Java. Will I be able to use SMSLib?</h2>
+<p>No, probably not.</p>
+
+<h2>How can I connect my GSM phone / modem to my computer?</h2>
+<p>SMSLib usually connects to your modem via a serial port. This can be a physical serial port or a virtual one, if you are using Bluetooth, IrDA or USB connectivity. In any case, there must be a serial port (COMxx on Win32, /dev/ttyxx on Unix/Linux) which should be mapped to your GSM modem. If you are using plain serial cables, this is easy. For other methods (i.e. Bluetooth / IrDA / USB) you may have to install special drivers (usually these come with your modem) which create a virtual comm port.<br /><br />There are also GSM modems which have an IP connection, like some Multitech models. SMSLib can handle those modems as well.</p>
+
+<h2>Which operating systems are supported?</h2>
+<p>SMSLib is a pure Java library, except for the communications library used. SUN JavaComm v2 supports all Win32 platforms. For Linux, MacOS, BSD and other unix-like operating systems, you have to use the RxTx library. Fortunatelly, RxTx supports most platfoms (including Win32), so SMSLib can be considered as a platform-independent library.</p>
+
+<h2>Which modems / phones are supported?</h2>
+<p>The general rule is that all phones should be supported, except:</p>
+<ul>
+<li>Entry level phones which do not have embedded gsm modem functionality.</li>
+<li>Symbian phones.</li>
+</ul>
+<p>From then on, you may encounter other problems depending on your specific modem. If you encounter difficulties and need help, post a question and we may be able to find a solution. Be sure to have a look at the <a href="compatibility.html">Compatibility</a> page as well.</p>
+
+<h2>What happened to the .NET version?</h2>
+<p>The SMSLib for .NET version was abandoned some time ago, due to time constraints. Recently SMSLib has been converted for .NET, not as a native library but with the help of IKVM tools. Read <a href="smslib_dot_net.html">here</a> for more information.</p>
+
+<h2>How fast can SMSLib send messages?</h2>
+<p>If you are using GSM modems, SMSLib can send with a rate of about 6 messages per minute. This is a GSM network limit. This rate is actually lower, as you are advised not to send messages continously without pausing and letting the modem take a breath. GPRS sending is not currently supported.<br /><br />If you are using one of the supported bulk operators, the dispatch speed is much higher.</p>
+
+<h2>Can SMSLib send and receive big (multipart) messages?</h2>
+<p>Yes.</p>
+
+<h2>What encodings does SMSLib support?</h2>
+<p>SMSLib supports 7bit (GSM default alphabet), 8bit (aka binary) and Unicode (UCS2) encoding.</p>
+
+<h2>Does SMSLib support port addressing?</h2>
+<p>Yes.</p>
+
+<h2>Does SMSLib support Status/Delivery report processing?</h2>
+<p>Yes.</p>
+
+<h2>Can SMSLib be used for ringtones/logos and other EMS/MMS messaging?</h2>
+<p>No.</p>
+
+<h2>Can I develop my application with a modem and then switch to a bulk sms operator?</h2>
+<p>Yes. SMSLib implements an almost universal interface for all supported gateways. However, some things may not entirelly be the same. Also, some gateways have characteristics that other lack. Generally speaking, switching from one gateway to another requires from no to minimal changes.</p>
+
+<h2>Does SMSLib support the SMPP protocol?</h2>
+<p>Starting from version v.3.4.6, SMSLib supports the SMPP protocol, using the <a href="http://code.google.com/p/jsmpp">JSMPP</a> library.</p>

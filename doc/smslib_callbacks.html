@@ -1,0 +1,100 @@
+<h1>Callback Methods</h1>
+
+<h2>Introduction</h2>
+<p>SMSLib can be setup to call specific methods (callbacks) for certain events, like when an inbound message is received.</p>
+<p>Following are the available callbacks and the events that trigger them.</p>
+
+<h2>Inbound Messages</h2>
+<p>SMSLib can be set to call a user-defined method when a message is received by one of its active gateways. This defines an alternative method of receiving messages, instead of continously polling the modem with the <code>readMessages()</code> method.</p>
+<p>The user should implement a class based on the <code>IInboundMessageNotification</code> interface. The <code>process()</code> method of this interface is called with three (3) parameters:</p>
+<ul>
+<li><b>Gateway</b>: The Gateway which received a message.</li>
+<li><b>Message Type</b>: The type of the received message.</li>
+<li><b>Message</b>: The actual message received.</li>
+</ul>
+<p>The callback method is set by using the <code>Service.setInboundNotification()</code> method.</p>
+<p>Notes:</p>
+<ul>
+<li>In case you receive a multi-part (big) message, the callback method will be called <b>when all parts are received</b>. The message will then be the complete, large message.</li>
+<li>The correct operation of this method depends on the unsolicited modem indications and on the correct operation of the CNMI command. If you see that you are failing to receive messages using a callback method, probably the modem indications have not been setup correctly.</li>
+<li>A alternate way of dealing with inbound messages is to use a callback method for receiving messages and also implement polling using a big polling interval.</li>
+</ul>
+
+<h2>Inbound USSD messages</h2>
+<p>SMSLib can be set to call a user-defined method when a USSD datagram is received</p>
+<p>The user should implement a class based on the <code>IUSSDNotification</code> interface. The <code>process()</code> method of this interface is called with two (2) parameters:</p>
+<ul>
+<li><b>Gateway</b>: The Gateway which received a message.</li>
+<li><b>USSD Message</b>: The USSD message received.</li>
+</ul>
+<p>The callback method is set by using the <code>Service.setUSSDNotification()</code> method.</p>
+
+<h2>Outbound Messages</h2>
+<p>If you sending messages via the <code>queueMessage(s)</code> methods (i.e. you are using the async sending feature), you are also able to set a callback method so as SMSLib will call this upon successful or unsuccessful dispatch of a message.</p>
+<p>The user should implement a class based on the <code>IOutboundMessageNotification</code> interface. The <code>process()</code> method of this interface is called with two (2) parameters:</p>
+<ul>
+<li><b>Gateway</b>: The Gateway which triggered this event.</li>
+<li><b>Message</b>: The actual message sent.</li>
+</ul>
+<p>The callback method is set by using the <code>Service.setOutboundNotification()</code> method.</p>
+<p>Notes:</p>
+<ul>
+<li>If you are not using the <code>queueMessage(s)</code> methods (i.e. if you are sending messages via the <code>sendMessage(s)</code> methods) this callback will never be called.</li>
+<li>Once called, the message parameter will be updated with the correct status. So you can query it in order to find out whether the message was actually sent or not, etc.</li>
+<li>Please note that the specific callback method <b>is not called</b> when you send messages via the synchronous <code>sendMessage()</code> methods.
+</ul>
+
+<h2>Inbound calls</h2>
+<p>SMSLib can be set to call a callback method once a voice call has been received by one of its active gateways.</p>
+<p>The user should implement a class based on the <code>ICallNotification</code> interface. The <code>process()</code> method of this interface is called with two (2) parameters:</p>
+<ul>
+<li><b>Gateway</b>: The Gateway which received the voice call.</li>
+<li><b>Caller Id</b>: The caller id of the caller.</li>
+</ul>
+<p>The callback method is set by using the <code>Service.setCallNotification()</code> method.</p>
+<p>Notes:</p>
+<ul>
+<li>The default SMSLib behavior when a voice call is received is to call any previously set callback method and then automatically hangup the call. This behavior cannot be changed.</li>
+</ul>
+
+<h2>Gateway Status changes</h2>
+<p>SMSLib can be set to call a method on every gateway status change.</p>
+<p>The user should implement a class based on the <code>IGatewayStatusNotification</code> interface. The <code>process()</code> method of this interface is called with three (3) parameters:</p>
+<ul>
+<li><b>Gateway</b>: The Gateway which changed status.</li>
+<li><b>Old Status</b>: The old status.</li>
+<li><b>New Status</b>: The new status.</li>
+</ul>
+<p>The callback method is set by using the <code>Service.setStatusNotification()</code> method.</p>
+
+<h2>Queue Sending operation</h2>
+<p>If you sending messages via the <code>queueMessage(s)</code> methods (i.e. you are using the async sending feature), you are also able to set a callback method so as SMSLib will call this after each gateway picks up a message from the queue and before it actually sends it out.</p>
+<p>The user should implement a class based on the <code>IQueueSendingNotification</code> interface. The <code>process()</code> method of this interface is called with two (2) parameters:</p>
+<ul>
+<li><b>Gateway</b>: The Gateway which triggered this event.</li>
+<li><b>Message</b>: The actual message which is about to be sent.</li>
+</ul>
+<p>The callback method is set by using the <code>Service.setQueueSendingNotification()</code> method.</p>
+<p>Notes:</p>
+<ul>
+<li>Because the notification method is called with the actual message, the message which is about to be sent <b>can</b> be modified. This is both a feature and a security hole, so <b>be careful!</b></li>
+<li>For each message send via the background queues, you should expect one call to this method (before the message is sent) and one call to the <code>IOutboundMessageNotification</code> once the message is actually sent or failed to be sent.</li>
+</ul>
+
+<h2>Orphaned message parts</h2>
+<p>When somebody sends you a big message, this message comes in parts. Sometimes, for unknown network reasons, some parts of a big message never arrive to you, so this message in question is never received completely. Those orphaned message parts are staying in your phone, consuming memory. If you receive too many "incomplete" message parts, those may take up all your modem's memory - effectively disabling it from receiving any other messages. Think something like DDoS...</p>
+<p>SMSLib can identify orphaned parts by applying a very simple logic: If a message part is older than (N) hours, this is considered an orphaned message part. In this case, SMSLib will inform you of the situation, by calling the Orphaned notification method. The specific notification method needs to return <code>true</code> or <code>false</code>: if you return <code>true</code>, the message part will be <b>deleted</b> in order to reclaim the lost modem memory. Otherwise (<code>false</code>) SMSLib will leave it lying around and will try to match it later.</p>
+<p>The hours that need to pass in order for a message part to be classified and treated as orphaned is the <code>HOURS_TO_ORPHAN</code> configuration option (see <a href="smslib_parameters.html">Configuration parameters</a>). The default setting is 72 hours.</p>
+<p>The user should implement a class based on the <code>IOrphanedMessageNotification</code> interface. The <code>process()</code> method of this interface is called with two (2) parameters:</p>
+<ul>
+<li><b>Gateway</b>: The Gateway which received the message part.</li>
+<li><b>Message</b>: The orphaned message part in question.</li>
+</ul>
+<p>If you return <code>true</code>, the message part will be deleted from the modem. If you return <code>false</code>, the message part will be left as is.</p>
+<p>The callback method is set by using the <code>Service.setOrphanedMessageNotification()</code> method.</p>
+<p>Notes:</p>
+<ul>
+<li>If you do not implement the <code>IOrphanedMessageNotification</code> callback method, SMSLib will just leave the orphaned parts lying in memory (i.e. SMSLib will show the pre-v3.2.3 behavior).</li>
+<li>If you choose to implement the <code>IOrphanedMessageNotification</code> method, <b>please note that its important to remove the read messages from the phone once you read them</b>! <b>Do not</b> leave read messages in your phone! There are two reasons behind this: <b>First</b>, the phone/modem does not have enough memory to act as a buffer for all your messaging needs. Store your messages elsewhere! If you phone's memory fills up, you won't be able to receive any more messages, as the new messages will be queued at your network's provider. <b>Second</b>, the logic that identifies messages as "orphaned" may select your real messages as orphaned. If you return <code>true</code> from your callback method (thinking that this is garbage) you will lose your messages!</li>
+<li>The "orphaned" detection method has one <b>important</b> drawback that you should be aware of: assuming you left your modem switched off for a week, when you switch it on messages will start to arrive. Since all messages will be "old", this may trigger the "orphaning" logic which will mark probably correct message parts. So when you have your modem switched off for prolonged periods, be careful!!!</li>
+</ul>

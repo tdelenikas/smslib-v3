@@ -1,0 +1,30 @@
+<h1>SMSServer Interfaces</h1>
+
+<h2>Introduction</h2>
+<p>Interfaces act as source of messages to be sent out or as storage of messages already received by SMSServer gateways.</p>
+<p>It's possible to restrict a interface to inbound or outbound message processing only:</p>
+<blockquote>
+interface.1=db1, Database<br />
+...<br />
+interface.2=xml1, Xml, inbound<br />
+...<br />
+interface.3=jmx1, Jmx, outbound<br />
+</blockquote>
+
+This would create three interfaces:
+<ul>
+<li><b>db1</b> is used to handle inbound and outbound messages.</li>
+<li><b>xml1</b> will receive inbound messages but will never be able to send outbound messages.</li>
+<li><b>jmx1</b> will never receive inbound messages but will be able to send outbound messages.</li>
+</ul>
+
+<h2>Installation</h2>
+<p>The core SMSServer sources are shipped with some basic interfaces in order to reduce dependencies. Some of the interfaces below may require extra installation steps. Please read each interface's documentation carefully!</p>
+
+<h2>Supported interfaces</h2>
+<p>SMSServer currently supports the following interfaces:</p>
+<ul>
+	<li><a href="smsserver_db_interface.html">Database</a></li>
+	<li><a href="smsserver_http_interface.html">HTTP</a></li>
+	<li><a href="smsserver_httpserver_interface.html">HTTP Server</a></li>
+</ul>

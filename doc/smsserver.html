@@ -1,0 +1,68 @@
+<h1>SMSServer</h1>
+
+<h2>Introduction</h2>
+<p>SMSServer is a small application that you can use for sending and receiving SMS messages without writing your own code.</p>
+<p>The new SMSServer is fully configurable and can be easily extended. It it based on two new concepts:</p>
+<ul>
+<li>SMSServer uses one or more <a href="smsserver_gateways.html">Gateways</a> to send and receive messages.</li>
+<li>SMSServer uses one or more <a href="smsserver_interfaces.html">Interfaces</a> for some sort of persistent storage, to which it saves received messages or send messages from.</li>
+</ul>
+
+<h2>SMSServer Application Package</h2>
+<p>SMSServer is located in <code>org.smslib.smsserver</code> package. Refer to the <a href="installation.html">Installation</a> instructions for information on how to build SMSServer.</p>
+
+<h2>Configuration File</h2>
+<p>SMSServer is controlled with a configuration file named <code>SMSServer.conf</code>. There is a sample conf in the standard distribution package for your reference.</p>
+<p>SMSServer expects to find its configuration file in the current (i.e. run from) directory. If you wish to instruct SMSServer to look elsewhere, use the <code>-Dsmsserver.configdir</code> parameter. A sample SMSServer invocation will be like:</p>
+<blockquote>
+java -Dsmsserver.configdir=/path/to/where/conf/exists/ org.smslib.smsserver.SMSServer
+</blockquote>
+<p>You can also use the <code>-Dsmsserver.configfile</code> parameter. This should point to the configuration file (filename should be included), for example:</p>
+<blockquote>
+java -Dsmsserver.configfile=/path/to/where/conf/exists/MyConfig.cfg org.smslib.smsserver.SMSServer
+</blockquote>
+<p>The configuration file holds a number of directives which configure SMSServer.</p>
+<p>There is a sample configuration file located in SMSServer directory - have a look for a real life configuration file.</p>
+
+<h3>Gateway configuration section</h3>
+<p>You must define at least one gateway in the configuration file. Each gateway has its own set of configurable items.</p>
+<p>For more information about the implemented gateways, look at the Gateways documentation pages.</p>
+
+<h3>Interface Configuration Section</h3>
+<p>Interfaces are not mandatory, but I guess there is no reason to run SMSServer without any persistent storage at all... Please note that all active interfaces take part in the message propagation.</p>
+<p>For more information about the implemented interfaces, look at the Interfaces documentation pages.</p>
+
+<h3>Operation Configuration Section</h3>
+<p>The following settings configure the general operation of SMSServer:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td>settings.delete_after_processing</td><td>Should SMSServer delete messages from the GSM modem after processing them? Allowed values: <code>yes</code> and <code>no</code>. <code>no</code> may be usefull during debugging.</td></tr>
+<tr><td>settings.send_mode</td><td>Mode of operation for outbound processing. Allowed values: <code>sync</code> and <code>async</code>. If you have more than one GSM modems connected, you are advised to switch to <code>async</code> as all modems will be used simultaneously, thus increasing your throughput. If you have one GSM modem, it doesn"t make any difference what mode you will use.</td></tr>
+<tr><td>settings.inbound_interval</td><td>Inbound polling interval in seconds. SMSServer uses the inbound message notifications from the modem in order to wake up and read messages upon their arrival. This interval defines the time when SMSServer will perform a forced read for new messages. If you find that message notifications work fine in your setup, you can increase this time to 300 or 600 seconds. If you see that you don't get inbound messages on time, you can lower this interval.</td></tr>
+<tr><td>settings.outbound_interval</td><td>Outbound polling interval in seconds. Every such interval, SMSServer will poll its interfaces for new to-be-sent messages and will attempt to send them.</td></tr>
+</table>
+<p>You also have the ability to select different time zones for different outbound messages. The time zones instruct SMSServer of when to send a message according to its priority.If, for example, you define the "0900-1700" as the zone for "normal" priority messages, all "normal" priority messages will be getting dispatched during normal office hours.</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td>settings.timeframe.low</td><td>Time zone for low priority outbound messages.</td></tr>
+<tr><td>settings.timeframe.normal</td><td>Time zone for normal priority outbound messages.</td></tr>
+<tr><td>settings.timeframe.high</td><td>Time zone for high priority outbound messages.</td></tr>
+</table>
+
+<p><b>Notes:</b></p>
+<ul>
+<li>By convention, a priority with a negative value is considered "low", with a zero value is considered "normal" and with a positive value is considered "high".</li>
+<li>The time/priority checking is currently implemented <b>only</b> for the <a href="smsserver_db_interface.html">Database interface</a>.</li>
+</ul>
+
+<h3>Optional Parameters - Balancers and Routers.</h3>
+<p>You can modify the default balancer and/or router that SMSServer uses by setting the following directives.</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td>smsserver.balancer</td><td>The class name of the Balancer you wish to use.</td></tr>
+<tr><td>smsserver.router</td><td>The class name of the Router you wish to use.</td></tr>
+</table>
+<br />
+
+<h2>SMSServer command line parameters</h2>
+<p>If you supply <code>-runonce</code> at the command line when you run SMSServer, SMSServer will run once, send all pending messages in the database and exit.</p>
+
+<h2>SMSServer as a Windows Service</h2>
+<p>If you are interested in running SMSServer as a Windows Service, Mehrdad Abdoli (thanks Mehrdad!) has written some detailed instructions on how to do this. You may find this post <a href="http://groups.google.com/group/SMSLib/t/d01e446e2c8adfa4">here</a>.</p>

@@ -1,0 +1,102 @@
+<h1>Quick Start Guide</h2>
+
+<h2>Introduction</h2>
+
+<p>This guide is designed in order to give you the necessary information in order to start using SMSLib. Various support questions made it obvious that the documentation is lucking in some areas. Hopefully, this document will show you how to setup and use SMSLib in your applications.</p>
+
+<p>Beyond this documentation, remember that there are two sample mini apps available, the <code>SendMessage</code> which simply sends a message and the <code>ReadMessages</code> which reads messages from your phone. Be sure to have a look as, sometimes, code speaks better than the documentation. And yes, like any other programmer out there, I hate writing documentation! I prefer to express myself by coding.</p>
+
+<p>By the way, do not forget to view on javadoc documentation pages. My goal and pattern is to document all public methods that are of use to you. So if you find a method that is not documented in javadocs, chances are that you should <b>not</b> use it directly.</p>
+
+<h2>SMSLib Initialization</h2>
+<p>You primary interface with SMSLib is the <code>Service</code> class. The entire (almost) functionality of SMSLib is exposed via the <code>Service</code>'s methods. You should create <b>only one</b> instance of the <code>Service</code> class in your application!</p>
+
+<h2>Gateways</h2>
+
+<p>The <code>Service</code> itself is useless. Before starting the <code>Service</code>, you should define your gateways. Gateways refer to the physical devices or services which can send and/or receive messages. SMSLib has the following predefined gateways:</p>
+
+<ul>
+<li>Serial modem gateway (class <code>org.smslib.modem.SerialModemGateway</code>): For modems which are connected via serial ports (or emulated serial ports, like USB etc).</li>
+<li>IP modem gateway (class <code>org.smslib.modem.IPModemGateway</code>): for modems which are connected via IP interfaces</li>
+<li>Clickatell gateway (class <code>org.smslib.http.ClickatellHTTPGateway</code>): for sending messages via <a href="http://www.clickatell.com/">Clickatell</a>.</li>
+<li>BulkSMS gateway (class <code>org.smslib.http.BulkSmsHTTPGateway</code>): for sending messages via <a href="http://www.bulksms.com/">BulkSMS</a>.</li>
+<li>SMPP gateway (class <code>org.smslib.smpp.jsmpp.JSMPPGateway</code>): for sending / receiving messages via the SMPP protocol.</li>
+</ul>
+
+<p>Each gateway has different initialization parameters (look at the javadocs for this). The point is to create one or more gateways (according to your setup) and add them to the <code>Service</code> using a syntax like this:</p>
+
+<blockquote>
+(Service).addGateway(new SerialModemGateway("modem.com1", "COM1", 57600, "Nokia", "6310i"));
+</blockquote>
+
+<p>Add as many gateways you wish. Once added, SMSLib will manage and use all of them via the rest of the <code>Service</code> class methods</p>
+
+<p>Once you add all the necessary gateways, start the <code>Service</code> by issuing:</p>
+<blockquote>
+(Service).startService()
+</blockquote>
+
+<h2>Reading messages</h2>
+
+<p>There are four (4) types of inbound messages that can be handled with SMSLib. These are:</p>
+
+<ul>
+<li>A plain, normal inbound text message (class <code>InboundMessage</code>).</li>
+<li>A binary inbound message (class <code>InboundBinaryMessage</code>).</li>
+<li>An encrypted inbound message (class <code>InboundEncryptedMessage</code>, see <a href="smslib_encryption.html">Encryption</a>).</li>
+<li>A delivery status message (class <code>StatusReportMessage</code>, see <a href="smslib_delivery_reports.html">Delivery reports</a>).</li>
+</ul>
+
+<p>There are two ways to read messages:</p>
+
+<ul>
+<li>The synchronous way: just call the <code>readMessages()</code> method of the <code>Service</code> class. SMSLib will iterate all defined gateways, collect messages from all and return them in a collection. Note that <b>you will be blocked</b> until SMSLib returns. There are many forms of the <code>readMessages()</code> call - choose the one according to your needs.</li>
+<li>The asynchronous way: you can implement some callback methods in your code (listeners) and pass them to the <code>Service</code>. SMSLib will then automatically call you upon message reception. For more information, see <a href="smslib_callbacks.html">Callback methods</a>.</li>
+</ul>
+
+<h2>Sending messages</h2>
+
+<p>There are again, four (4) types of messages that SMSLib can send. These are:</p>
+
+<ul>
+<li>A plain text message (class <code>OutboundMessage</code>).</li>
+<li>A binary message (class <code>OutboundBinaryMessage</code>).</li>
+<li>An encrypted message (class <code>OutboundEncryptedMessage</code>, see <a href="smslib_encryption.html">Encryption</a>).</li>
+<li>A WAP SI message (class <code>OutboundWapSIMessage</code>).</li>
+</ul>
+
+<p>Each message class has several properties, so check the javadoc for these. You can set the type, the encoding, the delivery report etc.</p>
+
+<p>There are two ways to send a message:</p>
+
+<ul>
+<li>The synchronous way: create a message object and call the <code>sendMessage()</code> method of the <code>Service</code> class. Note that <b>you will be blocked</b> until SMSLib returns. Upon return, you can examine the message object to see the fate of your message.</li>
+<li>The asynchronous way: use the <code>queueMessage()</code> family of methods to queue your message. Queueing a message returns control immediately to you. SMSLib keeps this message in internal queues and send its in the background. To learn about the fate of your message, you <b>should</b> setup a <code>IOutboundMessageNotification</code> callback method (see <a href="smslib_callbacks.html">Callback methods</a>).</li>
+</ul>
+
+<p>The asynchronous sending is covered in a bit more detail in the following section.</p>
+
+<h3>Background sending</h3>
+
+<p>To send a message asynchronously, you use the <code>queueMessage</code> family of methods. To send a message at a specific time, you use the <code>queueMessageAt</code> family of methods.</p>
+<p>Starting from v3.5, SMSLib queues can be set to operate in a non-persistent or persistent way. In the first case, queued messages <b>are lost</b> between SMSLib invocations (i.e. between <code>Service</code> restarts). This is the <b>default</b> operating mode, compatible with previous versions. If you set SMSLib to work in persistent mode, queued and scheduled messages are retained between SMSLib invocations.</p>
+<p>The persistency mode is selected by setting the <code>QUEUE_DIRECTORY</code> parameter. Look at <a href="smslib_parameters.html">Configurations Parameters</a> for more information on the use of the <code>QUEUE_DIRECTORY</code> parameter.</p>
+
+<h2>Routing and Balancing</h2>
+
+<p>This section briefly describes the Routing and Balancing concepts. If you use only one Gateway, you may safely skip this section.</p>
+
+<p>When you have more than one Gateways define, you may wonder from which Gateway an outbound message will be sent. SMSLib provides for both an automatic way and a manual way to define your routing.</p>
+
+<p>In order to define the preferred Gateway according to your wishes, you can:</p>
+
+<ul>
+<li>Use the specific <code>sendMessage()</code> or <code>queueMessage()</code> methods which take the Gateway ID as a parameter. With these methods you can define which is the Gateway that you wish your message to be sent through.</li>
+<li>You can use the <code>OutboundMessage</code> object's <code>setGatewayId()</code> method in order to define your preferred Gateway at a message level.</li>
+</ul>
+
+<p>There is also the concept of the <b>wildcard</b> gateway. This is noted by the <b>star character</b>. By setting the gateway to the star character, you actually state that you are letting SMSLib decide which gateway to use.</p>
+
+<p>SMSLib uses a Routing and a Balancing logic in order to automatically determine the gateway to use. Routing logic takes into consideration possible routing rules in order to decide which (of all gateways) are the candidate gateways. Then the Balancing logic gets applied in order to select the preferred of the candidate gateways. This specific gateway is then used for the dispatch of the specific message.</p>
+
+<p>If this all sound complicated, don't be alarmed. SMSLib uses a default set of Routing/Balancing rules which works well all the time. The default Routing rule is actually a "use-any-of" rule, where all gateways are treated as candidates. The default Balancing rule is an implementation of the Round-Robin logic. So, when you have more than one Gateways, all of them are used in turns.</p>

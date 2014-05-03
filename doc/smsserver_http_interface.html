@@ -1,0 +1,58 @@
+<h1>SMSServer - HTTP Interface</h1>
+
+<h2>Introduction</h2>
+<p>With this interface, SMSServer can be instructed to call a specific URL with arguments once a message is sent or received (contributed by Ernas M. Jamil).</p>
+
+<h2>Installation</h2>
+<p>Starting from v3.4, the HTTP Interface class file has been pulled out of the main source directory. In order to install and use it, please do the following:</p>
+<ul>
+<li>Copy file <code>Http.java</code> (found in the <code>/misc/SMSServer/Interfaces/Stable/</code> directory) to the <code>/src/java/org/smslib/smsserver/interfaces/</code> directory.</li>
+</ul>
+
+<h2>Configuration File</h2>
+<p>This interface requires the following configuration settings:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>get_url</td><td>The URL called when a message is received.</td></tr>
+<tr><td>dlr_url</td><td>The URL called when a message is sent.</td></tr>
+<tr><td>method</td><td>The HTTP method used to transfer the parameters. Use either <b>POST</b> or <b>GET</b> (the default).</td></tr>
+<tr><td>encoding</td><td>The encoding of the parameters. ISO-8859-1 is the default.</td></tr>
+</table>
+<p>Example:</p>
+<blockquote>
+interface.0=http1, Http<br />
+http1.get_url=http://192.168.1.1/test.php?gatewayId=%gatewayId%&text=%text%&originator=%originator%<br />
+http1.dlr_url=http://192.168.1.1/dlr.php?gatewayId=%gatewayId%&text=%text%&from=%from%&refNo=%refNo%<br />
+</blockquote>
+
+<h2>Arguments</h2>
+<p>Each HTTP call takes some (or all) of the interface's predefined arguments. Different arguments are available for inbound and outbound messages.</p>
+
+<h3>Arguments for Inbound messages</h3>
+<p>The URL arguments will be replaced with the real message values, according to the following table:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Argument</b></td><td><b>Description</b></td></tr>
+<tr><td>%gatewayId%</td><td>Replaced by the ID of the gateway which the message was received from </td></tr>
+<tr><td>%encoding%</td><td>Replaced by the encoding of the inbound message</td></tr>
+<tr><td>%date%</td><td>Replaced by the date when the originator has sent the message</td></tr>
+<tr><td>%text%</td><td>Replaced by the message text itself</td></tr>
+<tr><td>%pduUserData%</td><td>Replaced by the raw PDU data block of the message</td></tr>
+<tr><td>%originator%</td><td>Replaced by the originator of the inbound message</td></tr>
+<tr><td>%memIndex%</td><td>Replaced by GSM Modem/Phone memory index from which the message was read</td></tr>
+<tr><td>%mpMemIndex%</td><td>Replaced by GSM Modem/Phone memory index for multipart messages</td></tr>
+</table>
+
+<h3>Arguments for Outbound messages</h3>
+<p>The URL arguments will be replaced with the real message values, according to the following table:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Argument</b></td><td><b>Description</b></td></tr>
+<tr><td>%gatewayId%</td><td>Replaced by the ID of the gateway which the message was sent from</td></tr>
+<tr><td>%encoding%</td><td>Replaced by the encoding of the inbound message</td></tr>
+<tr><td>%date%</td><td>Replaced by the date when the message was sent</td></tr>
+<tr><td>%text%</td><td>Replaced by the message text itself</td></tr>
+<tr><td>%refNo%</td><td>Replaced by the RefNo of the message</td></tr>
+<tr><td>%recipient%</td><td>Replaced with the recipient of the message</td></tr>
+<tr><td>%from%</td><td>The "from" indication (if any)</td></tr>
+<tr><td>%failureCause%</td><td>Replaced by the failure cause in case the message was not sent</td></tr>
+<tr><td>%messageStatus%</td><td>Replaced by the message status</td></tr>
+</table>

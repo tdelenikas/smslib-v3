@@ -1,0 +1,109 @@
+<h1>SMSServer - HTTPServer Interface</h1>
+
+<h2>Introduction</h2>
+<p>This interface enables SMSServer to act as a mini web server, accepting HTTP requests as remote commands. SMSServer uses the <a href="http://www.mortbay.org/jetty/">Jetty</a> web server as its embedded server.</p>
+<p>The following operations are currently supported:</p>
+<ul>
+<li>You can query the status of SMSServer from your browser.</li>
+<li>You can send a message.</li>
+<li>You can query for messages.</li>
+</ul>
+<p>The HTTPServer interface implements a REST-like calling scheme, where each supported call gets a number of parameters and response with an XML document. The functionality of each call is described below.</p>
+
+<h2>Installation</h2>
+<p>Starting from v3.4, the HTTPServer Interface class file has been pulled out of the main source directory. In order to install and use it, please do the following:</p>
+<ul>
+<li>Download Jetty 7 (available on the <a href="http://www.eclipse.org/jetty/downloads.php">Eclipse Jetty Distributions</a> page), unpack and place the Jetty jar files in your classpath.</li>
+<li>Copy file <code>HttpServer.java</code> (found in the <code>/misc/SMSServer/Interfaces/Stable/</code> directory) to the <code>/src/java/org/smslib/smsserver/interfaces/</code> directory.</li>
+</ul>
+
+<h2>Functionality</h2>
+
+<h3>SMSServer Status</h3>
+<p>Displays the status of the SMSServer application. <b>This method returns an HTML document and is meant to be called from a web browser</b>.</p>
+<p>To see the status, point your browser to: <code>http://smsserver-ip:port</code>, where</p>
+<ul>
+<li><code>smsserver-ip</code> is the IP address of the machine that is running SMSServer, and</li>
+<li><code>port</code> is the port that you have defined as the listening port.</li>
+</ul>
+<p>For example: <code>http://192.168.10.15:8080</code></p>
+<p>You will get a simple web page where you can see:</p>
+<ul>
+<li>SMSServer version information.</li>
+<li>SMSServer uptime.</li>
+<li>A list of all defined gateways, along with information about their traffic, queues, restart and status.</li>
+<li>A list of all active interfaces.</li>
+</ul>
+
+<h3>Send a message</h3>
+<p>You can request SMSServer to send a specific message. The message details are given using parameters to the base URL. The minimum parameters are <code>recipient</code> and <code>text</code>.</p>
+<p><b>URL:</b> <code>http://smsserver-ip/send</code></p>
+<p><b>Parameters</b></p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>password</td><td>The SEND password, as defined in the relevant section of the configuration file.</td></tr>
+<tr><td>recipient</td><td>The recipient's number.</td></tr>
+<tr><td>text</td><td>The message text.</td></tr>
+<tr><td>encoding</td><td>Requests a specific encoding. Allowed values are: <ul><li><b>7</b> for 7bit encoding (the default)</li><li><b>8</b> for 8bit encoding</li><li><b>U</b> for Unicode (UCS2) encoding.</li></ul></td></tr>
+<tr><td>priority</td><td>The priority of the message.</td></tr>
+<tr><td>from</td><td>The originator string of the message.</td></tr>
+<tr><td>gateway</td><td>Requests the dispatch of the message from a specific gateway. If the parameter is missing, SMSServer decides which gateway to use.</td></tr>
+</table>
+<br />
+<p>Examples:</p>
+<blockquote>
+http://smsserver/send?password=1111&recipient=3012341234&text=Hello World!<br />
+http://smsserver/send?password=1111&recipient=3012341234&text=Hello World!&gateway=mySpecificGateway<br />
+http://smsserver/send?password=1111&recipient=3012341234&text=Hello World!&priority=-100<br />
+</blockquote>
+
+<h3>Read messages</h3>
+<p>You can request SMSServer to read and return to you the messages received from its gateways. What you do is that you call a specific URL and you get an XML document with all messages read. By default (i.e. if no parameters are given) SMSServer will read messages from all the gateways. You can customize the message query by using one or more of the supported parameters.</p>
+<p><b>URL:</b> <code>http://smsserver-ip/read</code></p>
+<p><b>Parameters</b></p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>password</td><td>The READ password, as defined in the relevant section of the configuration file.</td></tr>
+<tr><td>gateway</td><td>If given, SMSServer will try to read messages from the gateway with the specific gateway id. Otherwise, it will read all gateways.</td></tr>
+</table>
+<br />
+<p>Returns an XML structure like the following, which contains all messages read:</p>
+<blockquote>
+<pre>
+&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;messages&gt;
+	&lt;message&gt;
+	&lt;message_type&gt;Inbound&lt;/message_type&gt;
+	&lt;message_date&gt;2008-09-15T20:23:05+03:00&lt;/message_date&gt;
+	&lt;originator&gt;306974xxxx&lt;/originator&gt;
+	&lt;text&gt;Test&lt;/text&gt;
+	&lt;encoding&gt;ENC7BIT&lt;/encoding&gt;
+	&lt;gateway&gt;modem1&lt;/gateway&gt;
+	&lt;/message&gt;
+	...
+&lt;/messages&gt;
+</pre>
+</blockquote>
+
+<p>Examples:</p>
+<blockquote>
+http://smsserver/read?password=0000<br />
+http://smsserver/read?password=0000&gateway=myModem
+</blockquote>
+
+<h2>Configuration File</h2>
+<p>This interface requires the following configuration settings:</p>
+<table border='1' cellpadding='7' cellspacing='2'>
+<tr><td><b>Option</b></td><td><b>Description</b></td></tr>
+<tr><td>port</td><td>The TCP port to which the interface listens to. Default is 8080.</td></tr>
+<tr><td>password.read</td><td>The password required to perform a remote READ operation.</td></tr>
+<tr><td>password.write</td><td>The password required to perform a remote SEND operation.</td></tr>
+</table>
+<br />
+<p>Example:</p>
+<blockquote>
+interface.0=httpServer, HttpServer<br />
+httpServer.port=8080<br />
+httpServer.password.read=0000<br />
+httpServer.password.send=1111<br />
+</blockquote>
