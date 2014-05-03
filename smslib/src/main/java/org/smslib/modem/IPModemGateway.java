@@ -1,0 +1,46 @@
+// SMSLib for Java v3
+// A Java API library for sending and receiving SMS via a GSM modem
+// or other supported gateways.
+// Web Site: http://www.smslib.org
+//
+// Copyright (C) 2002-2012, Thanasis Delenikas, Athens/GREECE.
+// SMSLib is distributed under the terms of the Apache License version 2.0
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package org.smslib.modem;
+
+/**
+ * Gateway representing a GSM Modem or Phone connected via an IP port.
+ */
+public class IPModemGateway extends ModemGateway
+{
+	/**
+	 * Construction for an IP connected gsm modem.
+	 * 
+	 * @param id
+	 *            Your own ID for addressing this gateway.
+	 * @param ipName
+	 *            The address to which the modem is listening, i.e. 10.0.0.200.
+	 * @param ipPort
+	 *            The port to which the modem is listening, i.e. 8000
+	 * @param manufacturer
+	 *            The manufacturer, for example "Multitech".
+	 * @param model
+	 *            The model, for example "GSX"
+	 */
+	public IPModemGateway(String id, String ipName, int ipPort, String manufacturer, String model)
+	{
+		super(ModemTypes.IP, id, ipName, ipPort, manufacturer, model);
+	}
+}
