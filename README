@@ -1,8 +1,10 @@
 SMSLib v3.5.x
+=============
 
 SMSLib is an SMS messaging library, available for Java and .NET Framework.
 
-# License 
+License
+=======
 
 All SMSLib components are licensed under the terms of the Apache v2 license.
 
