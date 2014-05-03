@@ -59,8 +59,8 @@
     <Reference Include="IKVM.OpenJDK.Core">
       <HintPath>..\..\..\..\..\tools\ikvm-7.2.4630.5\bin\IKVM.OpenJDK.Core.dll</HintPath>
     </Reference>
-    <Reference Include="smslib-dotnet-3.5.5-SNAPSHOT">
-      <HintPath>..\..\..\..\..\lib\smslib-dotnet-3.5.5-SNAPSHOT.dll</HintPath>
+    <Reference Include="smslib-dotnet-dev-SNAPSHOT">
+      <HintPath>..\..\..\..\..\lib\smslib-dotnet-dev-SNAPSHOT.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
