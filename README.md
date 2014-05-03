@@ -1,31 +1,34 @@
-=============
-SMSLib v3.5.x
-=============
+# SMSLib v3.5.x
 
 SMSLib is an SMS messaging library, available for Java and .NET Framework.
 
-Project Information
-===================
+## Project Links
+
+Web site: http://smslib.org
 
 Project page: https://github.com/smslib/smslib-v3
+
 Issue tracker: https://github.com/smslib/smslib-v3/issues
+
 Discussion group: https://groups.google.com/forum/#!forum/smslib
 
-Maven
-=====
+## Maven
 
 SMSLib artifacts are hosted in a private repository.
 
 Artifact dependency:
 
+```
 <dependency>
    <groupId>org.smslib</groupId>
    <artifactId>smslib</artifactId>
    <version>3.5.5-SNAPSHOT</version>
 </dependency>
+```
 
 Repository information:
 
+```
 <repositories>
    ...
    <repository>
@@ -35,11 +38,11 @@ Repository information:
    </repository>
    ...
 </repositories>
+```
 
-LICENSE
-=======
+# LICENSE
 
-All SMSLib components are licensed under the terms of the Apache v2 license.
+All SMSLib components are licensed under the terms of the **Apache v2 license**.
 
 Copyright (c) 2002-2014, smslib.org
 
