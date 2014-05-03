@@ -20,7 +20,7 @@
 	<groupId>org.smslib</groupId>
 	<artifactId>smslib-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>3.5.5-SNAPSHOT</version>
+	<version>dev-SNAPSHOT</version>
 	<name>SMSLib</name>
 	<description>A universal API for sms messaging.</description>
 	<url>http://smslib.org</url>
@@ -40,13 +40,13 @@
 		</developer>
 	</developers>
 	<scm>
-		<url>https://github.com/smslib/smslib</url>
-		<connection>scm:git:https://github.com/smslib/smslib.git</connection>
-		<developerConnection>scm:git:https://github.com/smslib/smslib.git</developerConnection>
+		<url>https://github.com/smslib/smslib-v3</url>
+		<connection>scm:git:https://github.com/smslib/smslib-v3.git</connection>
+		<developerConnection>scm:git:https://github.com/smslib/smslib-v3.git</developerConnection>
 	</scm>
 	<issueManagement>
 		<system>github</system>
-		<url>http://github.com/smslib/smslib/issues</url>
+		<url>http://github.com/smslib/smslib-v3/issues</url>
 	</issueManagement>
 	<mailingLists>
 		<mailingList>
@@ -152,13 +152,13 @@
 		<repository>
 			<id>smslib-releases</id>
 			<name>SMSLib Release Repository</name>
-			<url>file:e:/maven2</url>
+			<url>scp://${smslib-maven-url}/v3/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>smslib-snapshots</id>
 			<name>SMSLib Snapshot Repository</name>
 			<uniqueVersion>false</uniqueVersion>
-			<url>file:e:/maven2</url>
+			<url>scp://${smslib-maven-url}/v3/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
