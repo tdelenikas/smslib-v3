@@ -30,6 +30,7 @@ import org.smslib.modem.ModemGateway;
 public class ATHandler_Siemens_MC35i extends ATHandler
 {
 	public static final int RETRIES = 5;
+
 	public static final int WAIT = 1500;
 
 	public ATHandler_Siemens_MC35i(ModemGateway myGateway)
@@ -48,8 +49,7 @@ public class ATHandler_Siemens_MC35i extends ATHandler
 			Logger.getInstance().logDebug("Modem didn't respond correctly on AT+CLIP. Retrying...", null, getGateway().getGatewayId());
 			Thread.sleep(WAIT);
 		}
-		if (!getModemDriver().isOk())
-			Logger.getInstance().logDebug("Modem didn't respond correctly on AT+CLIP correctly on 5 attemts. Giving up.", null, getGateway().getGatewayId());
+		if (!getModemDriver().isOk()) Logger.getInstance().logDebug("Modem didn't respond correctly on AT+CLIP correctly on 5 attemts. Giving up.", null, getGateway().getGatewayId());
 		getModemDriver().write("AT+COPS=0\r");
 		getModemDriver().getResponse();
 	}

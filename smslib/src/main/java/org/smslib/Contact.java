@@ -34,27 +34,23 @@ public class Contact
 		 * Represents the dialled numbers.
 		 */
 		DIALLED_CALLS,
-
 		/**
 		 * Represents the missed inbound calls.
 		 */
 		MISSED_CALLS,
-
 		/**
 		 * Represents the normal phonebook entries stored in the phone's memory.
 		 */
 		PHONE_ENTRIES,
-
 		/**
 		 * Represents the normal phonebook entrues stored in the SIM card.
 		 */
 		SIM_ENTRIES,
-
 		/**
-		 * Represents the phonebook entries from both the phone's memory and SIM card.
+		 * Represents the phonebook entries from both the phone's memory and SIM
+		 * card.
 		 */
 		ALL_ENTRIES,
-
 		/**
 		 * Represents an unknown phonebook entry.
 		 */

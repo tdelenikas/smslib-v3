@@ -40,6 +40,7 @@ public class Phonebook
 
 	/**
 	 * Returns the contacts' collection with all (unfiltered) entries.
+	 * 
 	 * @return The contacts' collection.
 	 */
 	public Collection<Contact> getContacts()
@@ -48,9 +49,13 @@ public class Phonebook
 	}
 
 	/**
-	 * Filters the contacts by contact type and returns a collection of contacts matching the criteria.
-	 * @param type The contact type.
-	 * @return The contacts' collection matching the criteria. If no matching contact(s) is found, returns an empty collection. 
+	 * Filters the contacts by contact type and returns a collection of contacts
+	 * matching the criteria.
+	 * 
+	 * @param type
+	 *            The contact type.
+	 * @return The contacts' collection matching the criteria. If no matching
+	 *         contact(s) is found, returns an empty collection.
 	 */
 	public Collection<Contact> getContacts(ContactLocation type)
 	{

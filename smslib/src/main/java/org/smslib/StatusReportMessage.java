@@ -108,8 +108,8 @@ public class StatusReportMessage extends InboundMessage
 		this.status = DeliveryStatuses.UNKNOWN;
 		setDate(null);
 	}
-	
-	public StatusReportMessage(String myRefNo,String srcAddress,String destAddress, String text, Date dateOriginal, Date dateReceived)
+
+	public StatusReportMessage(String myRefNo, String srcAddress, String destAddress, String text, Date dateOriginal, Date dateReceived)
 	{
 		super(MessageTypes.STATUSREPORT, -1, "");
 		this.refNo = myRefNo;

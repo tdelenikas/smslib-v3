@@ -89,18 +89,17 @@ public class DefaultQueueManager extends AbstractQueueManager
 			queueDirectory = Service.getInstance().getSettings().QUEUE_DIRECTORY;
 			if (queueDirectory == null)
 			{
-			Logger.getInstance().logInfo("Queue directory not defined. Queued messages will not be saved to filesystem.", null, null);
-			return;
+				Logger.getInstance().logInfo("Queue directory not defined. Queued messages will not be saved to filesystem.", null, null);
+				return;
 			}
 		}
 		File baseDir = new File(queueDirectory, "queue");
 		pendingMessageDir = new File(baseDir, "pending");
-		
 		if (!pendingMessageDir.exists())
 		{
 			if (!pendingMessageDir.mkdirs())
 			{
-				Logger.getInstance().logError("Could not create directory for pending messages queue at "+pendingMessageDir.getPath(), null, null);
+				Logger.getInstance().logError("Could not create directory for pending messages queue at " + pendingMessageDir.getPath(), null, null);
 			}
 		}
 		else
@@ -113,7 +112,7 @@ public class DefaultQueueManager extends AbstractQueueManager
 		{
 			if (!delayedMessageDir.mkdirs())
 			{
-				Logger.getInstance().logError("Could not create directory for delayed messages queue at "+delayedMessageDir.getPath(), null, null);
+				Logger.getInstance().logError("Could not create directory for delayed messages queue at " + delayedMessageDir.getPath(), null, null);
 			}
 		}
 		else
@@ -201,16 +200,13 @@ public class DefaultQueueManager extends AbstractQueueManager
 
 	private boolean storePendingMessage(OutboundMessage message)
 	{
-		if (queueDirectory == null){
-			return true;
-		}
-		
+		if (queueDirectory == null) { return true; }
 		File gatewayDir = new File(pendingMessageDir, message.getGatewayId().replace("/", "."));
 		if (!gatewayDir.exists())
 		{
 			if (!gatewayDir.mkdir())
 			{
-				Logger.getInstance().logError("Queue directory could be created for gateway "+message.getGatewayId()+". Could not create directory .."+gatewayDir.getPath(), null, null);
+				Logger.getInstance().logError("Queue directory could be created for gateway " + message.getGatewayId() + ". Could not create directory .." + gatewayDir.getPath(), null, null);
 				return false;
 			}
 		}
@@ -219,36 +215,26 @@ public class DefaultQueueManager extends AbstractQueueManager
 
 	private boolean deletePendingMessage(String gatewayId, String messageUUID)
 	{
-		if (queueDirectory == null){
-			return true;
-		}
+		if (queueDirectory == null) { return true; }
 		return new File(new File(pendingMessageDir, gatewayId), messageUUID + MESSAGE_FILE_EXT).delete();
 	}
-	
+
 	private boolean deletePendingMessages(String gatewayId)
 	{
-		if (queueDirectory == null){
-			return true;
-		}
-		if(gatewayId==null)
-			return emptyDirectory(pendingMessageDir,false);
-		else
-			return emptyDirectory(new File(pendingMessageDir, gatewayId),true);
+		if (queueDirectory == null) { return true; }
+		if (gatewayId == null) return emptyDirectory(pendingMessageDir, false);
+		else return emptyDirectory(new File(pendingMessageDir, gatewayId), true);
 	}
 
 	private boolean storeDelayedMessage(OutboundMessage message)
 	{
-		if (queueDirectory == null){
-			return true;
-		}
+		if (queueDirectory == null) { return true; }
 		return serializeMessage(message, new File(delayedMessageDir, message.getUuid() + MESSAGE_FILE_EXT));
 	}
 
 	private boolean deleteDelayedMessage(String messageUUID)
 	{
-		if (queueDirectory == null){
-			return true;
-		}
+		if (queueDirectory == null) { return true; }
 		return new File(delayedMessageDir, messageUUID + MESSAGE_FILE_EXT).delete();
 	}
 
@@ -280,13 +266,10 @@ public class DefaultQueueManager extends AbstractQueueManager
 
 	private boolean serializeMessage(OutboundMessage message, File toFile)
 	{
-		if (queueDirectory == null){
-			return true;
-		}
-		
+		if (queueDirectory == null) { return true; }
 		if (toFile.exists())
 		{
-			Logger.getInstance().logError("Cannot save Message "+message.getUuid()+" File already exist.", null, null);
+			Logger.getInstance().logError("Cannot save Message " + message.getUuid() + " File already exist.", null, null);
 			return false;
 		}
 		ObjectOutputStream out = null;
@@ -298,7 +281,7 @@ public class DefaultQueueManager extends AbstractQueueManager
 		}
 		catch (IOException e)
 		{
-			Logger.getInstance().logError("Cannot save Message "+message.getUuid(), e, null);
+			Logger.getInstance().logError("Cannot save Message " + message.getUuid(), e, null);
 			return false;
 		}
 		return true;
@@ -306,10 +289,9 @@ public class DefaultQueueManager extends AbstractQueueManager
 
 	private OutboundMessage deserializeMessage(File fromFile)
 	{
-		
 		if (!fromFile.exists())
 		{
-			Logger.getInstance().logError("File of queued message doesn't exist "+fromFile.getPath(), null, null);
+			Logger.getInstance().logError("File of queued message doesn't exist " + fromFile.getPath(), null, null);
 			return null;
 		}
 		ObjectInputStream in = null;
@@ -322,12 +304,12 @@ public class DefaultQueueManager extends AbstractQueueManager
 		}
 		catch (IOException e)
 		{
-			Logger.getInstance().logError("Could not read queued message from file "+fromFile.getPath(), e, null);
+			Logger.getInstance().logError("Could not read queued message from file " + fromFile.getPath(), e, null);
 			return null;
 		}
 		catch (ClassNotFoundException e)
 		{
-			Logger.getInstance().logError("Could not read queued message from file "+fromFile.getPath(), e, null);
+			Logger.getInstance().logError("Could not read queued message from file " + fromFile.getPath(), e, null);
 			return null;
 		}
 		return message;
@@ -449,18 +431,19 @@ public class DefaultQueueManager extends AbstractQueueManager
 	}
 
 	@Override
-	public boolean removeAllDelayedMessages() {
+	public boolean removeAllDelayedMessages()
+	{
 		delayQueue.clear();
-		if (queueDirectory == null){
-			return true;
-		}
-		return emptyDirectory(delayedMessageDir,false);
+		if (queueDirectory == null) { return true; }
+		return emptyDirectory(delayedMessageDir, false);
 	}
 
 	@Override
-	public boolean removeAllPendingMessages(String gatewayId) {
+	public boolean removeAllPendingMessages(String gatewayId)
+	{
 		PriorityBlockingQueue<OutboundMessage> queue = queueMap.get(gatewayId);
-		if(queue!=null){			
+		if (queue != null)
+		{
 			queue.clear();
 			queueMap.remove(queue);
 			deletePendingMessages(gatewayId);
@@ -470,26 +453,25 @@ public class DefaultQueueManager extends AbstractQueueManager
 	}
 
 	@Override
-	public boolean removeAllPendingMessages() {
+	public boolean removeAllPendingMessages()
+	{
 		queueMap.clear();
 		deletePendingMessages(null);
 		return false;
 	}
-	
-	private boolean emptyDirectory(File dir,boolean removeDir){
+
+	private boolean emptyDirectory(File dir, boolean removeDir)
+	{
 		File[] pendingDirs = dir.listFiles();
 		for (File file : pendingDirs)
 		{
-			if(file.isDirectory()){
-				emptyDirectory(file,true);
-			}else
-			if(!file.delete()){
-				return false;
+			if (file.isDirectory())
+			{
+				emptyDirectory(file, true);
 			}
+			else if (!file.delete()) { return false; }
 		}
-		if(removeDir){
-			return dir.delete();
-		}
+		if (removeDir) { return dir.delete(); }
 		return true;
 	}
 }

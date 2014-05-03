@@ -40,11 +40,11 @@ public class SmsDeliveryPdu extends Pdu
 	{
 		return this.timestamp.getTime();
 	}
-	
-    public Calendar getTimestampAsCalendar()
-    {
-        return this.timestamp;
-    }
+
+	public Calendar getTimestampAsCalendar()
+	{
+		return this.timestamp;
+	}
 
 	// ==================================================
 	// FIRST OCTET UTILITIES
@@ -77,22 +77,20 @@ public class SmsDeliveryPdu extends Pdu
 	protected String pduSubclassInfo()
 	{
 		StringBuffer sb = new StringBuffer();
-
 		// originator address		
-        if (getAddress()!=null)
-        {
-    		sb.append("Originator Address: [Length: " + getAddress().length() + " (" + PduUtils.byteToPdu((byte) getAddress().length()) + ")");
-    		sb.append(", Type: " + PduUtils.byteToPdu(getAddressType()) + " (" + PduUtils.byteToBits((byte) getAddressType()) + ")");
-    		sb.append(", Address: " + getAddress());
-    		sb.append("]");
-        }
-        else
-        {
-            sb.append("Originator Address: [Length: 0");
-            sb.append(", Type: " + PduUtils.byteToPdu(getAddressType()) + " (" + PduUtils.byteToBits((byte) getAddressType()) + ")");
-            sb.append("]");                        
-        }
-		
+		if (getAddress() != null)
+		{
+			sb.append("Originator Address: [Length: " + getAddress().length() + " (" + PduUtils.byteToPdu((byte) getAddress().length()) + ")");
+			sb.append(", Type: " + PduUtils.byteToPdu(getAddressType()) + " (" + PduUtils.byteToBits((byte) getAddressType()) + ")");
+			sb.append(", Address: " + getAddress());
+			sb.append("]");
+		}
+		else
+		{
+			sb.append("Originator Address: [Length: 0");
+			sb.append(", Type: " + PduUtils.byteToPdu(getAddressType()) + " (" + PduUtils.byteToBits((byte) getAddressType()) + ")");
+			sb.append("]");
+		}
 		sb.append("\n");
 		// protocol id
 		sb.append("TP-PID: " + PduUtils.byteToPdu(getProtocolIdentifier()) + " (" + PduUtils.byteToBits((byte) getProtocolIdentifier()) + ")");

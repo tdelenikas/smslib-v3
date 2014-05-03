@@ -25,8 +25,11 @@ import org.smslib.helper.Logger;
 public abstract class AServiceThread extends Thread
 {
 	private int delay;
+
 	private int initialDelay;
+
 	private boolean enabled;
+
 	private boolean canceled;
 
 	public AServiceThread(String name, int delay, int initialDelay, boolean enabled)

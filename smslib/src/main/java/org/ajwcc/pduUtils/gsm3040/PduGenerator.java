@@ -286,22 +286,14 @@ public class PduGenerator
 		// check if this message needs a concat
 		byte[] textSeptetsForDecodedText = PduUtils.stringToUnencodedSeptets(decodedText);
 		int potentialUdhLength = PduUtils.getNumSeptetsForOctets(computePotentialUdhLength(pdu));
-
-		checkForConcat(pdu, 
-                       textSeptetsForDecodedText.length, 
-                       160 - PduUtils.getNumSeptetsForOctets(pdu.getTotalUDHLength()), // CHANGED
-                       160 - potentialUdhLength, 
-                       mpRefNo, 
-                       partNo);		
-		
+		checkForConcat(pdu, textSeptetsForDecodedText.length, 160 - PduUtils.getNumSeptetsForOctets(pdu.getTotalUDHLength()), // CHANGED
+				160 - potentialUdhLength, mpRefNo, partNo);
 		// given the IEs in the pdu derive the max message body length
 		// this length will include the potential concat added in the previous step
 		int totalUDHLength = pdu.getTotalUDHLength();
 		int maxMessageLength = 160 - PduUtils.getNumSeptetsForOctets(totalUDHLength);
-		
 		// get septets for part
 		byte[] textSeptets = getUnencodedSeptetsForPart(pdu, maxMessageLength, partNo);
-
 		// udlength is the sum of udh septet length and the text septet length
 		int udLength = PduUtils.getNumSeptetsForOctets(totalUDHLength) + textSeptets.length;
 		baos.write(udLength);
@@ -324,52 +316,46 @@ public class PduGenerator
 
 	private byte[] getUnencodedSeptetsForPart(Pdu pdu, int maxMessageLength, int partNo)
 	{
-        // computes offset to which part of the string is to be encoded into the PDU
-        // also sets the MpMaxNo field of the concatInfo if message is multi-part
-        int offset;
-        int maxParts = 1;
-        
-        // must use the unencoded septets not the actual string since
-        // it is possible that some special characters in string are multi-septet
-        byte[] unencodedSeptets = PduUtils.stringToUnencodedSeptets(pdu.getDecodedText());
-        
-        maxParts = (unencodedSeptets.length / maxMessageLength) + 1;
- 
-        if (pdu.hasTpUdhi())
-        {
-            if (pdu.getConcatInfo() != null)
-            {
-                if (partNo > 0)
-                {
-                    pdu.getConcatInfo().setMpMaxNo(maxParts);
-                }
-            }
-        }
-        if ((maxParts > 1) && (partNo > 0))
-        {
-            //      - if partNo > maxParts
-            //          - error
-            if (partNo > maxParts) { throw new RuntimeException("Invalid partNo: " + partNo + ", maxParts=" + maxParts); }
-            offset = ((partNo - 1) * maxMessageLength);
-        }
-        else
-        {
-            // just get from the start
-            offset = 0;
-        }
-
-        // copy the portion of the full unencoded septet array for this part
-        byte[] septetsForPart = new byte[Math.min(maxMessageLength, unencodedSeptets.length-offset)];
-        System.arraycopy(unencodedSeptets, offset, septetsForPart, 0, septetsForPart.length);
-        
-        return septetsForPart; 
+		// computes offset to which part of the string is to be encoded into the PDU
+		// also sets the MpMaxNo field of the concatInfo if message is multi-part
+		int offset;
+		int maxParts = 1;
+		// must use the unencoded septets not the actual string since
+		// it is possible that some special characters in string are multi-septet
+		byte[] unencodedSeptets = PduUtils.stringToUnencodedSeptets(pdu.getDecodedText());
+		maxParts = (unencodedSeptets.length / maxMessageLength) + 1;
+		if (pdu.hasTpUdhi())
+		{
+			if (pdu.getConcatInfo() != null)
+			{
+				if (partNo > 0)
+				{
+					pdu.getConcatInfo().setMpMaxNo(maxParts);
+				}
+			}
+		}
+		if ((maxParts > 1) && (partNo > 0))
+		{
+			//      - if partNo > maxParts
+			//          - error
+			if (partNo > maxParts) { throw new RuntimeException("Invalid partNo: " + partNo + ", maxParts=" + maxParts); }
+			offset = ((partNo - 1) * maxMessageLength);
+		}
+		else
+		{
+			// just get from the start
+			offset = 0;
+		}
+		// copy the portion of the full unencoded septet array for this part
+		byte[] septetsForPart = new byte[Math.min(maxMessageLength, unencodedSeptets.length - offset)];
+		System.arraycopy(unencodedSeptets, offset, septetsForPart, 0, septetsForPart.length);
+		return septetsForPart;
 	}
-	
+
 	protected void writeUDData8bit(Pdu pdu, int mpRefNo, int partNo) throws Exception
 	{
 		// NOTE: binary messages are also handled here
 		byte[] data;
-		
 		if (pdu.isBinary())
 		{
 			// use the supplied bytes
@@ -385,14 +371,8 @@ public class PduGenerator
 		//        for 8bit => maxLength = 140 - the total UDH bytes
 		// check if this message needs a concat
 		int potentialUdhLength = computePotentialUdhLength(pdu);
-
-        checkForConcat(pdu, 
-                       data.length, 
-                       140 - pdu.getTotalUDHLength(),  // CHANGED
-                       140 - potentialUdhLength, 
-                       mpRefNo, 
-                       partNo);
-		
+		checkForConcat(pdu, data.length, 140 - pdu.getTotalUDHLength(), // CHANGED
+				140 - potentialUdhLength, mpRefNo, partNo);
 		// given the IEs in the pdu derive the max message body length
 		// this length will include the potential concat added in the previous step        
 		int totalUDHLength = pdu.getTotalUDHLength();
@@ -424,14 +404,8 @@ public class PduGenerator
 		//        for ucs2 => maxLength = (140 - the total UDH bytes)/2
 		// check if this message needs a concat
 		int potentialUdhLength = computePotentialUdhLength(pdu);
-
-        checkForConcat(pdu, 
-                       decodedText.length(), 
-                       (140 - pdu.getTotalUDHLength()) / 2,  // CHANGED
-                       (140 - potentialUdhLength) / 2, 
-                       mpRefNo, 
-                       partNo);
-		
+		checkForConcat(pdu, decodedText.length(), (140 - pdu.getTotalUDHLength()) / 2, // CHANGED
+				(140 - potentialUdhLength) / 2, mpRefNo, partNo);
 		// given the IEs in the pdu derive the max message body length
 		// this length will include the potential concat added in the previous step        
 		int totalUDHLength = pdu.getTotalUDHLength();

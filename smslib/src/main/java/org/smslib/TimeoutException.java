@@ -41,7 +41,7 @@ public class TimeoutException extends SMSLibException
 	{
 		super(e);
 	}
-	
+
 	public TimeoutException(String errorMessage, Throwable e)
 	{
 		super(errorMessage, e);

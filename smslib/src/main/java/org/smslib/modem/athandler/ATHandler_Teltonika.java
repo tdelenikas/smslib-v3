@@ -24,10 +24,9 @@ import org.smslib.modem.*;
 
 public class ATHandler_Teltonika extends ATHandler
 {
-
-    public ATHandler_Teltonika(ModemGateway myGateway)
-    {
-        super(myGateway);
-        setStorageLocations("SMME");
-    }
+	public ATHandler_Teltonika(ModemGateway myGateway)
+	{
+		super(myGateway);
+		setStorageLocations("SMME");
+	}
 }

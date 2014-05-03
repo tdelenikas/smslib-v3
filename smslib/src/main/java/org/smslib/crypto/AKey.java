@@ -40,7 +40,7 @@ public abstract class AKey
 	public static String asString(byte[] bytes)
 	{
 		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < bytes.length; i ++)
+		for (int i = 0; i < bytes.length; i++)
 			buffer.append((char) bytes[i]);
 		return buffer.toString();
 	}

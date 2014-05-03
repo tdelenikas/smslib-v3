@@ -175,7 +175,8 @@ public class TestGateway extends AGateway
 		if ((this.failCycle > 0) && (this.counter >= this.failCycle))
 		{
 			this.counter = 0;
-			if (getGatewayId().equalsIgnoreCase("Test3")) ;//
+			if (getGatewayId().equalsIgnoreCase("Test3"))
+			;//
 			else
 			{
 				throw new IOException("Dummy Exception!!!");

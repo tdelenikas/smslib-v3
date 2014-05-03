@@ -31,9 +31,9 @@ import org.smslib.InboundMessage.MessageClasses;
 import org.smslib.modem.ModemGateway;
 
 /**
- * AT Handler for Wavecom Q2438F CDMA modems. Rewritten from Wavecom
- * WISMOQCDMA CDMA modem
- *
+ * AT Handler for Wavecom Q2438F CDMA modems. Rewritten from Wavecom WISMOQCDMA
+ * CDMA modem
+ * 
  * @author Hendra Cengala
  */
 public class ATHandler_Wavecom_Q2438F extends ATHandler_Wavecom
@@ -74,7 +74,7 @@ public class ATHandler_Wavecom_Q2438F extends ATHandler_Wavecom
 				BufferedReader oneMessageReader = new BufferedReader(new StringReader(oneMessage));
 				// get first line which has message sender ,time fields
 				// make the header can be compatible GSM header information
-                //+CMGR:"REC READ","9009","10/06/18,12 :16 :48",0,2,0,"9009",156
+				//+CMGR:"REC READ","9009","10/06/18,12 :16 :48",0,2,0,"9009",156
 				String header = oneMessageReader.readLine().trim();
 				//+CMGR:"REC READ","02313383079","08/09/02,18 :41 :03",0,2,0,159
 				String headerRegex = "(^\\+CMGR:)(\\\"[^\\\"]+\\\",)(\\\"[^\\\"]+\\\",)(\\\"[^,]+,)(\\d+)\\s+(:\\d+)\\s+(:\\d+\\\")(,\\d,)(\\d)";
@@ -157,8 +157,8 @@ public class ATHandler_Wavecom_Q2438F extends ATHandler_Wavecom
 	@Override
 	public boolean setTextProtocol() throws TimeoutException, GatewayException, IOException, InterruptedException
 	{
-			getModemDriver().write("AT+CSCS=\"CDMA\"\r");
-			getModemDriver().getResponse();
-			return (getModemDriver().isOk());
+		getModemDriver().write("AT+CSCS=\"CDMA\"\r");
+		getModemDriver().getResponse();
+		return (getModemDriver().isOk());
 	}
 }

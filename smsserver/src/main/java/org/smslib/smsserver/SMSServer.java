@@ -370,8 +370,8 @@ public class SMSServer
 			{
 				for (Interface<? extends Object> inf : getInfList())
 					if (inf.isInbound()) inf.messagesReceived(msgList);
-				if (getProperties().getProperty("settings.delete_after_processing", "no").equalsIgnoreCase("yes"))
-					for (InboundMessage msg : msgList) Service.getInstance().deleteMessage(msg);
+				if (getProperties().getProperty("settings.delete_after_processing", "no").equalsIgnoreCase("yes")) for (InboundMessage msg : msgList)
+					Service.getInstance().deleteMessage(msg);
 			}
 		}
 		catch (Exception e)

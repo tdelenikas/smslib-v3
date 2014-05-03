@@ -11,7 +11,7 @@
 		<mail.version>1.4</mail.version>
 		<ikvm>ikvm-7.2.4630.5</ikvm>
 		<nrjavaserial.version>3.7.5.1</nrjavaserial.version>
-		<jsmpp.version>2.1.0-RELEASE</jsmpp.version>
+		<jsmpp.version>2.1.0</jsmpp.version>
 		<commons-net.version>3.3</commons-net.version>
 	</properties>
 	<prerequisites>

@@ -11,8 +11,8 @@ import java.lang.reflect.Method;
  * <p>
  * <b>Please note: </b>This is a wrapper around
  * <code>javax.comm.SerialPortEvent</code> (and so
- * <code>gnu.io.SerialPortEvent</code>). The API definition is taken from
- * Sun. So honor them!
+ * <code>gnu.io.SerialPortEvent</code>). The API definition is taken from Sun.
+ * So honor them!
  * </p>
  * 
  * @author Jagane Sundar
@@ -101,9 +101,9 @@ public class SerialPortEvent
 	private Object realObject;
 
 	/**
-	 * Constructs a <code>SerialPortEvent</code> with the specified serial
-	 * port, event type, old and new values. Application programs should not
-	 * directly create <code>SerialPortEvent</code> objects.
+	 * Constructs a <code>SerialPortEvent</code> with the specified serial port,
+	 * event type, old and new values. Application programs should not directly
+	 * create <code>SerialPortEvent</code> objects.
 	 * 
 	 * @param srcport
 	 *            source parallel port

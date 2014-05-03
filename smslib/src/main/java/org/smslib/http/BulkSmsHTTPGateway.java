@@ -151,7 +151,7 @@ public class BulkSmsHTTPGateway extends HTTPGateway
 		request.add(new HttpHeader("username", this.username, false));
 		request.add(new HttpHeader("password", this.password, false));
 		request.add(new HttpHeader("message", msg.getText(), msg.getEncoding() == MessageEncodings.ENCUCS2));
-		if(msg.getEncoding() == MessageEncodings.ENCUCS2) request.add(new HttpHeader("dca", "16bit", false));
+		if (msg.getEncoding() == MessageEncodings.ENCUCS2) request.add(new HttpHeader("dca", "16bit", false));
 		if (msg.getRecipient().charAt(0) == '+') request.add(new HttpHeader("msisdn", msg.getRecipient().substring(1), false));
 		else request.add(new HttpHeader("msisdn", msg.getRecipient(), false));
 		request.add(new HttpHeader("allow_concat_text_sms", "1", false));

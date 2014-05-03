@@ -54,5 +54,4 @@ public class ATHandler_Huawei extends ATHandler
 		// Force CNMI Emulator activation as HUAWEIs send indications on another port...
 		return false;
 	}
-
 }
