@@ -68,7 +68,7 @@ import org.smslib.smpp.AbstractSMPPGateway;
 import org.smslib.smpp.BindAttributes;
 
 /**
- * A gateway that supports SMPP through JSMPP (http://code.google.com/p/jsmpp/).
+ * A gateway that supports SMPP through JSMPP (http://jsmpp.org/).
  * 
  * @author Bassam Al-Sarori
  */
