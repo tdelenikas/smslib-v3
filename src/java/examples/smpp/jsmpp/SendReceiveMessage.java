@@ -1,6 +1,6 @@
 // SendReceiveMessage.java - Sample application.
 //
-// SMPP Gateway used: JSMPP (http://code.google.com/p/jsmpp/)
+// SMPP Gateway used: JSMPP (http://jsmpp.org/)
 
 package examples.smpp.jsmpp;
 
