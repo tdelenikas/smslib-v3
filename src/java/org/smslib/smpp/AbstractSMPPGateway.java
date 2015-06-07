@@ -22,7 +22,6 @@ package org.smslib.smpp;
 
 import java.io.IOException;
 import java.util.Collection;
-
 import org.smslib.AGateway;
 import org.smslib.GatewayException;
 import org.smslib.InboundMessage;
@@ -31,86 +30,99 @@ import org.smslib.InboundMessage.MessageClasses;
 
 /**
  * SMPP Gateways' base class.
+ * 
  * @author Bassam Al-Sarori
- *
  */
-public abstract class AbstractSMPPGateway extends AGateway {
-
+public abstract class AbstractSMPPGateway extends AGateway
+{
 	protected String host;
+
 	protected int port;
+
 	protected BindAttributes bindAttributes;
-	protected Address sourceAddress=new Address();
-	protected Address destinationAddress=new Address();
-	protected int enquireLink=-1;
-	
+
+	protected Address sourceAddress = new Address();
+
+	protected Address destinationAddress = new Address();
+
+	protected int enquireLink = -1;
+
 	/**
-	 * 
-	 * @param id gateway ID
-	 * @param host SMPP host
-	 * @param port SMPP port
-	 * @param bindAttributes SMPP bind attributes
+	 * @param id
+	 *            gateway ID
+	 * @param host
+	 *            SMPP host
+	 * @param port
+	 *            SMPP port
+	 * @param bindAttributes
+	 *            SMPP bind attributes
 	 */
-	public AbstractSMPPGateway(String id,String host,int port, BindAttributes bindAttributes) {
+	public AbstractSMPPGateway(String id, String host, int port, BindAttributes bindAttributes)
+	{
 		super(id);
-		this.host=host;
-		this.port=port;
-		this.bindAttributes=bindAttributes;
-		
+		this.host = host;
+		this.port = port;
+		this.bindAttributes = bindAttributes;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.smslib.AGateway#getQueueSchedulingInterval()
 	 */
 	@Override
-	public int getQueueSchedulingInterval() {
-		
+	public int getQueueSchedulingInterval()
+	{
 		return 500;
 	}
 
-	public String getHost() {
+	public String getHost()
+	{
 		return host;
 	}
 
-	public int getPort() {
+	public int getPort()
+	{
 		return port;
 	}
 
-	public BindAttributes getBindAttributes() {
+	public BindAttributes getBindAttributes()
+	{
 		return bindAttributes;
 	}
 
-	public int getEnquireLink() {
+	public int getEnquireLink()
+	{
 		return enquireLink;
 	}
 
-	public void setEnquireLink(int enquireLink) {
+	public void setEnquireLink(int enquireLink)
+	{
 		this.enquireLink = enquireLink;
 	}
 
-	public Address getSourceAddress() {
+	public Address getSourceAddress()
+	{
 		return sourceAddress;
 	}
 
-	public void setSourceAddress(Address sourceAddress) {
+	public void setSourceAddress(Address sourceAddress)
+	{
 		this.sourceAddress = sourceAddress;
 	}
 
-	public Address getDestinationAddress() {
+	public Address getDestinationAddress()
+	{
 		return destinationAddress;
 	}
 
-	public void setDestinationAddress(Address destinationAddress) {
+	public void setDestinationAddress(Address destinationAddress)
+	{
 		this.destinationAddress = destinationAddress;
 	}
 
 	@Override
-	public void readMessages(Collection<InboundMessage> msgList,
-			MessageClasses msgClass) throws TimeoutException, GatewayException,
-			IOException, InterruptedException {
+	public void readMessages(Collection<InboundMessage> msgList, MessageClasses msgClass) throws TimeoutException, GatewayException, IOException, InterruptedException
+	{
 		// A dummy implementation
 		// A temporarily fix for issue 354  
 	}
-	
-	
-
 }

@@ -20,25 +20,25 @@
 
 package org.smslib.smpp;
 
-
 /**
  * SMPP Bind Attributes.
+ * 
  * @author Bassam Al-Sarori
- *
  */
-public class BindAttributes {
-
+public class BindAttributes
+{
 	private String systemId;
+
 	private String password;
+
 	private String systemType;
-	
-	
+
 	private BindType bindType;
-	
+
 	private Address bindAddress;
-	
-	
-	public enum BindType{
+
+	public enum BindType
+	{
 		/**
 		 * RECEIVER
 		 */
@@ -51,66 +51,64 @@ public class BindAttributes {
 		 * TRANSCEIVER
 		 */
 		TRANSCEIVER("tr");
-		
 		private String value;
-		private BindType(String value){
-			this.value=value;
+
+		private BindType(String value)
+		{
+			this.value = value;
 		}
 
-		
-		 public static BindType getByShortName(String value)
-         throws IllegalArgumentException {
-     for (BindType item : values()) {
-         if (item.value().equals(value)) {
-             return item;
-         }
-     }
-     throw new IllegalArgumentException(
-             "No enum const BindType with value " + value);
- }
-		  public String value() {
-		        return value;
-		    }
+		public static BindType getByShortName(String value) throws IllegalArgumentException
+		{
+			for (BindType item : values())
+			{
+				if (item.value().equals(value)) { return item; }
+			}
+			throw new IllegalArgumentException("No enum const BindType with value " + value);
+		}
+
+		public String value()
+		{
+			return value;
+		}
 	}
 
-	public BindAttributes(String systemId, String password, String systemType,
-			BindType bindType) {
-		this(systemId,password,systemType,bindType,new Address());
+	public BindAttributes(String systemId, String password, String systemType, BindType bindType)
+	{
+		this(systemId, password, systemType, bindType, new Address());
 	}
-	
-	public BindAttributes(String systemId, String password, String systemType,
-			BindType bindType, Address bindAddress) {
-		
+
+	public BindAttributes(String systemId, String password, String systemType, BindType bindType, Address bindAddress)
+	{
 		this.systemId = systemId;
 		this.password = password;
 		this.systemType = systemType;
 		this.bindType = bindType;
-		this.bindAddress=bindAddress;
-		
+		this.bindAddress = bindAddress;
 	}
 
-	public String getSystemId() {
+	public String getSystemId()
+	{
 		return systemId;
 	}
 
-	public String getPassword() {
+	public String getPassword()
+	{
 		return password;
 	}
 
-	public String getSystemType() {
+	public String getSystemType()
+	{
 		return systemType;
 	}
 
-	public BindType getBindType() {
+	public BindType getBindType()
+	{
 		return bindType;
 	}
 
-	public Address getBindAddress() {
+	public Address getBindAddress()
+	{
 		return bindAddress;
 	}
-
-
-	
-	
-	
 }
