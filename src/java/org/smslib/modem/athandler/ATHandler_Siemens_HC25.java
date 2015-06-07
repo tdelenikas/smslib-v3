@@ -30,40 +30,36 @@ import org.smslib.TimeoutException;
 import org.smslib.modem.ModemGateway;
 
 /**
- * 
  * A custom AT handler for the Siemens/Cinterion HC25 circumventing the problem
  * of the modem losing its SMSC address after issuing 'ATZ' or 'AT&F' by
  * reloading the address from the SIM card.
- * 
  */
-public class ATHandler_Siemens_HC25 extends ATHandler {
-
+public class ATHandler_Siemens_HC25 extends ATHandler
+{
 	/**
 	 * Construct a HC25 handler
 	 * 
 	 * @param myGateway
 	 *            the gateway to use
 	 */
-	public ATHandler_Siemens_HC25(ModemGateway myGateway) {
-
+	public ATHandler_Siemens_HC25(ModemGateway myGateway)
+	{
 		super(myGateway);
-
 	}
 
 	@Override
-	public void sync() throws IOException, InterruptedException {
-
+	public void sync() throws IOException, InterruptedException
+	{
 		getModemDriver().write("ATZ\r");
 		Thread.sleep(Service.getInstance().getSettings().AT_WAIT);
 		// AT+CSCA? will reload the SMSC from SIM
 		getModemDriver().write("AT+CSCA?\r");
 		Thread.sleep(Service.getInstance().getSettings().AT_WAIT);
-
 	}
 
 	@Override
-	public void reset() throws TimeoutException, GatewayException, IOException, InterruptedException {
-
+	public void reset() throws TimeoutException, GatewayException, IOException, InterruptedException
+	{
 		getModemDriver().write("\u001b");
 		Thread.sleep(Service.getInstance().getSettings().AT_WAIT);
 		getModemDriver().write("+++");
@@ -73,7 +69,5 @@ public class ATHandler_Siemens_HC25 extends ATHandler {
 		getModemDriver().write("AT+CSCA?\r");
 		Thread.sleep(Service.getInstance().getSettings().AT_WAIT);
 		getModemDriver().clearBuffer();
-
 	}
-
 }

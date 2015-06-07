@@ -37,8 +37,8 @@ import java.lang.reflect.Proxy;
  * </p>
  * <code>SerialPort</code> describes the low-level interface to a serial
  * communications port made available by the underlying system.
- * <code>SerialPort</code> defines the minimum required functionality for
- * serial communications ports.
+ * <code>SerialPort</code> defines the minimum required functionality for serial
+ * communications ports.
  * 
  * @author gwellisch
  */
@@ -216,9 +216,9 @@ public class SerialPort
 	 * @param i
 	 *            when this many bytes are in the input buffer, return
 	 *            immediately from read.
-	 * @throws UnsupportedCommOperationException -
-	 *             (Wrapped as RuntimeException) is thrown if receive threshold
-	 *             is not supported by the underlying driver.
+	 * @throws UnsupportedCommOperationException
+	 *             - (Wrapped as RuntimeException) is thrown if receive
+	 *             threshold is not supported by the underlying driver.
 	 */
 	public void enableReceiveThreshold(int i)
 	{
@@ -239,11 +239,11 @@ public class SerialPort
 
 	/**
 	 * Enables receive timeout, if this feature is supported by the driver. When
-	 * the receive timeout condition becomes true, a <code>read</code> from
-	 * the input stream for this port will return immediately.
+	 * the receive timeout condition becomes true, a <code>read</code> from the
+	 * input stream for this port will return immediately.
 	 * <p>
-	 * <code>enableReceiveTimeout</code> is an advisory method which the
-	 * driver may not implement. By default, receive timeout is not enabled.
+	 * <code>enableReceiveTimeout</code> is an advisory method which the driver
+	 * may not implement. By default, receive timeout is not enabled.
 	 * </p>
 	 * <p>
 	 * An application can determine whether the driver supports this feature by
@@ -301,37 +301,37 @@ public class SerialPort
 	 * <th>Value</th>
 	 * </tr>
 	 * <tr>
-	 * <td> disabled </td>
-	 * <td> - </td>
-	 * <td> disabled </td>
-	 * <td> - </td>
-	 * <td> n bytes </td>
-	 * <td> block until any data is available </td>
+	 * <td>disabled</td>
+	 * <td>-</td>
+	 * <td>disabled</td>
+	 * <td>-</td>
+	 * <td>n bytes</td>
+	 * <td>block until any data is available</td>
 	 * </tr>
 	 * <tr>
-	 * <td> enabled </td>
-	 * <td> m bytes </td>
-	 * <td> disabled </td>
-	 * <td> - </td>
-	 * <td> n bytes </td>
-	 * <td> block until min(<I>m</I>,<I>n</I>) bytes are available </td>
+	 * <td>enabled</td>
+	 * <td>m bytes</td>
+	 * <td>disabled</td>
+	 * <td>-</td>
+	 * <td>n bytes</td>
+	 * <td>block until min(<I>m</I>,<I>n</I>) bytes are available</td>
 	 * </tr>
 	 * <tr>
-	 * <td> disabled </td>
-	 * <td> - </td>
-	 * <td> enabled </td>
-	 * <td> x ms </td>
-	 * <td> n bytes </td>
-	 * <td> block for <I>x</I> ms or until any data is available </td>
+	 * <td>disabled</td>
+	 * <td>-</td>
+	 * <td>enabled</td>
+	 * <td>x ms</td>
+	 * <td>n bytes</td>
+	 * <td>block for <I>x</I> ms or until any data is available</td>
 	 * </tr>
 	 * <tr>
-	 * <td> enabled </td>
-	 * <td> m bytes </td>
-	 * <td> enabled </td>
-	 * <td> x ms </td>
-	 * <td> n bytes </td>
-	 * <td> block for <I>x</I> ms or until min(<I>m</I>,<I>n</I>) bytes are
-	 * available </td>
+	 * <td>enabled</td>
+	 * <td>m bytes</td>
+	 * <td>enabled</td>
+	 * <td>x ms</td>
+	 * <td>n bytes</td>
+	 * <td>block for <I>x</I> ms or until min(<I>m</I>,<I>n</I>) bytes are
+	 * available</td>
 	 * </tr>
 	 * </table>
 	 * <P>
@@ -393,8 +393,8 @@ public class SerialPort
 	 * 
 	 * @param b
 	 *            <ul>
-	 *            <li> true: enable notification </li>
-	 *            <li> false: disable notification </li>
+	 *            <li>true: enable notification</li>
+	 *            <li>false: disable notification</li>
 	 */
 	public void notifyOnBreakInterrupt(boolean b)
 	{
@@ -423,8 +423,8 @@ public class SerialPort
 	 * 
 	 * @param b
 	 *            <ul>
-	 *            <li> true: enable notification </li>
-	 *            <li> false: disable notification </li>
+	 *            <li>true: enable notification</li>
+	 *            <li>false: disable notification</li>
 	 */
 	public void notifyOnDataAvailable(boolean b)
 	{
@@ -450,8 +450,8 @@ public class SerialPort
 	 * 
 	 * @param b
 	 *            <ul>
-	 *            <li> true: enable notification </li>
-	 *            <li> false: disable notification </li>
+	 *            <li>true: enable notification</li>
+	 *            <li>false: disable notification</li>
 	 */
 	public void notifyOnFramingError(boolean b)
 	{
@@ -480,8 +480,8 @@ public class SerialPort
 	 * 
 	 * @param b
 	 *            <ul>
-	 *            <li> true: enable notification </li>
-	 *            <li> false: disable notification </li>
+	 *            <li>true: enable notification</li>
+	 *            <li>false: disable notification</li>
 	 */
 	public void notifyOnOutputEmpty(boolean b)
 	{
@@ -507,8 +507,8 @@ public class SerialPort
 	 * 
 	 * @param b
 	 *            <ul>
-	 *            <li> true: enable notification </li>
-	 *            <li> false: disable notification </li>
+	 *            <li>true: enable notification</li>
+	 *            <li>false: disable notification</li>
 	 */
 	public void notifyOnOverrunError(boolean b)
 	{
@@ -534,8 +534,8 @@ public class SerialPort
 	 * 
 	 * @param b
 	 *            <ul>
-	 *            <li> true: enable notification </li>
-	 *            <li> false: disable notification </li>
+	 *            <li>true: enable notification</li>
+	 *            <li>false: disable notification</li>
 	 */
 	public void notifyOnParityError(boolean b)
 	{
@@ -561,8 +561,8 @@ public class SerialPort
 	 *            Can be a bitmask combination of
 	 *            <ul>
 	 *            <li>FLOWCONTROL_NONE: no flow control</li>
-	 *            <li>FLOWCONTROL_RTSCTS_IN: RTS/CTS (hardware) flow control
-	 *            for input</li>
+	 *            <li>FLOWCONTROL_RTSCTS_IN: RTS/CTS (hardware) flow control for
+	 *            input</li>
 	 *            <li>FLOWCONTROL_RTSCTS_OUT: RTS/CTS (hardware) flow control
 	 *            for output</li>
 	 *            <li>FLOWCONTROL_XONXOFF_IN: XON/XOFF (software) flow control

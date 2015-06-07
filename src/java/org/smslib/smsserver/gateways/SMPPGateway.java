@@ -22,7 +22,6 @@ package org.smslib.smsserver.gateways;
 
 import java.lang.reflect.Constructor;
 import java.util.Properties;
-
 import org.smslib.smpp.AbstractSMPPGateway;
 import org.smslib.smpp.Address;
 import org.smslib.smpp.BindAttributes;
@@ -40,68 +39,56 @@ public class SMPPGateway extends AGateway
 	public SMPPGateway(String myGatewayId, Properties myProps, org.smslib.smsserver.SMSServer myServer)
 	{
 		super(myGatewayId, myProps, myServer);
-		setDescription(myGatewayId+" SMPP Gateway.");
+		setDescription(myGatewayId + " SMPP Gateway.");
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void create() throws Exception
 	{
-		String implClass=getProperty("impl");
-		Class<AbstractSMPPGateway> clazz=(Class<AbstractSMPPGateway>) Class.forName(implClass);
-		Class<?>[] classArgs=new Class[]{String.class,String.class,int.class,BindAttributes.class};
-		Constructor<AbstractSMPPGateway> con= clazz.getConstructor(classArgs);
-		
-		String host=getProperty("host");
-		Integer port=Integer.parseInt(getProperty("port"));
-		Object args[]=new Object[]{getGatewayId(),host,port,getBindAttributes()};
-		AbstractSMPPGateway gateway=con.newInstance(args);
-		String enquireLink=getProperty("enquirelink");
-		if(enquireLink!=null && !enquireLink.isEmpty()){
+		String implClass = getProperty("impl");
+		Class<AbstractSMPPGateway> clazz = (Class<AbstractSMPPGateway>) Class.forName(implClass);
+		Class<?>[] classArgs = new Class[] { String.class, String.class, int.class, BindAttributes.class };
+		Constructor<AbstractSMPPGateway> con = clazz.getConstructor(classArgs);
+		String host = getProperty("host");
+		Integer port = Integer.parseInt(getProperty("port"));
+		Object args[] = new Object[] { getGatewayId(), host, port, getBindAttributes() };
+		AbstractSMPPGateway gateway = con.newInstance(args);
+		String enquireLink = getProperty("enquirelink");
+		if (enquireLink != null && !enquireLink.isEmpty())
+		{
 			gateway.setEnquireLink(Integer.parseInt(enquireLink));
 		}
-		String ton=getProperty("sourceton");
-		TypeOfNumber typeOfNumber=(ton==null)?TypeOfNumber.UNKNOWN:TypeOfNumber.valueOf(Byte.parseByte(ton));
-		
-		String npi=getProperty("sourcenpi");
-		NumberingPlanIndicator numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
-		
+		String ton = getProperty("sourceton");
+		TypeOfNumber typeOfNumber = (ton == null) ? TypeOfNumber.UNKNOWN : TypeOfNumber.valueOf(Byte.parseByte(ton));
+		String npi = getProperty("sourcenpi");
+		NumberingPlanIndicator numberingPlanIndicator = (npi == null) ? NumberingPlanIndicator.UNKNOWN : NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
 		gateway.setSourceAddress(new Address(typeOfNumber, numberingPlanIndicator));
-		
-		ton=getProperty("destton");
-		typeOfNumber=(ton==null)?TypeOfNumber.UNKNOWN:TypeOfNumber.valueOf(Byte.parseByte(ton));
-		
-		npi=getProperty("destnpi");
-		numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
-		
-		
+		ton = getProperty("destton");
+		typeOfNumber = (ton == null) ? TypeOfNumber.UNKNOWN : TypeOfNumber.valueOf(Byte.parseByte(ton));
+		npi = getProperty("destnpi");
+		numberingPlanIndicator = (npi == null) ? NumberingPlanIndicator.UNKNOWN : NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
 		gateway.setDestinationAddress(new Address(typeOfNumber, numberingPlanIndicator));
 		setGateway(gateway);
-		
-	
 	}
-	
-	private BindAttributes getBindAttributes(){
-		String systemId=getProperty("systemid");
-		String password=getProperty("password");
-		String systemType=getProperty("systemtype");
-		BindType bindType=BindType.getByShortName(getProperty("bindtype"));
-		
-		String ton=getProperty("bindton");
-		TypeOfNumber typeOfNumber=(ton==null)?TypeOfNumber.UNKNOWN:TypeOfNumber.valueOf(Byte.parseByte(ton));
-		
-		String npi=getProperty("bindnpi");
-		NumberingPlanIndicator numberingPlanIndicator=(npi==null)?NumberingPlanIndicator.UNKNOWN:NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
-		
+
+	private BindAttributes getBindAttributes()
+	{
+		String systemId = getProperty("systemid");
+		String password = getProperty("password");
+		String systemType = getProperty("systemtype");
+		BindType bindType = BindType.getByShortName(getProperty("bindtype"));
+		String ton = getProperty("bindton");
+		TypeOfNumber typeOfNumber = (ton == null) ? TypeOfNumber.UNKNOWN : TypeOfNumber.valueOf(Byte.parseByte(ton));
+		String npi = getProperty("bindnpi");
+		NumberingPlanIndicator numberingPlanIndicator = (npi == null) ? NumberingPlanIndicator.UNKNOWN : NumberingPlanIndicator.valueOf(Byte.parseByte(npi));
 		return new BindAttributes(systemId, password, systemType, bindType, new Address(typeOfNumber, numberingPlanIndicator));
 	}
-	
-	private String getProperty(String name){
-		String propertyValue=getProperties().getProperty(getGatewayId() + "." +name);
-		if(propertyValue!=null)
-			return propertyValue.trim();
-		else
-		return propertyValue;
+
+	private String getProperty(String name)
+	{
+		String propertyValue = getProperties().getProperty(getGatewayId() + "." + name);
+		if (propertyValue != null) return propertyValue.trim();
+		else return propertyValue;
 	}
-	
 }

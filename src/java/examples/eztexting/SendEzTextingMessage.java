@@ -18,8 +18,8 @@ import org.smslib.EzTextingOutboundMessage;
 import org.smslib.Service;
 import org.smslib.http.EzTextingHTTPGateway;
 
-public class SendEzTextingMessage {
-
+public class SendEzTextingMessage
+{
 	public void doIt() throws Exception
 	{
 		try
@@ -31,15 +31,15 @@ public class SendEzTextingMessage {
 			EzTextingHTTPGateway gateway = new EzTextingHTTPGateway("eztexting.http.1", "username", "password");
 			gateway.setOutbound(true);
 			Service.getInstance().addGateway(gateway);
-			Service.getInstance().startService();											
+			Service.getInstance().startService();
 			// Query the service to find out our credit balance.
 			System.out.println("Remaining credit: " + gateway.queryBalance());
 			// Send a message synchronously.
-			msg = new EzTextingOutboundMessage("3616885766", "Hello from SMSLib (EzTexting handler)", "subject", true);							
-			Service.getInstance().sendMessage(msg);			
+			msg = new EzTextingOutboundMessage("3616885766", "Hello from SMSLib (EzTexting handler)", "subject", true);
+			Service.getInstance().sendMessage(msg);
 			System.out.println(msg);
-			System.out.println("Now Sleeping - Hit <enter> to terminate.");			
-			System.in.read();		
+			System.out.println("Now Sleeping - Hit <enter> to terminate.");
+			System.in.read();
 			Service.getInstance().stopService();
 		}
 		catch (Exception e)
@@ -48,7 +48,7 @@ public class SendEzTextingMessage {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String args[])
 	{
 		SendEzTextingMessage app = new SendEzTextingMessage();
@@ -60,6 +60,5 @@ public class SendEzTextingMessage {
 		{
 			e.printStackTrace();
 		}
-	}	
-	
+	}
 }

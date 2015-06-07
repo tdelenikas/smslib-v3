@@ -32,18 +32,16 @@ public class ParserGeneratorTester
 		while ((currentLine = tfr.next()) != null)
 		{
 			Pdu pdu = parser.parsePdu(currentLine);
-			
 			// maybe this should be in the Pdu parser??
 			if (pdu.isBinary())
 			{
-			    pdu.setDataBytes(pdu.getUserDataAsBytes());
+				pdu.setDataBytes(pdu.getUserDataAsBytes());
 			}
-			
 			String generatedPduString = generator.generatePduString(pdu);
 			System.out.println(currentLine);
 			System.out.println(generatedPduString);
-			System.out.println(pdu);                
-			pdu = parser.parsePdu(generatedPduString);                
+			System.out.println(pdu);
+			pdu = parser.parsePdu(generatedPduString);
 			System.out.println(pdu);
 			System.out.println(currentLine.equals(generatedPduString));
 			System.out.println();

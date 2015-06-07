@@ -62,7 +62,7 @@ public class ReflectionHelper
 	 * The result is cast to T and every kind of exception is wrapped as
 	 * RuntimeException
 	 */
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public static <T> T invokeAndCast(T returnType, Method m, Object obj, Object... args)
 	{
 		try
@@ -77,11 +77,12 @@ public class ReflectionHelper
 
 	/**
 	 * Same as
-	 * {@link ReflectionHelper#invokeAndCast(Object, Method, Object, Object...) but with a cast to Enumeration<T> }
+	 * {@link ReflectionHelper#invokeAndCast(Object, Method, Object, Object...)
+	 * but with a cast to Enumeration<T> }
 	 * 
 	 * @see ReflectionHelper#invokeAndCast(Object, Method, Object, Object...)
 	 */
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public static <T> Enumeration<T> invokeAndCastEnumeration(T returnType, Method m, Object obj, Object... args)
 	{
 		try
@@ -96,11 +97,12 @@ public class ReflectionHelper
 
 	/**
 	 * Same as
-	 * {@link ReflectionHelper#invokeAndCast(Object, Method, Object, Object...) but with a cast to Collection<T> }
+	 * {@link ReflectionHelper#invokeAndCast(Object, Method, Object, Object...)
+	 * but with a cast to Collection<T> }
 	 * 
 	 * @see ReflectionHelper#invokeAndCast(Object, Method, Object, Object...)
 	 */
-	@SuppressWarnings( { "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public static <T> Collection<T> invokeAndCastCollection(T returnType, Method m, Object obj, Object... args)
 	{
 		try

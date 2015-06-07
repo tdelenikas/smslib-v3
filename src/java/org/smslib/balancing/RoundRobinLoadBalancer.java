@@ -47,11 +47,11 @@ public final class RoundRobinLoadBalancer extends LoadBalancer
 	{
 		int currentIndex;
 		ArrayList<AGateway> c = new ArrayList<AGateway>(candidates);
-		synchronized (this) {
+		synchronized (this)
+		{
 			if (this.currentGateway >= c.size()) this.currentGateway = 0;
 			currentIndex = this.currentGateway++;
 		}
-		
 		return (c.get(currentIndex));
 	}
 }

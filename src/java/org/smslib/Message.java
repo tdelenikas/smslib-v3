@@ -123,7 +123,7 @@ public abstract class Message implements Serializable
 	private String id;
 
 	private String text;
-	
+
 	private String uuid;
 
 	private MessageEncodings encoding;
@@ -139,7 +139,7 @@ public abstract class Message implements Serializable
 	public Message(MessageTypes myType, Date myDate, String myText)
 	{
 		this.messageId = messageIdSeed++;
-		this.uuid=UUID.randomUUID().toString();
+		this.uuid = UUID.randomUUID().toString();
 		setGatewayId("");
 		setType(myType);
 		setId("");
@@ -417,7 +417,8 @@ public abstract class Message implements Serializable
 		msg.messageCharCount = this.messageCharCount;
 	}
 
-	public String getUuid() {
+	public String getUuid()
+	{
 		return uuid;
 	}
 }

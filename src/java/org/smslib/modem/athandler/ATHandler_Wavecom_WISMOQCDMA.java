@@ -36,7 +36,6 @@ import org.smslib.modem.ModemGateway;
  * 
  * @author MDengFeng
  */
-
 public class ATHandler_Wavecom_WISMOQCDMA extends ATHandler_Wavecom
 {
 	public ATHandler_Wavecom_WISMOQCDMA(ModemGateway myGateway)

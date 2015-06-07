@@ -35,14 +35,13 @@ import java.util.Vector;
  * Sun. So honor them!
  * </p>
  * <code>CommPortIdentifier</code> is the central class for controlling access
- * to communications ports. It includes methods for:
- * </p>
+ * to communications ports. It includes methods for: </p>
  * <ul>
- * <li> Determining the communications ports made available by the driver. </li>
- * <li> Opening communications ports for I/O operations. </li>
- * <li> Determining port ownership. </li>
- * <li> Resolving port ownership contention. </li>
- * <li> Managing events that indicate changes in port ownership status. </li>
+ * <li>Determining the communications ports made available by the driver.</li>
+ * <li>Opening communications ports for I/O operations.</li>
+ * <li>Determining port ownership.</li>
+ * <li>Resolving port ownership contention.</li>
+ * <li>Managing events that indicate changes in port ownership status.</li>
  * </ul>
  * <p>
  * An application first uses methods in <code>CommPortIdentifier</code> to
@@ -50,7 +49,8 @@ import java.util.Vector;
  * and then select a port for opening. It then uses methods in other classes
  * like <code>CommPort</code>, <code>ParallelPort</code> and
  * <code>SerialPort</code> to communicate through the port.
- * </p> *
+ * </p>
+ * *
  * 
  * @author gwellisch
  */

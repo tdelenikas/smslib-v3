@@ -72,11 +72,13 @@ public class OutboundMessage extends Message
 		 */
 		NO_ROUTE,
 		/**
-		 * EzTexting specific: Local opt out (the recipient/number is on your opt-out list.)
+		 * EzTexting specific: Local opt out (the recipient/number is on your
+		 * opt-out list.)
 		 */
 		LOCAL_OPTOUT,
 		/**
-		 * EzTexting specific: Globally opted out phone number (the phone number has been opted out from all messages sent from our short code)
+		 * EzTexting specific: Globally opted out phone number (the phone number
+		 * has been opted out from all messages sent from our short code)
 		 */
 		GLOBAL_OPTOUT,
 		/**
@@ -125,9 +127,8 @@ public class OutboundMessage extends Message
 	private String refNo;
 
 	private String errorMessage;
-	
+
 	//private long deliveryDelay;
-	
 	private Date scheduledDeliveryDate;
 
 	/**
@@ -423,8 +424,8 @@ public class OutboundMessage extends Message
 	}
 
 	/**
-	 * Returns the error message associated with the failure of this
-	 * outbound message to be sent out.
+	 * Returns the error message associated with the failure of this outbound
+	 * message to be sent out.
 	 * 
 	 * @return The error message.
 	 */
@@ -506,7 +507,7 @@ public class OutboundMessage extends Message
 				str += "\n";
 			}
 		}
-		str += " Scheduled Delivery: "+scheduledDeliveryDate;
+		str += " Scheduled Delivery: " + scheduledDeliveryDate;
 		str += "\n";
 		str += "===============================================================================";
 		str += "\n";
@@ -692,20 +693,23 @@ public class OutboundMessage extends Message
 		msg.setRefNo(getRefNo());
 	}
 
-	public void setScheduledDeliveryDate(Date scheduledDeliveryDate) {
-		this.scheduledDeliveryDate=scheduledDeliveryDate;
-	} 
-	
-	public Date getScheduledDeliveryDate() {
-		return scheduledDeliveryDate;
-	} 
-	
-	public long getDeliveryDelay() {
-		return (scheduledDeliveryDate==null)? 0: scheduledDeliveryDate.getTime()-System.currentTimeMillis();
+	public void setScheduledDeliveryDate(Date scheduledDeliveryDate)
+	{
+		this.scheduledDeliveryDate = scheduledDeliveryDate;
 	}
 
-	public void setDeliveryDelay(long deliveryDelay) {
-		scheduledDeliveryDate=new Date(System.currentTimeMillis()+deliveryDelay);
-		
+	public Date getScheduledDeliveryDate()
+	{
+		return scheduledDeliveryDate;
+	}
+
+	public long getDeliveryDelay()
+	{
+		return (scheduledDeliveryDate == null) ? 0 : scheduledDeliveryDate.getTime() - System.currentTimeMillis();
+	}
+
+	public void setDeliveryDelay(long deliveryDelay)
+	{
+		scheduledDeliveryDate = new Date(System.currentTimeMillis() + deliveryDelay);
 	}
 }

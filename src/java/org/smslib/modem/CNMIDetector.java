@@ -73,8 +73,7 @@ public class CNMIDetector
 	}
 
 	/**
-	 * Converts a given String range in an array which contains all elements.
-	 * <br />
+	 * Converts a given String range in an array which contains all elements. <br />
 	 * There are 3 cases: "(4)" results in {"4"} "(1,2,3") results in
 	 * {"1","2","3"} "(5-9)" results in {"5","6","7","8","9"}
 	 * 

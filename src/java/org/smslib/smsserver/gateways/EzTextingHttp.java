@@ -25,7 +25,6 @@ import java.util.Properties;
 /**
  * <b>SMSServer Application Gateway.</b>
  */
-
 public class EzTextingHttp extends AGateway
 {
 	public EzTextingHttp(String myGatewayId, Properties myProps, org.smslib.smsserver.SMSServer myServer)
@@ -39,10 +38,9 @@ public class EzTextingHttp extends AGateway
 	{
 		String propName;
 		propName = getGatewayId() + ".";
-		setGateway(new org.smslib.http.EzTextingHTTPGateway(getGatewayId(), getProperties().getProperty(propName + "username"), getProperties().getProperty(propName + "password")));		
+		setGateway(new org.smslib.http.EzTextingHTTPGateway(getGatewayId(), getProperties().getProperty(propName + "username"), getProperties().getProperty(propName + "password")));
 		if (getProperties().getProperty(propName + "outbound").equalsIgnoreCase("yes")) getGateway().setOutbound(true);
 		else if (getProperties().getProperty(propName + "outbound").equalsIgnoreCase("no")) getGateway().setOutbound(false);
 		else throw new Exception("Incorrect parameter: " + propName + "outbound");
 	}
-
 }

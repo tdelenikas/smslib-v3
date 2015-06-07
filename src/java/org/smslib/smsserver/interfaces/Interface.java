@@ -183,8 +183,8 @@ public class Interface<T>
 	}
 
 	/**
-	 * Reads the property key of this interface. <br /> The defaultValue is
-	 * returned if the key is not defined in the properties.
+	 * Reads the property key of this interface. <br />
+	 * The defaultValue is returned if the key is not defined in the properties.
 	 * 
 	 * @param key
 	 *            The key of the property to read.

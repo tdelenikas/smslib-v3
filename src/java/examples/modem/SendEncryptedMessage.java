@@ -31,16 +31,13 @@ public class SendEncryptedMessage
 		System.out.println("  Signal Level: " + gateway.getSignalLevel() + " dBm");
 		System.out.println("  Battery Level: " + gateway.getBatteryLevel() + "%");
 		System.out.println();
-		
 		// Create a new AES Key with a known key value. 
 		// Register it in KeyManager in order to keep it active. SMSLib will then automatically
 		// encrypt / decrypt all messages send to / received from this number.
 		Service.getInstance().getKeyManager().registerKey("+306948494037", new AESKey(new SecretKeySpec("0011223344556677".getBytes(), "AES")));
-
 		OutboundEncryptedMessage msg = new OutboundEncryptedMessage("+306948494037", "Hello (encrypted) from SMSLib!".getBytes());
 		Service.getInstance().sendMessage(msg);
 		System.out.println(msg);
-
 		System.out.println("Now Sleeping - Hit <enter> to terminate.");
 		System.in.read();
 		Service.getInstance().stopService();

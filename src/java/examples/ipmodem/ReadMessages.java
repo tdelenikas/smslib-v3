@@ -41,53 +41,39 @@ public class ReadMessages
 	{
 		// Define a list which will hold the read messages.
 		List<InboundMessage> msgList;
-
 		// Create the notification callback method for inbound & status report
 		// messages.
 		InboundNotification inboundNotification = new InboundNotification();
-
 		// Create the notification callback method for inbound voice calls.
 		CallNotification callNotification = new CallNotification();
-
 		//Create the notification callback method for gateway statuses.
 		GatewayStatusNotification statusNotification = new GatewayStatusNotification();
-
 		try
 		{
 			System.out.println("Example: Read messages from a serial gsm modem.");
 			System.out.println(Library.getLibraryDescription());
 			System.out.println("Version: " + Library.getLibraryVersion());
-
 			// Create the Gateway representing the serial GSM modem.
 			IPModemGateway gateway = new IPModemGateway("modem.com1", "127.0.0.1", 2000, "Nokia", "");
 			gateway.setIpProtocol(IPProtocols.BINARY);
-
 			// Set the modem protocol to PDU (alternative is TEXT). PDU is the default, anyway...
 			gateway.setProtocol(Protocols.PDU);
-
 			// Do we want the Gateway to be used for Inbound messages?
 			gateway.setInbound(true);
-
 			// Do we want the Gateway to be used for Outbound messages?
 			gateway.setOutbound(true);
-
 			// Let SMSLib know which is the SIM PIN.
 			gateway.setSimPin("0000");
-
 			// Set up the notification methods.
 			Service.getInstance().setInboundMessageNotification(inboundNotification);
 			Service.getInstance().setCallNotification(callNotification);
 			Service.getInstance().setGatewayStatusNotification(statusNotification);
-
 			// Add the Gateway to the Service object.
 			Service.getInstance().addGateway(gateway);
-
 			// Similarly, you may define as many Gateway objects, representing
 			// various GSM modems, add them in the Service object and control all of them.
-
 			// Start! (i.e. connect to all defined Gateways)
 			Service.getInstance().startService();
-
 			// Printout some general information about the modem.
 			System.out.println();
 			System.out.println("Modem Information:");
@@ -98,7 +84,6 @@ public class ReadMessages
 			System.out.println("  Signal Level: " + gateway.getSignalLevel() + " dBm");
 			System.out.println("  Battery Level: " + gateway.getBatteryLevel() + "%");
 			System.out.println();
-
 			// Read Messages. The reading is done via the Service object and
 			// affects all Gateway objects defined. This can also be more directed to a specific
 			// Gateway - look the JavaDocs for information on the Service method calls.
@@ -106,12 +91,11 @@ public class ReadMessages
 			Service.getInstance().readMessages(msgList, MessageClasses.ALL);
 			for (InboundMessage msg : msgList)
 				System.out.println(msg);
-
 			// Sleep now. Emulate real world situation and give a chance to the notifications
 			// methods to be called in the event of message or voice call reception.
-			
 			System.out.println("Now Sleeping - Hit <enter> to stop service.");
-			System.in.read(); System.in.read();
+			System.in.read();
+			System.in.read();
 		}
 		catch (Exception e)
 		{

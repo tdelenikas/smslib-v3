@@ -77,10 +77,11 @@ public abstract class AbstractQueueManager
 	public abstract boolean removeDelayedMessage(OutboundMessage message);
 
 	public abstract boolean removeDelayedMessage(String messageUUID);
-	
+
 	public abstract boolean removeAllPendingMessages(String gatewayId);
-	
+
 	public abstract boolean removeAllPendingMessages();
+
 	public abstract boolean removeAllDelayedMessages();
 
 	public abstract OutboundMessage pollDelayedMessage();

@@ -168,29 +168,29 @@ public class Settings
 	 * SMSLib cache directory.
 	 */
 	public String CACHE_DIRECTORY = System.getProperty("user.home");
-	
+
 	/**
 	 * SMSLib queue directory.
 	 */
 	public String QUEUE_DIRECTORY = null;
 
 	/**
-	 * The queue scheduling interval. This serves as a global setting - it can be
-	 * overidden on the gateway level (see AGateway.java and descendants).
+	 * The queue scheduling interval. This serves as a global setting - it can
+	 * be overidden on the gateway level (see AGateway.java and descendants).
 	 */
 	public int QUEUE_SCHEDULING_INTERNAL = 5000;
 
 	/**
-	 * Serial driver settings:
-	 * Break buffer in chunks and add a delay between chunks.
-	 * Used for compatibility with earlier models.
-	 * Ref: http://smslib.org/forum/topic/patch-to-support-sending-long-sms-messages-using-sonyericsson-k800i
-	 * Thanks to Niels for noticing and fixing this.
-	 * 
-	 * Reference table for specific models:
-	 * Sony Ericsson K800i: SERIAL_BUFFER_CHUNK=250, SERIAL_BUFFER_CHUNK_DELAY=50
+	 * Serial driver settings: Break buffer in chunks and add a delay between
+	 * chunks. Used for compatibility with earlier models. Ref:
+	 * http://smslib.org
+	 * /forum/topic/patch-to-support-sending-long-sms-messages-using
+	 * -sonyericsson-k800i Thanks to Niels for noticing and fixing this.
+	 * Reference table for specific models: Sony Ericsson K800i:
+	 * SERIAL_BUFFER_CHUNK=250, SERIAL_BUFFER_CHUNK_DELAY=50
 	 */
 	public int SERIAL_BUFFER_CHUNK = 0;
+
 	public int SERIAL_BUFFER_CHUNK_DELAY = 0;
 
 	Settings()

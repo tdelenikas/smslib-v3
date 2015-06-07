@@ -127,7 +127,7 @@ public abstract class AATHandler
 
 	public abstract String getSignalLevel() throws TimeoutException, GatewayException, IOException, InterruptedException;
 
-	public abstract String getNetworkOperator()  throws TimeoutException, GatewayException, IOException, InterruptedException;
+	public abstract String getNetworkOperator() throws TimeoutException, GatewayException, IOException, InterruptedException;
 
 	public abstract boolean switchStorageLocation(String mem) throws TimeoutException, GatewayException, IOException, InterruptedException;
 

@@ -28,8 +28,9 @@ public class TestFileReader
 	private String currentLine;
 
 	private boolean trim = true;
+
 	private boolean skipBlanksAndComments = true;
-	
+
 	public void init(String fileName) throws Exception
 	{
 		fr = new FileReader(fileName);
@@ -42,11 +43,11 @@ public class TestFileReader
 		trim = b;
 	}
 
-    public void setSkipBlanksAndComment(boolean b)
-    {
-        skipBlanksAndComments = b;
-    }
-	
+	public void setSkipBlanksAndComment(boolean b)
+	{
+		skipBlanksAndComments = b;
+	}
+
 	public void close()
 	{
 		try
@@ -74,25 +75,25 @@ public class TestFileReader
 			{
 				if (currentLine.trim().equals(""))
 				{
-				    if (skipBlanksAndComments)
-				    {
-				        continue;
-				    }
-				    else
-				    {
-				        return currentLine;
-				    }
+					if (skipBlanksAndComments)
+					{
+						continue;
+					}
+					else
+					{
+						return currentLine;
+					}
 				}
 				else if (currentLine.trim().startsWith("#"))
 				{
-                    if (skipBlanksAndComments)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        return currentLine;
-                    }
+					if (skipBlanksAndComments)
+					{
+						continue;
+					}
+					else
+					{
+						return currentLine;
+					}
 				}
 				else
 				{

@@ -31,8 +31,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Class representing an AES algorithm encryption key.
- * The class is based on standard JDK AES implementation (128 bit key). 
+ * Class representing an AES algorithm encryption key. The class is based on
+ * standard JDK AES implementation (128 bit key).
  */
 public class AESKey extends ASymmetricKey
 {
@@ -65,7 +65,7 @@ public class AESKey extends ASymmetricKey
 	}
 
 	@Override
-	public byte[] decrypt(byte[] message) throws NoSuchAlgorithmException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException	
+	public byte[] decrypt(byte[] message) throws NoSuchAlgorithmException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException, InvalidKeyException
 	{
 		Cipher cipher = Cipher.getInstance("AES");
 		cipher.init(Cipher.DECRYPT_MODE, getKey());
@@ -78,7 +78,6 @@ public class AESKey extends ASymmetricKey
 		{
 			AESKey k = new AESKey();
 			k.setKey(k.generateKey());
-			
 			String message = "Hello from Thanasis :)";
 			System.out.println(">>> " + message);
 			byte[] enc = k.encrypt(message.getBytes());

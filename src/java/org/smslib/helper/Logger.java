@@ -53,7 +53,7 @@ public class Logger
 
 	public static Logger getInstance()
 	{
-		if(Logger.logger == null) Logger.logger = new Logger();
+		if (Logger.logger == null) Logger.logger = new Logger();
 		return Logger.logger;
 	}
 

@@ -25,10 +25,10 @@ import org.smslib.modem.ModemGateway;
 /**
  * AT Handler for Huawei E226 modems.
  */
-
-public class ATHandler_Huawei_E226 extends ATHandler_Huawei {
-
-	public ATHandler_Huawei_E226(ModemGateway myGateway) {
+public class ATHandler_Huawei_E226 extends ATHandler_Huawei
+{
+	public ATHandler_Huawei_E226(ModemGateway myGateway)
+	{
 		super(myGateway);
 		setStorageLocations("SM");
 	}

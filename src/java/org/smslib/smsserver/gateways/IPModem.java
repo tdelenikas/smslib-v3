@@ -46,7 +46,7 @@ public class IPModem extends AGateway
 		else if (getProperties().getProperty(propName + "protocol").equalsIgnoreCase("text")) getGateway().setProtocol(Protocols.TEXT);
 		else throw new Exception("Incorrect parameter: " + propName + "protocol");
 		if (getProperties().getProperty(propName + "ipprotocol").equalsIgnoreCase("text")) ((ModemGateway) getGateway()).setIpProtocol(IPProtocols.TEXT);
-		else if (getProperties().getProperty(propName + "ipprotocol").equalsIgnoreCase("binary"))  ((ModemGateway) getGateway()).setIpProtocol(IPProtocols.BINARY);
+		else if (getProperties().getProperty(propName + "ipprotocol").equalsIgnoreCase("binary")) ((ModemGateway) getGateway()).setIpProtocol(IPProtocols.BINARY);
 		else throw new Exception("Incorrect parameter: " + propName + "ipprotocol");
 		((org.smslib.modem.IPModemGateway) getGateway()).setSimPin(getProperties().getProperty(propName + "pin"));
 		if (getProperties().getProperty(propName + "inbound").equalsIgnoreCase("yes")) getGateway().setInbound(true);

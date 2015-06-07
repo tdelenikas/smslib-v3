@@ -72,43 +72,49 @@ public class SkypeHTTPGateway extends HTTPGateway
 	@Override
 	public boolean sendMessage(OutboundMessage msg) throws TimeoutException, GatewayException, IOException, InterruptedException
 	{
-		try{
-		URL url = null;
-		List<HttpHeader> request = new ArrayList<HttpHeader>();
-		List<String> response;
-		String reqLine;
-		boolean ok = false;
-		request.add(new HttpHeader("password", this.password, false));
-		request.add(new HttpHeader("text", msg.getText(), false));
-		request.add(new HttpHeader("to", msg.getRecipient(), false));
-		request.add(new HttpHeader("reply", this.reply, false));
-		reqLine = ExpandHttpHeaders(request);
-		url = new URL(this.providerHost + "/send" + "?" + reqLine);
-System.out.println(">>>>>>>>>>>> " + url.toString());
-		synchronized (this.SYNC_Commander)
+		try
 		{
-			response = HttpGet(url);
+			URL url = null;
+			List<HttpHeader> request = new ArrayList<HttpHeader>();
+			List<String> response;
+			String reqLine;
+			boolean ok = false;
+			request.add(new HttpHeader("password", this.password, false));
+			request.add(new HttpHeader("text", msg.getText(), false));
+			request.add(new HttpHeader("to", msg.getRecipient(), false));
+			request.add(new HttpHeader("reply", this.reply, false));
+			reqLine = ExpandHttpHeaders(request);
+			url = new URL(this.providerHost + "/send" + "?" + reqLine);
+			System.out.println(">>>>>>>>>>>> " + url.toString());
+			synchronized (this.SYNC_Commander)
+			{
+				response = HttpGet(url);
+			}
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>  " + response.get(0));
+			switch (Integer.parseInt(response.get(0)))
+			{
+				case 0:
+					msg.setRefNo("N/A");
+					msg.setDispatchDate(new Date());
+					msg.setGatewayId(getGatewayId());
+					msg.setMessageStatus(MessageStatuses.SENT);
+					incOutboundMessageCount();
+					ok = true;
+					break;
+				default:
+					msg.setFailureCause(FailureCauses.GATEWAY_FAILURE);
+					msg.setRefNo(null);
+					msg.setDispatchDate(null);
+					msg.setMessageStatus(MessageStatuses.FAILED);
+					ok = false;
+					break;
+			}
+			return ok;
 		}
-System.out.println(">>>>>>>>>>>>>>>>>>>>>  " + response.get(0));
-		switch (Integer.parseInt(response.get(0)))
+		catch (Exception e)
 		{
-			case 0:
-				msg.setRefNo("N/A");
-				msg.setDispatchDate(new Date());
-				msg.setGatewayId(getGatewayId());
-				msg.setMessageStatus(MessageStatuses.SENT);
-				incOutboundMessageCount();
-				ok = true;
-				break;
-			default:
-				msg.setFailureCause(FailureCauses.GATEWAY_FAILURE);
-				msg.setRefNo(null);
-				msg.setDispatchDate(null);
-				msg.setMessageStatus(MessageStatuses.FAILED);
-				ok = false;
-				break;
+			e.printStackTrace();
+			return false;
 		}
-		return ok;
-	} catch (Exception e) { e.printStackTrace(); return false;}
 	}
 }

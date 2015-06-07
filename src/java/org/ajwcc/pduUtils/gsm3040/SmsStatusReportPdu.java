@@ -98,12 +98,11 @@ public class SmsStatusReportPdu extends Pdu
 	{
 		return this.timestamp.getTime();
 	}
-	
-    public Calendar getTimestampAsCalendar()
-    {
-        return this.timestamp;
-    }
-	
+
+	public Calendar getTimestampAsCalendar()
+	{
+		return this.timestamp;
+	}
 
 	// ==================================================
 	// DISCHARGE TIME
@@ -119,12 +118,11 @@ public class SmsStatusReportPdu extends Pdu
 	{
 		return this.dischargeTime.getTime();
 	}
-	
-    public Calendar getDischargeTimeAsCalendar()
-    {
-        return this.dischargeTime;
-    }
-	
+
+	public Calendar getDischargeTimeAsCalendar()
+	{
+		return this.dischargeTime;
+	}
 
 	@Override
 	protected String pduSubclassInfo()
@@ -133,22 +131,20 @@ public class SmsStatusReportPdu extends Pdu
 		// message reference
 		sb.append("Message Reference: " + PduUtils.byteToPdu(getMessageReference()));
 		sb.append("\n");
-		
 		// destination address
-        if (getAddress()!=null)
-        {
-    		sb.append("Destination Address: [Length: " + getAddress().length() + " (" + PduUtils.byteToPdu((byte) getAddress().length()) + ")");
-    		sb.append(", Type: " + PduUtils.byteToPdu(getAddressType()) + " (" + PduUtils.byteToBits((byte) getAddressType()) + ")");
-    		sb.append(", Address: " + getAddress());
-    		sb.append("]");
-        }
-        else
-        {
-            sb.append("Destination Address: [Length: 0");
-            sb.append(", Type: " + PduUtils.byteToPdu(getAddressType()) + " (" + PduUtils.byteToBits((byte) getAddressType()) + ")");
-            sb.append("]");            
-        }
-		
+		if (getAddress() != null)
+		{
+			sb.append("Destination Address: [Length: " + getAddress().length() + " (" + PduUtils.byteToPdu((byte) getAddress().length()) + ")");
+			sb.append(", Type: " + PduUtils.byteToPdu(getAddressType()) + " (" + PduUtils.byteToBits((byte) getAddressType()) + ")");
+			sb.append(", Address: " + getAddress());
+			sb.append("]");
+		}
+		else
+		{
+			sb.append("Destination Address: [Length: 0");
+			sb.append(", Type: " + PduUtils.byteToPdu(getAddressType()) + " (" + PduUtils.byteToBits((byte) getAddressType()) + ")");
+			sb.append("]");
+		}
 		sb.append("\n");
 		// timestamp
 		sb.append("TP-SCTS: " + formatTimestamp(getTimestampAsCalendar()));

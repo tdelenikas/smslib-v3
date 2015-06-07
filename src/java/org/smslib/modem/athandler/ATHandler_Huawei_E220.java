@@ -28,10 +28,10 @@ import org.smslib.modem.ModemGateway;
 /**
  * AT Handler for Huawei E220 modems.
  */
-
-public class ATHandler_Huawei_E220 extends ATHandler_Huawei {
-
-	public ATHandler_Huawei_E220(ModemGateway myGateway) {
+public class ATHandler_Huawei_E220 extends ATHandler_Huawei
+{
+	public ATHandler_Huawei_E220(ModemGateway myGateway)
+	{
 		super(myGateway);
 	}
 
