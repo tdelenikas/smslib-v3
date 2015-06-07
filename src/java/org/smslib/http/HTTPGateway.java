@@ -35,7 +35,7 @@ import java.util.List;
 import org.smslib.AGateway;
 import org.smslib.helper.Logger;
 
-class HTTPGateway extends AGateway
+public class HTTPGateway extends AGateway
 {
 	public HTTPGateway(String id)
 	{
