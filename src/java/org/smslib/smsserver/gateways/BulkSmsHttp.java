@@ -50,7 +50,7 @@ public class BulkSmsHttp extends AGateway
 			else if (getProperties().getProperty(propName + "region").equalsIgnoreCase("SPAIN")) Region = org.smslib.http.BulkSmsHTTPGateway.Regions.SPAIN;
 			else if (getProperties().getProperty(propName + "region").equalsIgnoreCase("USA")) Region = org.smslib.http.BulkSmsHTTPGateway.Regions.USA;
 			else if (getProperties().getProperty(propName + "region").equalsIgnoreCase("GERMANY")) Region = org.smslib.http.BulkSmsHTTPGateway.Regions.GERMANY;
-			setGateway(new org.smslib.http.BulkSmsHTTPGateway(getGatewayId(), getProperties().getProperty(propName + "username"), getProperties().getProperty(propName + "password"), Region));
+			setGateway(new org.smslib.http.BulkSmsHTTPGateway(getGatewayId(), getProperties().getProperty(propName + "username"), getProperties().getProperty(propName + "password"), Region, false));
 		}
 		if (getProperties().getProperty(propName + "outbound").equalsIgnoreCase("yes")) getGateway().setOutbound(true);
 		else if (getProperties().getProperty(propName + "outbound").equalsIgnoreCase("no")) getGateway().setOutbound(false);

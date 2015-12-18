@@ -56,17 +56,17 @@ public class BulkSmsHTTPGateway extends HTTPGateway
 	public BulkSmsHTTPGateway(String id, String myUsername, String myPassword)
 	{
 		super(id);
-		setRegion(Regions.INTERNATIONAL);
+		setRegion(Regions.INTERNATIONAL, false);
 		this.username = myUsername;
 		this.password = myPassword;
 		this.SYNC_Commander = new Object();
 		setAttributes(AGateway.GatewayAttributes.SEND | AGateway.GatewayAttributes.CUSTOMFROM | AGateway.GatewayAttributes.BIGMESSAGES | AGateway.GatewayAttributes.FLASHSMS);
 	}
 
-	public BulkSmsHTTPGateway(String id, String myUsername, String myPassword, Regions region)
+	public BulkSmsHTTPGateway(String id, String myUsername, String myPassword, Regions region, boolean useDefaultHttpPort)
 	{
 		this(id, myUsername, myPassword);
-		setRegion(region);
+		setRegion(region, useDefaultHttpPort);
 	}
 
 	@Override
@@ -208,28 +208,29 @@ public class BulkSmsHTTPGateway extends HTTPGateway
 		return ok;
 	}
 
-	void setRegion(Regions r)
+	void setRegion(Regions r, boolean useDefaultHttpPort)
 	{
 		switch (r)
 		{
 			case INTERNATIONAL:
-				this.providerUrl = "http://bulksms.vsms.net:5567";
+				this.providerUrl = "http://bulksms.vsms.net";
 				break;
 			case UNITEDKINGDOM:
-				this.providerUrl = "http://www.bulksms.co.uk:5567";
+				this.providerUrl = "http://www.bulksms.co.uk";
 				break;
 			case SOUTHAFRICA:
-				this.providerUrl = "http://bulksms.2way.co.za:5567";
+				this.providerUrl = "http://bulksms.2way.co.za";
 				break;
 			case SPAIN:
-				this.providerUrl = "http://bulksms.com.es:5567";
+				this.providerUrl = "http://bulksms.com.es";
 				break;
 			case USA:
-				this.providerUrl = "http://usa.bulksms.com:5567";
+				this.providerUrl = "http://usa.bulksms.com";
 				break;
 			case GERMANY:
-				this.providerUrl = "http://bulksms.de:5567";
+				this.providerUrl = "http://bulksms.de";
 				break;
 		}
+		if (!useDefaultHttpPort) this.providerUrl += ":5567";
 	}
 }
