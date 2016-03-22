@@ -1,3 +1,3 @@
 # SMSLib v3.5.x
 
-For more information, visit http://smslib.org
+### Warning: This project is no longer actively supported! More @ http://smslib.org/news/
