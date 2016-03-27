@@ -48,3 +48,5 @@ CREATE TABLE smsserver_out
   PRIMARY KEY (id )
 );
 
+/* samsonbek 2014-01-13 */
+ALTER TABLE smsserver_out ADD COLUMN sched_send_date DATETIME DEFAULT NULL;

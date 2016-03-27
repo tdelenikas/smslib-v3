@@ -287,16 +287,21 @@ public class Database extends Interface<Integer>
 			try
 			{
 				OutboundMessage msg;
-				Statement cmd;
+                                PreparedStatement cmd;
 				PreparedStatement pst;
 				ResultSet rs;
 				int msgCount;
 				msgCount = 1;
 				con = getDbConnection();
-				cmd = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                                cmd = con.prepareStatement("select id, type, recipient, text, wap_url, wap_expiry_date, wap_signal, create_date, originator, encoding, status_report, flash_sms, src_port, dst_port, sent_date, ref_no, priority, status, errors, gateway_id "
+                                        + " from " + getProperty("tables.sms_out", "smsserver_out")
+                                        + " where status = 'U' and ( sched_send_date <= ? or sched_send_date is null ) "
+                                        + " order by priority desc, id",
+                                        ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                                cmd.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 				pst = con.prepareStatement("update " + getProperty("tables.sms_out", "smsserver_out") + " set status = 'Q' where id = ? ");
-				rs = cmd.executeQuery("select id, type, recipient, text, wap_url, wap_expiry_date, wap_signal, create_date, originator, encoding, status_report, flash_sms, src_port, dst_port, sent_date, ref_no, priority, status, errors, gateway_id from " + getProperty("tables.sms_out", "smsserver_out") + " where status = 'U' order by priority desc, id");
-				while (rs.next())
+				rs = cmd.executeQuery();
+                                while (rs.next())
 				{
 					if (msgCount > Integer.parseInt(getProperty("batch_size"))) break;
 					if (getServer().checkPriorityTimeFrame(rs.getInt("priority")))
